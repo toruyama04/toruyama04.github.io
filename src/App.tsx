@@ -1,6 +1,17 @@
 import { useParams, useNavigate, Routes, Route } from "react-router-dom";
-import { Environment, Text, useCursor } from "@react-three/drei";
-import { Canvas, useFrame, type ThreeEvent } from "@react-three/fiber";
+import {
+  Environment,
+  Text,
+  useCursor,
+  ScrollControls,
+  Scroll,
+} from "@react-three/drei";
+import {
+  Canvas,
+  useFrame,
+  type ThreeEvent,
+  useThree,
+} from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Quaternion, Vector3, Group, Object3D } from "three";
 import { easing } from "maath";
@@ -18,7 +29,11 @@ const projectInfo: ProjectData[] = [
     title: "Simulating and Rendering the Aurora",
     technologies: "Tech: UE, compute shaders, git",
     keywords:
-      "Keywords: Physics Simulation, Raymarching\n\nFinal Year Project and Dissertation. Achieved 75%. Involved comprehensive research on Aurora physics and its makeup; physics simulations techniques (PIC); GPU accelerated programming with compute shaders; rendering techniques like raymarching. The project was integrated into Unreal Engine 5 which provided a basic interface to manage GPU execution and to render particles.\n",
+      "Keywords: Physics Simulation, Raymarching\n\nFinal Year Project and Dissertation. Achieved 75%. " +
+      "Involved comprehensive research on Aurora physics and its makeup; physics simulations techniques " +
+      "(Particle In Cell - PIC); GPU accelerated programming with compute shaders; rendering techniques " +
+      "such as raymarching. The project was integrated into Unreal Engine 5 which provided an interface " +
+      "to manage GPU execution and to control/render particles.\n",
     gapSize: 0.34,
   },
   {
@@ -34,7 +49,7 @@ const projectInfo: ProjectData[] = [
   },
   {
     id: "3",
-    position: [-13.5, 2.5, -7],
+    position: [13.5, 2.5, -7],
     rotation: [0, 0, 0],
     size: [2.8, 3.8],
     colour: "#37BEF9",
@@ -47,36 +62,51 @@ const projectInfo: ProjectData[] = [
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Scene />} />
-      <Route path="/projects/:id" element={<Scene />} />
-    </Routes>
+    <Canvas
+      shadows
+      dpr={[1, 2]}
+      camera={{ fov: 70, position: [-10, 5, 15] }}
+      style={{ width: "100vw", height: "100vh" }}
+    >
+      <Routes>
+        <Route path="/" element={<Scene />} />
+        <Route path="/projects/:id" element={<Scene />} />
+      </Routes>
+    </Canvas>
   );
 }
 
 // wraps the visuals: canvas, camera, project panels, floor
-function Scene() {
+function Scene({ w = 2.8 }) {
+  const { viewport, camera } = useThree();
+  const [pages, setPages] = useState(1);
+
+  useEffect(() => {
+    // 9.0 is the width of each project including the words
+    const xW = w + 9.0;
+    const contentWidth = projectInfo.length * xW;
+    setPages(contentWidth / viewport.width);
+  }, [viewport.width, camera.position, w]);
+
   return (
     <>
-      <Canvas
-        shadows
-        dpr={[1, 2]}
-        camera={{ fov: 70, position: [0, 5, 15] }}
-        style={{ width: "100vw", height: "100vh" }}
-      >
+      <ScrollControls horizontal damping={0.1} pages={pages}>
         {/*<fog attach="fog" args={["#a79", 8.5, 12]} />*/}
         <color attach="background" args={["#ffffff"]} />
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
         <group position={[0, -1.5, 0]}>
-          <Projects />
+          <Scroll>
+            <Projects />
+          </Scroll>
+
           <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
             <planeGeometry args={[50, 30]} />
             <meshStandardMaterial color="#9bb8c5" roughness={0.9} />
           </mesh>
         </group>
         <Environment preset="sunset" />
-      </Canvas>
+      </ScrollControls>
     </>
   );
 }
