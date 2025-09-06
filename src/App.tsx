@@ -62,12 +62,7 @@ const projectInfo: ProjectData[] = [
 
 function App() {
   return (
-    <Canvas
-      shadows
-      dpr={[1, 2]}
-      camera={{ fov: 70, position: [-10, 5, 15] }}
-      style={{ width: "100vw", height: "100vh" }}
-    >
+    <Canvas shadows dpr={[1, 2]} style={{ width: "100vw", height: "100vh" }}>
       <Routes>
         <Route path="/" element={<Scene />} />
         <Route path="/projects/:id" element={<Scene />} />
@@ -77,35 +72,31 @@ function App() {
 }
 
 // wraps the visuals: canvas, camera, project panels, floor
-function Scene({ w = 2.8 }) {
-  const { viewport, camera } = useThree();
-  const [pages, setPages] = useState(1);
-
-  useEffect(() => {
-    // 9.0 is the width of each project including the words
-    const xW = w + 9.0;
-    const contentWidth = projectInfo.length * xW;
-    setPages(contentWidth / viewport.width);
-  }, [viewport.width, camera.position, w]);
+function Scene({ w = 2.8, gap = 9 }) {
+  const { width } = useThree((state) => state.viewport);
+  const xW = w + gap;
 
   return (
     <>
-      <ScrollControls horizontal damping={0.1} pages={pages}>
-        {/*<fog attach="fog" args={["#a79", 8.5, 12]} />*/}
-        <color attach="background" args={["#ffffff"]} />
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
-        <group position={[0, -1.5, 0]}>
-          <Scroll>
+      <ScrollControls
+        horizontal
+        damping={0.1}
+        pages={(width - xW + projectInfo.length * xW) / width}
+      >
+        <Scroll>
+          {/*<fog attach="fog" args={["#a79", 8.5, 12]} />*/}
+          <color attach="background" args={["#ffffff"]} />
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
+          <group position={[0, -1.5, 0]}>
             <Projects />
-          </Scroll>
-
-          <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-            <planeGeometry args={[50, 30]} />
-            <meshStandardMaterial color="#9bb8c5" roughness={0.9} />
-          </mesh>
-        </group>
-        <Environment preset="sunset" />
+            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+              <planeGeometry args={[50, 30]} />
+              <meshStandardMaterial color="#9bb8c5" roughness={0.9} />
+            </mesh>
+          </group>
+          <Environment preset="sunset" />
+        </Scroll>
       </ScrollControls>
     </>
   );
@@ -191,18 +182,6 @@ function Project({
 
   return (
     <group name={id} position={position} rotation={rotation}>
-      {/* <mesh
-        ref={meshRef}
-        name={id}
-        onPointerOver={(e: ThreeEvent<PointerEvent>) => {
-          e.stopPropagation();
-          setHovered(true);
-        }}
-        onPointerOut={() => setHovered(false)}
-      >
-        <boxGeometry args={[2, 2, 0.5]} />
-        <meshStandardMaterial color={hovered ? "orange" : "skyblue"} />
-      </mesh> */}
       <mesh
         castShadow
         onPointerOver={(e: ThreeEvent<PointerEvent>) => {
