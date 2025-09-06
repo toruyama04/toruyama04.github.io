@@ -1,10 +1,12 @@
-import { useParams, useNavigate, Routes, Route } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   Environment,
   Text,
   useCursor,
   ScrollControls,
   Scroll,
+  MeshReflectorMaterial,
+  Html,
 } from "@react-three/drei";
 import {
   Canvas,
@@ -13,8 +15,7 @@ import {
   useThree,
 } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
-import { Quaternion, Vector3, Group, Object3D } from "three";
-import { easing } from "maath";
+import { Group } from "three";
 
 const GOLDENRATIO = 1.61803398875;
 
@@ -22,8 +23,7 @@ const GOLDENRATIO = 1.61803398875;
 const projectInfo: ProjectData[] = [
   {
     id: "1",
-    position: [-4.5, 2.5, -7],
-    rotation: [0, 0, 0],
+    position: [0, 2, 0.8],
     size: [2.8, 3.8],
     colour: "#37BEF9",
     title: "Simulating and Rendering the Aurora",
@@ -34,12 +34,11 @@ const projectInfo: ProjectData[] = [
       "(Particle In Cell - PIC); GPU accelerated programming with compute shaders; rendering techniques " +
       "such as raymarching. The project was integrated into Unreal Engine 5 which provided an interface " +
       "to manage GPU execution and to control/render particles.\n",
-    gapSize: 0.34,
+    gapSize: 0.3,
   },
   {
     id: "2",
-    position: [4.5, 2.5, -7],
-    rotation: [0, 0, 0],
+    position: [0, 2, 0.8],
     size: [2.8, 3.8],
     colour: "#37BEF9",
     title: "SPH Fluid Simulation",
@@ -49,8 +48,7 @@ const projectInfo: ProjectData[] = [
   },
   {
     id: "3",
-    position: [13.5, 2.5, -7],
-    rotation: [0, 0, 0],
+    position: [0, 2, 0.8],
     size: [2.8, 3.8],
     colour: "#37BEF9",
     title: "Personal Website",
@@ -63,36 +61,64 @@ const projectInfo: ProjectData[] = [
 function App() {
   return (
     <Canvas shadows dpr={[1, 2]} style={{ width: "100vw", height: "100vh" }}>
-      <Routes>
-        <Route path="/" element={<Scene />} />
-        <Route path="/projects/:id" element={<Scene />} />
-      </Routes>
+      <Scene />
     </Canvas>
   );
 }
 
 // wraps the visuals: canvas, camera, project panels, floor
-function Scene({ w = 2.8, gap = 9 }) {
+function Scene({ w = 2.8, gap = 7 }) {
   const { width } = useThree((state) => state.viewport);
   const xW = w + gap;
+  const { viewport } = useThree();
 
   return (
     <>
       <ScrollControls
         horizontal
-        damping={0.1}
         pages={(width - xW + projectInfo.length * xW) / width}
+        distance={0.7}
       >
+        <mesh
+          position={[viewport.width / 2 - 1.3, viewport.height / 2 - 0.4, 0]}
+        >
+          <planeGeometry args={[2, 0.4]} />
+          <meshStandardMaterial color="white" />
+        </mesh>
+        <Text
+          position={[-viewport.width / 2 + 1, viewport.height / 2 - 0.45, 0]}
+          font="/fonts/garamond/GaramondRegular.ttf"
+          fontSize={0.2}
+          color="#0f2027"
+        >
+          Toru Yamaguchi
+        </Text>
+
         <Scroll>
           {/*<fog attach="fog" args={["#a79", 8.5, 12]} />*/}
           <color attach="background" args={["#ffffff"]} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
-          <group position={[0, -1.5, 0]}>
-            <Projects />
-            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-              <planeGeometry args={[50, 30]} />
-              <meshStandardMaterial color="#9bb8c5" roughness={0.9} />
+          <group position={[0, -2, 0]}>
+            <Projects xW={xW} />
+            <mesh
+              rotation={[-Math.PI / 2, 0, 0]}
+              receiveShadow
+              position={[0, 0, 1.5]}
+            >
+              <planeGeometry args={[100, 4]} />
+              <MeshReflectorMaterial
+                roughness={0.9}
+                blur={[300, 100]}
+                resolution={2048}
+                mixBlur={1}
+                mixStrength={80}
+                depthScale={1.2}
+                minDepthThreshold={0.4}
+                maxDepthThreshold={1.4}
+                color="#050505"
+                metalness={0.2}
+              /> 
             </mesh>
           </group>
           <Environment preset="sunset" />
@@ -102,62 +128,44 @@ function Scene({ w = 2.8, gap = 9 }) {
   );
 }
 
-function Projects() {
-  const q = useRef(new Quaternion()).current;
-  const p = useRef(new Vector3()).current;
-  const ref = useRef<Group | null>(null);
-  const clicked = useRef<Object3D | null>(null);
+function Projects({ xW }: { xW: number }) {
+  const scrollRef = useRef<Group | null>(null);
   const params = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // we call this function whenever the URL parameter params.id changes
-  // this will move the camera to the project's view
   useEffect(() => {
-    if (!ref.current) return;
-    const id = params.id ?? null;
-    const obj = id ? ref.current.getObjectByName(id) : null;
-    clicked.current = obj ?? null;
-    if (clicked.current) {
-      const worldPos = new Vector3();
-      clicked.current.updateWorldMatrix(true, true);
-      clicked.current.getWorldPosition(worldPos);
-      const offset = new Vector3(0, GOLDENRATIO / 2 - 0.8, 3);
-      const camPos = worldPos.clone().add(offset);
-      p.copy(camPos);
-    } else {
-      p.set(0, 0.5, 0);
-      q.identity();
-    }
-  }, [params.id, p, q]);
+    setSelectedId(params.id ?? null);
+  }, [params.id]);
 
-  useFrame((state, dt) => {
-    easing.damp3(state.camera.position, p, 0.4, dt);
-    easing.dampQ(state.camera.quaternion, q, 0.4, dt);
+  useFrame(() => {
+    if (!scrollRef.current) return;
+
+    projectInfo.forEach((proj, i) => {
+      const projMesh = scrollRef.current?.children[i] as Group;
+      if (!projMesh) return;
+      const defaultZ = proj.position[2];
+      const defaultY = proj.position[1];
+      const targetZ = selectedId === proj.id ? defaultZ + 1 : defaultZ;
+      const targetY = selectedId === proj.id ? defaultY + 0.05 : defaultY;
+      projMesh.position.y += (targetY - projMesh.position.y) * 0.1;
+      projMesh.position.z += (targetZ - projMesh.position.z) * 0.1;
+    });
   });
 
   return (
-    <group
-      ref={ref}
-      onClick={(e: ThreeEvent<MouseEvent>) => {
-        e.stopPropagation();
-        const target = e.object.parent ?? e.object;
-        navigate(`/projects/${target.name}`);
-      }}
-      onPointerMissed={() => navigate("/")}
-    >
-      {projectInfo.map((proj) => (
+    <group ref={scrollRef}>
+      {projectInfo.map((proj, i) => (
         <Project
           id={proj.id}
           key={proj.id}
-          position={proj.position}
-          rotation={proj.rotation}
+          position={[i * xW, proj.position[1], proj.position[2]]}
           size={proj.size}
           colour={proj.colour}
           title={proj.title}
           keywords={proj.keywords}
           technologies={proj.technologies}
-          selectedId={proj.id}
           gapSize={proj.gapSize}
+          onClick={() => setSelectedId(selectedId === proj.id ? null : proj.id)}
         />
       ))}
     </group>
@@ -167,23 +175,25 @@ function Projects() {
 function Project({
   id,
   position,
-  rotation,
   size,
   colour,
-  selectedId,
   title,
   keywords,
   technologies,
   gapSize,
+  onClick,
 }: ProjectProps) {
   const [hovered, setHovered] = useState(false);
-  const isSelected = selectedId === id;
   useCursor(hovered);
 
   return (
-    <group name={id} position={position} rotation={rotation}>
+    <group name={id} position={position}>
       <mesh
         castShadow
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick();
+        }}
         onPointerOver={(e: ThreeEvent<PointerEvent>) => {
           e.stopPropagation();
           setHovered(true);
@@ -194,59 +204,60 @@ function Project({
         }}
       >
         <planeGeometry args={size} />
-        <meshStandardMaterial color={colour} />
+        <meshStandardMaterial
+          color={colour}
+          metalness={0.5}
+          roughness={0.5}
+          envMapIntensity={8}
+        />
       </mesh>
-
-      {isSelected && (
-        <>
-          <Text
-            font="/fonts/garamond/GaramondRegular.ttf"
-            maxWidth={2.14}
-            anchorX="left"
-            anchorY="top"
-            position={[-3.6, GOLDENRATIO + 0.25, 0]}
-            fontSize={0.2}
-            color="#0f2027"
-          >
-            {title}
-          </Text>
-          <Text
-            font="/fonts/garamond/GaramondRegular.ttf"
-            maxWidth={2.14}
-            anchorX="left"
-            anchorY="top"
-            position={[-3.6, GOLDENRATIO - gapSize, 0]}
-            fontSize={0.12}
-            color="#0f2027"
-          >
-            {keywords}
-          </Text>
-          <Text
-            font="/fonts/garamond/GaramondRegular.ttf"
-            maxWidth={2.14}
-            anchorX="left"
-            anchorY="top"
-            position={[1.55, GOLDENRATIO + 0.25, 0]}
-            fontSize={0.13}
-            color="#0f2027"
-          >
-            {technologies}
-          </Text>
-        </>
-      )}
+      <>
+        <Text
+          font="/fonts/garamond/GaramondRegular.ttf"
+          maxWidth={2.14}
+          anchorX="left"
+          anchorY="top"
+          position={[-3.6, GOLDENRATIO + 0.25, 0]}
+          fontSize={0.2}
+          color="#0f2027"
+        >
+          {title}
+        </Text>
+        <Text
+          font="/fonts/garamond/GaramondRegular.ttf"
+          maxWidth={2.14}
+          anchorX="left"
+          anchorY="top"
+          position={[-3.6, GOLDENRATIO - gapSize, 0]}
+          fontSize={0.12}
+          color="#0f2027"
+        >
+          {keywords}
+        </Text>
+        <Text
+          font="/fonts/garamond/GaramondRegular.ttf"
+          maxWidth={2.14}
+          anchorX="left"
+          anchorY="top"
+          position={[1.55, GOLDENRATIO + 0.25, 0]}
+          fontSize={0.13}
+          color="#0f2027"
+        >
+          {technologies}
+        </Text>
+      </>
     </group>
   );
 }
 
 type ProjectProps = ProjectData & {
-  selectedId?: string;
+  onClick: () => void;
 };
 
 /* Data and types for the projects */
 type ProjectData = {
   id: string;
   position: [number, number, number];
-  rotation: [number, number, number];
   size: [number, number];
   colour: string;
   title: string;
