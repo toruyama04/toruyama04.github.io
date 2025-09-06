@@ -6,7 +6,7 @@ import {
   ScrollControls,
   Scroll,
   MeshReflectorMaterial,
-  Html,
+  useTexture,
 } from "@react-three/drei";
 import {
   Canvas,
@@ -79,12 +79,43 @@ function Scene({ w = 2.8, gap = 7 }) {
         pages={(width - xW + projectInfo.length * xW) / width}
         distance={0.7}
       >
-        <mesh
-          position={[viewport.width / 2 - 1.3, viewport.height / 2 - 0.4, 0]}
+        {/* Links to linkedin, github etc */}
+        <group
+          position={[viewport.width / 2 - 0.7, viewport.height / 2 - 0.4, 0]}
         >
-          <planeGeometry args={[2, 0.4]} />
-          <meshStandardMaterial color="white" />
-        </mesh>
+          {/* Background */}
+          <mesh>
+            <planeGeometry args={[0.8, 0.4]} />
+            <meshStandardMaterial color="white" />
+          </mesh>
+          {/* LinkedIn icon */}
+          <mesh
+            position={[-0.18, -0.01, 0.01]}
+            onClick={() => window.open("https://www.linkedin.com/in/toru04")}
+            onPointerOver={() => (document.body.style.cursor = "pointer")}
+            onPointerOut={() => (document.body.style.cursor = "default")}
+          >
+            <planeGeometry args={[0.3528, 0.3]} />
+            <meshBasicMaterial
+              transparent
+              map={useTexture("/images/LI-In-Bug.png")}
+            />
+          </mesh>
+          {/* GitHub icon */}
+          <mesh
+            position={[0.16, 0, 0.01]}
+            onClick={() => window.open("https://github.com/toruyama04")}
+            onPointerOver={() => (document.body.style.cursor = "pointer")}
+            onPointerOut={() => (document.body.style.cursor = "default")}
+          >
+            <planeGeometry args={[0.3, 0.3]} />
+            <meshBasicMaterial
+              transparent
+              map={useTexture("/images/github-mark.png")}
+            />
+          </mesh>
+        </group>
+        {/* my name */}
         <Text
           position={[-viewport.width / 2 + 1, viewport.height / 2 - 0.45, 0]}
           font="/fonts/garamond/GaramondRegular.ttf"
@@ -95,7 +126,7 @@ function Scene({ w = 2.8, gap = 7 }) {
         </Text>
 
         <Scroll>
-          {/*<fog attach="fog" args={["#a79", 8.5, 12]} />*/}
+          <fog attach="fog" args={["#a79", 8.5, 12]} />
           <color attach="background" args={["#ffffff"]} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
