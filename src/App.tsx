@@ -15,16 +15,16 @@ import {
   useThree,
 } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
-import { Group } from "three";
+import { Group, Vector3 } from "three";
 
 const GOLDENRATIO = 1.61803398875;
 
 // Project attributes
 const projectInfo: ProjectData[] = [
   {
-    id: "1",
-    position: [0, 2, 0.8],
-    size: [2.8, 3.8],
+    id: "0",
+    position: [0, 2.4, 0.8],
+    size: [3.2, 4.3],
     colour: "#37BEF9",
     title: "Simulating and Rendering the Aurora",
     technologies: "Tech: UE, compute shaders, git",
@@ -34,21 +34,27 @@ const projectInfo: ProjectData[] = [
       "(Particle In Cell - PIC); GPU accelerated programming with compute shaders; rendering techniques " +
       "such as raymarching. The project was integrated into Unreal Engine 5 which provided an interface " +
       "to manage GPU execution and to control/render particles.\n",
-    gapSize: 0.3,
+    gapSize: 0.35,
     content: {
       type: "images",
       urls: [
-        "/images/P1/1.tiff",
-        "/images/P1/2.tiff",
-        "/images/P1/3.tiff",
-        "/images/P1/4.tiff",
+        "/images/P1/1.png",
+        "/images/P1/2.png",
+        "/images/P1/3.png",
+        "/images/P1/4.png",
+      ],
+      pos: [
+        [-0.785, 1.06],
+        [0.78, 1.06],
+        [0.78, -1.06],
+        [-0.785, -1.06],
       ],
     },
   },
   {
-    id: "2",
-    position: [0, 2, 0.8],
-    size: [2.8, 3.8],
+    id: "1",
+    position: [0, 2.4, 0.8],
+    size: [3.2, 4.3],
     colour: "#37BEF9",
     title: "SPH Fluid Simulation",
     technologies: "Tech: OpenGL, compute shaders, git",
@@ -57,17 +63,23 @@ const projectInfo: ProjectData[] = [
     content: {
       type: "images",
       urls: [
-        "/images/P1/1.tiff",
-        "/images/P1/2.tiff",
-        "/images/P1/3.tiff",
-        "/images/P1/4.tiff",
+        "/images/P1/1.png",
+        "/images/P1/2.png",
+        "/images/P1/3.png",
+        "/images/P1/4.png",
+      ],
+      pos: [
+        [-0.74, 1.095],
+        [0.745, 1.095],
+        [0.745, 1.095],
+        [0.745, 1.095],
       ],
     },
   },
   {
-    id: "3",
-    position: [0, 2, 0.8],
-    size: [2.8, 3.8],
+    id: "2",
+    position: [0, 2.4, 0.8],
+    size: [3.2, 4.3],
     colour: "#37BEF9",
     title: "Personal Website",
     technologies: "Tech: React, React Three Fiber",
@@ -76,10 +88,16 @@ const projectInfo: ProjectData[] = [
     content: {
       type: "images",
       urls: [
-        "/images/P1/1.tiff",
-        "/images/P1/2.tiff",
-        "/images/P1/3.tiff",
-        "/images/P1/4.tiff",
+        "/images/P1/1.png",
+        "/images/P1/2.png",
+        "/images/P1/3.png",
+        "/images/P1/4.png",
+      ],
+      pos: [
+        [-0.74, 1.095],
+        [0.745, 1.095],
+        [0.745, 1.095],
+        [0.745, 1.095],
       ],
     },
   },
@@ -159,7 +177,7 @@ function Scene({ w = 2.8, gap = 7 }) {
           <color attach="background" args={["#ffffff"]} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
-          <group position={[0, -2, 0]}>
+          <group position={[0, -2.3, 0]}>
             <Projects xW={xW} />
             <mesh
               rotation={[-Math.PI / 2, 0, 0]}
@@ -178,7 +196,7 @@ function Scene({ w = 2.8, gap = 7 }) {
                 maxDepthThreshold={1.4}
                 color="#050505"
                 metalness={0.2}
-              /> 
+              />
             </mesh>
           </group>
           <Environment preset="sunset" />
@@ -212,6 +230,18 @@ function Projects({ xW }: { xW: number }) {
       projMesh.position.y += (targetY - projMesh.position.y) * 0.1;
       projMesh.position.z += (targetZ - projMesh.position.z) * 0.1;
     });
+
+    if (selectedId) {
+      const i = projectInfo.findIndex((p) => p.id === selectedId);
+      if (i !== -1) {
+        const projMesh = scrollRef.current.children[i] as Group;
+        if (projMesh) {
+          const worldPos = new Vector3();
+          projMesh.getWorldPosition(worldPos);
+          scrollRef.current.position.x -= worldPos.x * 0.1;
+        }
+      }
+    }
   });
 
   return (
@@ -249,11 +279,12 @@ function Project({
 }: ProjectProps) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
+  const textures = useTexture(content.type === "images" ? content.urls : []);
+  const positions = content.type === "images" ? content.pos : [];
 
   return (
     <group name={id} position={position}>
-      <mesh
-        castShadow
+      <group
         onClick={(e) => {
           e.stopPropagation();
           onClick();
@@ -267,22 +298,36 @@ function Project({
           setHovered(false);
         }}
       >
-        <planeGeometry args={size} />
-        <meshStandardMaterial
-          color={colour}
-          metalness={0.5}
-          roughness={0.5}
-          envMapIntensity={8}
-        />
-      </mesh>
+        <mesh castShadow>
+          <planeGeometry args={size} />
+          <meshStandardMaterial
+            color={colour}
+            metalness={0.5}
+            roughness={0.5}
+            envMapIntensity={8}
+          />
+        </mesh>
+
+        {content.type === "images" &&
+          textures.map((tex, i) => (
+            <mesh key={i} position={[positions[i][0], positions[i][1], 0.01]}>
+              {(() => {
+                const aspect = tex.image.width / tex.image.height;
+                return <planeGeometry args={[1.52, 1.47 / aspect]} />;
+              })()}
+              <meshBasicMaterial map={tex} toneMapped={false} />
+            </mesh>
+          ))}
+        {/*content.type === "video_images"*/}
+      </group>
 
       <>
         <Text
           font="/fonts/garamond/GaramondRegular.ttf"
-          maxWidth={2.14}
+          maxWidth={2.3}
           anchorX="left"
           anchorY="top"
-          position={[-3.6, GOLDENRATIO + 0.25, 0]}
+          position={[-4.05, GOLDENRATIO + 0.2, 0]}
           fontSize={0.2}
           color="#0f2027"
         >
@@ -290,10 +335,10 @@ function Project({
         </Text>
         <Text
           font="/fonts/garamond/GaramondRegular.ttf"
-          maxWidth={2.14}
+          maxWidth={2.3}
           anchorX="left"
           anchorY="top"
-          position={[-3.6, GOLDENRATIO - gapSize, 0]}
+          position={[-4.05, GOLDENRATIO - gapSize, 0]}
           fontSize={0.12}
           color="#0f2027"
         >
@@ -301,10 +346,10 @@ function Project({
         </Text>
         <Text
           font="/fonts/garamond/GaramondRegular.ttf"
-          maxWidth={2.14}
+          maxWidth={2.3}
           anchorX="left"
           anchorY="top"
-          position={[1.55, GOLDENRATIO + 0.25, 0]}
+          position={[1.75, GOLDENRATIO + 0.2, 0]}
           fontSize={0.13}
           color="#0f2027"
         >
@@ -320,7 +365,7 @@ type ProjectProps = ProjectData & {
 };
 
 type ProjectContent =
-  | { type: "images"; urls: string[] }
+  | { type: "images"; urls: string[]; pos: number[][] }
   | { type: "video_images"; images: string[]; video: string };
 
 /* Data and types for the projects */
