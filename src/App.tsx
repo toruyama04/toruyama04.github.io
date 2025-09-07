@@ -35,6 +35,15 @@ const projectInfo: ProjectData[] = [
       "such as raymarching. The project was integrated into Unreal Engine 5 which provided an interface " +
       "to manage GPU execution and to control/render particles.\n",
     gapSize: 0.3,
+    content: {
+      type: "images",
+      urls: [
+        "/images/P1/1.tiff",
+        "/images/P1/2.tiff",
+        "/images/P1/3.tiff",
+        "/images/P1/4.tiff",
+      ],
+    },
   },
   {
     id: "2",
@@ -45,6 +54,15 @@ const projectInfo: ProjectData[] = [
     technologies: "Tech: OpenGL, compute shaders, git",
     keywords: "Keywords: Fluid Simulation, Rendering",
     gapSize: 0.05,
+    content: {
+      type: "images",
+      urls: [
+        "/images/P1/1.tiff",
+        "/images/P1/2.tiff",
+        "/images/P1/3.tiff",
+        "/images/P1/4.tiff",
+      ],
+    },
   },
   {
     id: "3",
@@ -55,6 +73,15 @@ const projectInfo: ProjectData[] = [
     technologies: "Tech: React, React Three Fiber",
     keywords: "Keywords: ",
     gapSize: 0.34,
+    content: {
+      type: "images",
+      urls: [
+        "/images/P1/1.tiff",
+        "/images/P1/2.tiff",
+        "/images/P1/3.tiff",
+        "/images/P1/4.tiff",
+      ],
+    },
   },
 ];
 
@@ -115,6 +142,7 @@ function Scene({ w = 2.8, gap = 7 }) {
             />
           </mesh>
         </group>
+
         {/* my name */}
         <Text
           position={[-viewport.width / 2 + 1, viewport.height / 2 - 0.45, 0]}
@@ -125,6 +153,7 @@ function Scene({ w = 2.8, gap = 7 }) {
           Toru Yamaguchi
         </Text>
 
+        {/* main area: projects, floor */}
         <Scroll>
           <fog attach="fog" args={["#a79", 8.5, 12]} />
           <color attach="background" args={["#ffffff"]} />
@@ -164,10 +193,12 @@ function Projects({ xW }: { xW: number }) {
   const params = useParams<{ id: string }>();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
+  // whenever the id changes
   useEffect(() => {
     setSelectedId(params.id ?? null);
   }, [params.id]);
 
+  // go through each project and find the 3D group its attached to
   useFrame(() => {
     if (!scrollRef.current) return;
 
@@ -197,6 +228,7 @@ function Projects({ xW }: { xW: number }) {
           technologies={proj.technologies}
           gapSize={proj.gapSize}
           onClick={() => setSelectedId(selectedId === proj.id ? null : proj.id)}
+          content={proj.content}
         />
       ))}
     </group>
@@ -213,6 +245,7 @@ function Project({
   technologies,
   gapSize,
   onClick,
+  content,
 }: ProjectProps) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
@@ -242,6 +275,7 @@ function Project({
           envMapIntensity={8}
         />
       </mesh>
+
       <>
         <Text
           font="/fonts/garamond/GaramondRegular.ttf"
@@ -285,6 +319,10 @@ type ProjectProps = ProjectData & {
   onClick: () => void;
 };
 
+type ProjectContent =
+  | { type: "images"; urls: string[] }
+  | { type: "video_images"; images: string[]; video: string };
+
 /* Data and types for the projects */
 type ProjectData = {
   id: string;
@@ -295,6 +333,7 @@ type ProjectData = {
   technologies: string;
   keywords: string;
   gapSize: number;
+  content: ProjectContent;
 };
 
 export default App;
