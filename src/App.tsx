@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import {
-  Environment,
   Text,
   useCursor,
   ScrollControls,
   Scroll,
   MeshReflectorMaterial,
   useTexture,
+  useVideoTexture,
+  VideoTexture,
 } from "@react-three/drei";
 import {
   Canvas,
@@ -61,19 +62,9 @@ const projectInfo: ProjectData[] = [
     keywords: "Keywords: Fluid Simulation, Rendering",
     gapSize: 0.05,
     content: {
-      type: "images",
-      urls: [
-        "/images/P1/1.png",
-        "/images/P1/2.png",
-        "/images/P1/3.png",
-        "/images/P1/4.png",
-      ],
-      pos: [
-        [-0.74, 1.095],
-        [0.745, 1.095],
-        [0.745, 1.095],
-        [0.745, 1.095],
-      ],
+      type: "video_images",
+      images: ["/images/P2/ig.png",],
+      video: "/images/P2/sphvid.mp4",
     },
   },
   {
@@ -94,10 +85,10 @@ const projectInfo: ProjectData[] = [
         "/images/P1/4.png",
       ],
       pos: [
-        [-0.74, 1.095],
-        [0.745, 1.095],
-        [0.745, 1.095],
-        [0.745, 1.095],
+        [-0.785, 1.06],
+        [0.78, 1.06],
+        [0.78, -1.06],
+        [-0.785, -1.06],
       ],
     },
   },
@@ -105,7 +96,7 @@ const projectInfo: ProjectData[] = [
 
 function App() {
   return (
-    <Canvas shadows dpr={[1, 2]} style={{ width: "100vw", height: "100vh" }}>
+    <Canvas dpr={[1, 2]} style={{ width: "100vw", height: "100vh" }}>
       <Scene />
     </Canvas>
   );
@@ -119,6 +110,11 @@ function Scene({ w = 2.8, gap = 7 }) {
 
   return (
     <>
+      <color attach="background" args={["#f7f7f7"]} />
+      {/* <fog attach="fog" args={["#a79", 8.5, 12]} /> */}
+      <ambientLight intensity={4} />
+      {/* <directionalLight position={[10, 10, 10]} intensity={1} castShadow /> */}
+
       <ScrollControls
         horizontal
         pages={(width - xW + projectInfo.length * xW) / width}
@@ -131,7 +127,7 @@ function Scene({ w = 2.8, gap = 7 }) {
           {/* Background */}
           <mesh>
             <planeGeometry args={[0.8, 0.4]} />
-            <meshStandardMaterial color="white" />
+            <meshStandardMaterial color="#efd2c4" />
           </mesh>
           {/* LinkedIn icon */}
           <mesh
@@ -173,17 +169,9 @@ function Scene({ w = 2.8, gap = 7 }) {
 
         {/* main area: projects, floor */}
         <Scroll>
-          <fog attach="fog" args={["#a79", 8.5, 12]} />
-          <color attach="background" args={["#ffffff"]} />
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 10]} intensity={1} castShadow />
           <group position={[0, -2.3, 0]}>
             <Projects xW={xW} />
-            <mesh
-              rotation={[-Math.PI / 2, 0, 0]}
-              receiveShadow
-              position={[0, 0, 1.5]}
-            >
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 1.5]}>
               <planeGeometry args={[100, 4]} />
               <MeshReflectorMaterial
                 roughness={0.9}
@@ -199,7 +187,7 @@ function Scene({ w = 2.8, gap = 7 }) {
               />
             </mesh>
           </group>
-          <Environment preset="sunset" />
+          {/* <Environment preset="sunset" /> */}
         </Scroll>
       </ScrollControls>
     </>
@@ -285,8 +273,22 @@ function Project({
 }: ProjectProps) {
   const [hovered, setHovered] = useState(false);
   useCursor(hovered);
-  const textures = useTexture(content.type === "images" ? content.urls : []);
-  const positions = content.type === "images" ? content.pos : [];
+  const allImageTextures = useTexture(
+    content.type === "images"
+      ? content.urls
+      : content.type === "video_images"
+        ? content.images
+        : [],
+  );
+
+  // inside Project()
+  const videoTexture = content.type === "video_images" && content.video
+    ? useVideoTexture(content.video, {
+          muted: true,
+          loop: true,
+          start: true,
+        })
+    : null;
 
   return (
     <group name={id} position={position}>
@@ -313,18 +315,37 @@ function Project({
             envMapIntensity={8}
           />
         </mesh>
-
         {content.type === "images" &&
-          textures.map((tex, i) => (
-            <mesh key={i} position={[positions[i][0], positions[i][1], 0.01]}>
-              {(() => {
-                const aspect = tex.image.width / tex.image.height;
-                return <planeGeometry args={[1.52, 1.47 / aspect]} />;
-              })()}
+          allImageTextures.map((tex, i) => (
+            <mesh
+              key={i}
+              position={[content.pos[i][0], content.pos[i][1], 0.01]}
+            >
+              <planeGeometry
+                args={[1.52, 1.47 / (tex.image.width / tex.image.height)]}
+              />
               <meshBasicMaterial map={tex} toneMapped={false} />
             </mesh>
           ))}
-        {/*content.type === "video_images"*/}
+
+        {content.type === "video_images" && (
+          <>
+            {allImageTextures.map((tex, i) => (
+              <mesh key={`img-${i}`} position={[0, -1.2 * i, 0.1]}>
+                <planeGeometry
+                  args={[1.52, 1.47 / (tex.image.width / tex.image.height)]}
+                />
+                <meshBasicMaterial map={tex} toneMapped={false} />
+              </mesh>
+            ))}
+            {videoTexture && (
+              <mesh position={[1.2, 0, 0.1]}>
+                <planeGeometry args={[2, 1.125]} />
+                <meshBasicMaterial map={videoTexture} toneMapped={false} />
+              </mesh>
+            )}
+          </>
+        )}
       </group>
 
       <>
