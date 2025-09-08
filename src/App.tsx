@@ -208,59 +208,65 @@ function Scene({ w = 2.8, gap = 7 }) {
 
 function Projects({ xW }: { xW: number }) {
   const scrollRef = useRef<Group | null>(null);
+  const centerRef = useRef<Group | null>(null);
   const params = useParams<{ id: string }>();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  // whenever the id changes
   useEffect(() => {
     setSelectedId(params.id ?? null);
   }, [params.id]);
 
-  // go through each project and find the 3D group its attached to
   useFrame(() => {
-    if (!scrollRef.current) return;
+    if (!scrollRef.current || !centerRef.current) return;
 
     projectInfo.forEach((proj, i) => {
-      const projMesh = scrollRef.current?.children[i] as Group;
-      if (!projMesh) return;
+      const projGroup = centerRef.current!.children[i] as Group | undefined;
+      if (!projGroup) return;
       const defaultZ = proj.position[2];
       const defaultY = proj.position[1];
       const targetZ = selectedId === proj.id ? defaultZ + 1 : defaultZ;
       const targetY = selectedId === proj.id ? defaultY + 0.05 : defaultY;
-      projMesh.position.y += (targetY - projMesh.position.y) * 0.1;
-      projMesh.position.z += (targetZ - projMesh.position.z) * 0.1;
+      projGroup.position.y += (targetY - projGroup.position.y) * 0.12;
+      projGroup.position.z += (targetZ - projGroup.position.z) * 0.12;
     });
-
     if (selectedId) {
-      const i = projectInfo.findIndex((p) => p.id === selectedId);
-      if (i !== -1) {
-        const projMesh = scrollRef.current.children[i] as Group;
-        if (projMesh) {
-          const worldPos = new Vector3();
-          projMesh.getWorldPosition(worldPos);
-          scrollRef.current.position.x -= worldPos.x * 0.1;
-        }
+      const idx = projectInfo.findIndex((p) => p.id === selectedId);
+      if (idx !== -1) {
+        const projGroup = centerRef.current!.children[idx] as Group | undefined;
+        if (!projGroup) return;
+
+        const worldPos = new Vector3();
+        projGroup.getWorldPosition(worldPos);
+
+        centerRef.current!.position.x -= worldPos.x * 0.1;
       }
+    } else {
+      centerRef.current!.position.x +=
+        (0 - centerRef.current!.position.x) * 0.12;
     }
   });
 
   return (
     <group ref={scrollRef}>
-      {projectInfo.map((proj, i) => (
-        <Project
-          id={proj.id}
-          key={proj.id}
-          position={[i * xW, proj.position[1], proj.position[2]]}
-          size={proj.size}
-          colour={proj.colour}
-          title={proj.title}
-          keywords={proj.keywords}
-          technologies={proj.technologies}
-          gapSize={proj.gapSize}
-          onClick={() => setSelectedId(selectedId === proj.id ? null : proj.id)}
-          content={proj.content}
-        />
-      ))}
+      <group ref={centerRef}>
+        {projectInfo.map((proj, i) => (
+          <Project
+            id={proj.id}
+            key={proj.id}
+            position={[i * xW, proj.position[1], proj.position[2]]}
+            size={proj.size}
+            colour={proj.colour}
+            title={proj.title}
+            keywords={proj.keywords}
+            technologies={proj.technologies}
+            gapSize={proj.gapSize}
+            onClick={() =>
+              setSelectedId(selectedId === proj.id ? null : proj.id)
+            }
+            content={proj.content}
+          />
+        ))}
+      </group>
     </group>
   );
 }
