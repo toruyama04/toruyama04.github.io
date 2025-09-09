@@ -7,7 +7,6 @@ import {
   MeshReflectorMaterial,
   useTexture,
   useVideoTexture,
-  VideoTexture,
 } from "@react-three/drei";
 import {
   Canvas,
@@ -15,8 +14,8 @@ import {
   type ThreeEvent,
   useThree,
 } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
-import { Group, Vector3 } from "three";
+import { useEffect, useRef, useState, useMemo } from "react";
+import { Group, Vector3, WebGLRenderTarget, PerspectiveCamera } from "three";
 
 const GOLDENRATIO = 1.61803398875;
 
@@ -77,19 +76,20 @@ const projectInfo: ProjectData[] = [
     keywords: "Keywords: ",
     gapSize: 0.34,
     content: {
-      type: "images",
-      urls: [
-        "/images/P1/1.png",
-        "/images/P1/2.png",
-        "/images/P1/3.png",
-        "/images/P1/4.png",
-      ],
-      pos: [
-        [-0.785, 1.06],
-        [0.78, 1.06],
-        [0.78, -1.06],
-        [-0.785, -1.06],
-      ],
+      type: "web",
+    },
+  },
+  {
+    id: "3",
+    position: [0, 2.4, 0.8],
+    size: [3.2, 4.3],
+    colour: "#37BEF9",
+    title: "Group Project",
+    technologies: "Tech: React, React Three Fiber",
+    keywords: "Keywords: ",
+    gapSize: 0.34,
+    content: {
+      type: "web",
     },
   },
 ];
@@ -272,6 +272,7 @@ function Project({
   content,
 }: ProjectProps) {
   const [hovered, setHovered] = useState(false);
+  const [showFeed, setShowFeed] = useState(false);
   useCursor(hovered);
   const allImageTextures = useTexture(
     content.type === "images"
@@ -281,14 +282,14 @@ function Project({
         : [],
   );
 
-  // inside Project()
-  const videoTexture = content.type === "video_images" && content.video
-    ? useVideoTexture(content.video, {
+  const videoTexture =
+    content.type === "video_images" && content.video
+      ? useVideoTexture(content.video, {
           muted: true,
           loop: true,
           start: true,
         })
-    : null;
+      : null;
 
   return (
     <group name={id} position={position}>
@@ -331,19 +332,41 @@ function Project({
         {content.type === "video_images" && (
           <>
             {allImageTextures.map((tex, i) => (
-              <mesh key={`img-${i}`} position={[0, -1.2 * i, 0.1]}>
+              <mesh key={`img-${i}`} position={[0.04, -1.12, 0.1]}>
                 <planeGeometry
-                  args={[1.52, 1.47 / (tex.image.width / tex.image.height)]}
+                  args={[2.91, 2.4 / (tex.image.width / tex.image.height)]}
                 />
                 <meshBasicMaterial map={tex} toneMapped={false} />
               </mesh>
             ))}
             {videoTexture && (
-              <mesh position={[1.2, 0, 0.1]}>
-                <planeGeometry args={[2, 1.125]} />
+              <mesh position={[0.04, 0.935, 0.1]}>
+                <planeGeometry args={[2.9, 2.15]} />
                 <meshBasicMaterial map={videoTexture} toneMapped={false} />
               </mesh>
             )}
+          </>
+        )}
+        {content.type === "web" && (
+          <>
+            <mesh
+              position={[-0.85, 1.85, 0.1]}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowFeed((prev) => !prev);
+              }}
+            >
+              <planeGeometry args={[1.2, 0.25]} />
+              <meshStandardMaterial color="#37BEF9" />
+              <Text
+                font="/fonts/garamond/GaramondRegular.ttf"
+                fontSize={0.15}
+                color="black"
+                >
+                Click for Live Feed
+              </Text>
+            </mesh>
+            {showFeed && <CameraFeed />}
           </>
         )}
       </group>
@@ -387,13 +410,57 @@ function Project({
   );
 }
 
+function CameraFeed() {
+  const { gl, scene, size } = useThree();
+  const renderTarget = useMemo(
+    () => new WebGLRenderTarget(size.width, size.height),
+    [size.width, size.height],
+  );
+  const cameraRef = useRef<PerspectiveCamera>(null);
+
+  useFrame(() => {
+    if (!cameraRef.current) return;
+    cameraRef.current.updateProjectionMatrix();
+
+    gl.setRenderTarget(renderTarget);
+    gl.render(scene, cameraRef.current);
+    gl.setRenderTarget(null);
+  });
+
+  const aspect = size.width / size.height;
+  const planeHeight = 1.7;
+  let planeWidth = planeHeight * aspect;
+
+  const maxWidth = 3;
+  planeWidth = Math.min(planeWidth, maxWidth);
+
+  return (
+    <>
+      <perspectiveCamera
+        ref={cameraRef}
+        fov={40}
+        near={0.1}
+        far={50}
+        aspect={aspect}
+        position={[7, 5, 19]}
+        rotation={[-0.2, 0.33, 0.05]}
+      />
+      <mesh position={[0, 0.75, 0.1]}>
+        <planeGeometry args={[planeWidth, planeHeight]} />
+        <meshBasicMaterial map={renderTarget.texture} toneMapped={false} />
+      </mesh>
+    </>
+  );
+}
+
 type ProjectProps = ProjectData & {
   onClick: () => void;
 };
 
 type ProjectContent =
   | { type: "images"; urls: string[]; pos: number[][] }
-  | { type: "video_images"; images: string[]; video: string };
+  | { type: "video_images"; images: string[]; video: string }
+  | { type: "web" };
 
 /* Data and types for the projects */
 type ProjectData = {
