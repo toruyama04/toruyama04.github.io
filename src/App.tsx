@@ -62,7 +62,7 @@ const projectInfo: ProjectData[] = [
     gapSize: 0.05,
     content: {
       type: "video_images",
-      images: ["/images/P2/ig.png",],
+      images: ["/images/P2/ig.png"],
       video: "/images/P2/sphvid.mp4",
     },
   },
@@ -282,13 +282,9 @@ function Project({
         : [],
   );
 
-  const videoTexture =
-    content.type === "video_images" && content.video
-      ? useVideoTexture(content.video, {
-          muted: true,
-          loop: true,
-          start: true,
-        })
+  // prettier-ignore
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const videoTexture = content.type === "video_images" && content.video ? useVideoTexture(content.video, { muted: true, loop: true, start: true })
       : null;
 
   return (
@@ -362,7 +358,7 @@ function Project({
                 font="/fonts/garamond/GaramondRegular.ttf"
                 fontSize={0.15}
                 color="black"
-                >
+              >
                 Click for Live Feed
               </Text>
             </mesh>
