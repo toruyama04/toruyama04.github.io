@@ -38,10 +38,10 @@ const projectInfo: ProjectData[] = [
     content: {
       type: "images",
       urls: [
-        import.meta.env.BASE_URL + "/images/P1/1.png",
-        import.meta.env.BASE_URL + "/images/P1/2.png",
-        import.meta.env.BASE_URL + "/images/P1/3.png",
-        import.meta.env.BASE_URL + "/images/P1/4.png",
+        "/images/P1/1.png",
+        "/images/P1/2.png",
+        "/images/P1/3.png",
+        "/images/P1/4.png",
       ],
       pos: [
         [-0.785, 1.06],
@@ -62,8 +62,8 @@ const projectInfo: ProjectData[] = [
     gapSize: 0.05,
     content: {
       type: "video_images",
-      images: [import.meta.env.BASE_URL + "/images/P2/ig.png"],
-      video: import.meta.env.BASE_URL + "/images/P2/sphvid.mp4",
+      images: ["/images/P2/ig.png"],
+      video: "/images/P2/sphvid.mp4",
     },
   },
   {
@@ -139,9 +139,7 @@ function Scene({ w = 2.8, gap = 7 }) {
             <planeGeometry args={[0.3528, 0.3]} />
             <meshBasicMaterial
               transparent
-              map={useTexture(
-                import.meta.env.BASE_URL + "/images/LI-In-Bug.png",
-              )}
+              map={useTexture("/images/LI-In-Bug.png")}
             />
           </mesh>
           {/* GitHub icon */}
@@ -154,9 +152,7 @@ function Scene({ w = 2.8, gap = 7 }) {
             <planeGeometry args={[0.3, 0.3]} />
             <meshBasicMaterial
               transparent
-              map={useTexture(
-                import.meta.env.BASE_URL + "/images/github-mark.png",
-              )}
+              map={useTexture("/images/github-mark.png")}
             />
           </mesh>
         </group>
