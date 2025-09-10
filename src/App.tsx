@@ -38,10 +38,10 @@ const projectInfo: ProjectData[] = [
     content: {
       type: "images",
       urls: [
-        import.meta.env.BASE_URL + "/images/P1/1.png",
-        import.meta.env.BASE_URL + "/images/P1/2.png",
-        import.meta.env.BASE_URL + "/images/P1/3.png",
-        import.meta.env.BASE_URL + "/images/P1/4.png",
+        "/images/P1/1.png",
+        "/images/P1/2.png",
+        "/images/P1/3.png",
+        "/images/P1/4.png",
       ],
       pos: [
         [-0.785, 1.06],
@@ -62,8 +62,8 @@ const projectInfo: ProjectData[] = [
     gapSize: 0.05,
     content: {
       type: "video_images",
-      images: [import.meta.env.BASE_URL + "/images/P2/ig.png"],
-      video: import.meta.env.BASE_URL + "/images/P2/sphvid.mp4",
+      images: ["/images/P2/ig.png"],
+      video: "/images/P2/sphvid.mp4",
     },
   },
   {
@@ -89,19 +89,7 @@ const projectInfo: ProjectData[] = [
     keywords: "Keywords: ",
     gapSize: 0.34,
     content: {
-      type: "images",
-      urls: [
-        import.meta.env.BASE_URL + "/images/P1/1.png",
-        import.meta.env.BASE_URL + "/images/P1/2.png",
-        import.meta.env.BASE_URL + "/images/P1/3.png",
-        import.meta.env.BASE_URL + "/images/P1/4.png",
-      ],
-      pos: [
-        [-0.785, 1.06],
-        [0.78, 1.06],
-        [0.78, -1.06],
-        [-0.785, -1.06],
-      ],
+      type: "web",
     },
   },
 ];
