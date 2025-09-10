@@ -312,7 +312,7 @@ function Project({
             envMapIntensity={8}
           />
         </mesh>
-        {content.type === "images" &&
+        {/*{content.type === "images" &&
           allImageTextures.map((tex, i) => (
             <mesh
               key={i}
@@ -364,7 +364,7 @@ function Project({
             </mesh>
             {showFeed && <CameraFeed />}
           </>
-        )}
+        )}*/}
       </group>
 
       <>
