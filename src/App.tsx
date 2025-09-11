@@ -60,7 +60,10 @@ function Scene({ w = 2.8, gap = 7 }) {
             onPointerOut={() => (document.body.style.cursor = "default")}
           >
             <planeGeometry args={[0.3528, 0.3]} />
-            <meshBasicMaterial map={useTexture("/images/LI-In-Bug.png")} />
+            <meshBasicMaterial
+              transparent
+              map={useTexture("/images/LI-In-Bug.png")}
+            />
           </mesh>
           {/* GitHub icon */}
           <mesh
@@ -70,7 +73,10 @@ function Scene({ w = 2.8, gap = 7 }) {
             onPointerOut={() => (document.body.style.cursor = "default")}
           >
             <planeGeometry args={[0.3, 0.3]} />
-            <meshBasicMaterial map={useTexture("/images/github-mark.png")} />
+            <meshBasicMaterial
+              transparent
+              map={useTexture("/images/github-mark.png")}
+            />
           </mesh>
         </group>
 
