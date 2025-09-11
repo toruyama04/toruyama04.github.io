@@ -35,7 +35,7 @@ function Scene({ w = 2.8, gap = 7 }) {
 
   return (
     <>
-      <color attach="background" args={["#f7f7f7"]} />
+      <color attach="background" args={["#e8e8e8"]} />
       <ambientLight intensity={4} />
 
       <ScrollControls
