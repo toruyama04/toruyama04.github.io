@@ -3,7 +3,7 @@ import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
 import "./Homepage.css";
-import Ex1Page from "./Blog/ex1";
+import Ex1Page from "./Blog/Ex1";
 import Ex2Page from "./Blog/Ex2";
 
 function HomeContent() {
