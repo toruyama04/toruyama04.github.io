@@ -1,5 +1,5 @@
 import { Link, Outlet, useMatch } from "react-router-dom";
-import "./Homepage.css";
+import "./HomePage.css";
 
 export default function BlogHomePage() {
   const isIndex = useMatch("/blog");

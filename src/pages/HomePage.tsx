@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
-import "./Homepage.css";
+import "./HomePage.css";
 import Ex1Page from "./Blog/Ex1";
 import Ex2Page from "./Blog/Ex2";
 
