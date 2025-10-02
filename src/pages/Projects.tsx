@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Text,
   useCursor,
@@ -19,7 +19,7 @@ import { Group, Vector3, WebGLRenderTarget, PerspectiveCamera } from "three";
 
 const GOLDENRATIO = 1.61803398875;
 
-function App() {
+function ProjectsPage() {
   return (
     <Canvas dpr={[1, 2]} style={{ width: "100vw", height: "100vh" }}>
       <Scene />
@@ -32,6 +32,7 @@ function Scene({ w = 2.8, gap = 7 }) {
   const { width } = useThree((state) => state.viewport);
   const projWidth = w + gap;
   const { viewport } = useThree();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -56,7 +57,10 @@ function Scene({ w = 2.8, gap = 7 }) {
           <mesh
             position={[-0.18, -0.01, 0.01]}
             onClick={() => window.open("https://www.linkedin.com/in/toru04")}
-            onPointerOver={() => (document.body.style.cursor = "pointer")}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "pointer";
+            }}
             onPointerOut={() => (document.body.style.cursor = "default")}
           >
             <planeGeometry args={[0.3528, 0.3]} />
@@ -69,7 +73,10 @@ function Scene({ w = 2.8, gap = 7 }) {
           <mesh
             position={[0.16, 0, 0.01]}
             onClick={() => window.open("https://github.com/toruyama04")}
-            onPointerOver={() => (document.body.style.cursor = "pointer")}
+            onPointerOver={(e) => {
+              e.stopPropagation();
+              document.body.style.cursor = "pointer";
+            }}
             onPointerOut={() => (document.body.style.cursor = "default")}
           >
             <planeGeometry args={[0.3, 0.3]} />
@@ -86,6 +93,15 @@ function Scene({ w = 2.8, gap = 7 }) {
           font="/fonts/garamond/GaramondRegular.ttf"
           fontSize={0.2}
           color="#0f2027"
+          onClick={(e: ThreeEvent<PointerEvent>) => {
+            e.stopPropagation();
+            navigate("/");
+          }}
+          onPointerOver={(e) => {
+            e.stopPropagation();
+            document.body.style.cursor = "pointer";
+          }}
+          onPointerOut={() => (document.body.style.cursor = "default")}
         >
           Toru Yamaguchi
         </Text>
@@ -456,4 +472,4 @@ const projectInfo: ProjectData[] = [
   // },
 ];
 
-export default App;
+export default ProjectsPage;
