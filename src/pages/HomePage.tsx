@@ -3,7 +3,6 @@ import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
 import "src/pages/HomePage.css";
-import Ex1Page from "src/pages/Blog/Ex1.tsx";
 import Ex2Page from "./Blog/Ex2.tsx";
 
 function HomeContent() {
@@ -38,9 +37,10 @@ export default function HomePage() {
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/interests" element={<InterestsPage />} />
       <Route path="/blog" element={<BlogHomePage />}>
-        <Route path="ex1" element={<Ex1Page />} />
         <Route path="ex2" element={<Ex2Page />} />
       </Route>
     </Routes>
   );
 }
+
+// <Route path="ex1" element={<Ex1Page />} />
