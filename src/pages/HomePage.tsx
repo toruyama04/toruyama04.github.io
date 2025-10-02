@@ -3,8 +3,8 @@ import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
 import "./HomePage.css";
-import Ex1Page from "./Blog/Ex1";
-import Ex2Page from "./Blog/Ex2";
+import Ex1Page from "./Blog/Ex1.tsx";
+import Ex2Page from "./Blog/Ex2.tsx";
 
 function HomeContent() {
   return (
