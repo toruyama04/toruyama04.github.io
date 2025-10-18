@@ -9,6 +9,7 @@ export default function InterestsPage() {
       </Link>
 
       <div className="contents">
+        <p>updated 18/10/25</p>
         <h3 className="sub-header">Topics</h3>
         <ul>
           <li>Fluid Simulation</li>
@@ -23,6 +24,9 @@ export default function InterestsPage() {
             <li>League of Legends</li>
             <li>Overwatch</li>
             <li>Pokemon</li>
+            <li>Cyberpunk 2077</li>
+            <li>Cities: Skylines</li>
+            <li>Town of Salem</li>
           </ul>
         </ul>
 
@@ -77,6 +81,7 @@ export default function InterestsPage() {
           <ul>
             <li>Community</li>
             <li>The Good Place</li>
+            <li>Severance</li>
           </ul>
         </ul>
 
@@ -97,6 +102,15 @@ export default function InterestsPage() {
           <li>Spain</li>
           <li>United States of America</li>
         </ul>
+
+        <h3 className="sub-header">Quotes</h3>
+        <ul>
+          <li>
+            I would rather have questions that can't be answered than answers
+            that can't be questioned - Richard Feynman
+          </li>
+          <p></p>
+        </ul>
       </div>
     </>
   );
@@ -112,7 +126,6 @@ const links = [
   { label: "Free Media", url: "https://fmhy.pages.dev/" },
   { label: "Pokedex", url: "https://rotomlabs.net/dex" },
   { label: "PCards", url: "https://pokemoncard.io/card-database/" },
-  { label: "Coffee Table Magazines", url: "https://coffeetablemags.de/" },
   { label: "Disassembler", url: "https://disasm.pro/" },
   {
     label: "Free Programming Books",
@@ -131,4 +144,9 @@ const links = [
   { label: "Jeremy Ong - blog", url: "https://www.jeremyong.com/" },
   { label: "Heyyo - blog", url: "https://heyyocg.link/en/" },
   { label: "Axel Feldmann - blog", url: "https://feldmann.nyc/blog/" },
+  { label: "Bartosz Ciechanowski - blog", url: "https://ciechanow.ski/" },
+  {
+    label: "Brendan Gregg - blog",
+    url: "https://www.brendangregg.com/blog/index.html",
+  },
 ];
