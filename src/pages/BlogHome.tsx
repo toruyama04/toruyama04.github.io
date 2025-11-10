@@ -39,18 +39,18 @@ type BlogData = {
 };
 
 const BlogInfo: BlogData[] = [
-  {
-    id: "0",
-    title: "ex1",
-    date: "01/10/2025",
-    description: "yeah",
-    link: "/blog/ex1",
-  },
+  // {
+  //   id: "0",
+  //   title: "ex1",
+  //   date: "01/10/2025",
+  //   description: "yeah",
+  //   link: "/blog/ex1",
+  // },
   {
     id: "1",
-    title: "ex2",
-    date: "01/10/2025",
-    description: "oh yeah",
-    link: "/blog/ex2",
+    title: "Lets break the ice in a different way",
+    date: "10/11/2025",
+    description: "A social activity",
+    link: "/blog/b1",
   },
 ];

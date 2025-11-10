@@ -141,12 +141,6 @@ const links = [
   },
   { label: "Fabien Sanglard - blog", url: "https://fabiensanglard.net/" },
   { label: "Rama Karl Hoetzlein - blog", url: "https://ramakarl.com/" },
-  { label: "Jeremy Ong - blog", url: "https://www.jeremyong.com/" },
-  { label: "Heyyo - blog", url: "https://heyyocg.link/en/" },
-  { label: "Axel Feldmann - blog", url: "https://feldmann.nyc/blog/" },
   { label: "Bartosz Ciechanowski - blog", url: "https://ciechanow.ski/" },
-  {
-    label: "Brendan Gregg - blog",
-    url: "https://www.brendangregg.com/blog/index.html",
-  },
+  { label: "Sakuga Archive", url: "https://www.sakugabooru.com/" },
 ];
