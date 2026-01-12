@@ -9,7 +9,7 @@ export default function InterestsPage() {
       </Link>
 
       <div className="contents">
-        <p>updated 18/10/25</p>
+        <p>updated 12/01/26</p>
         <h3 className="sub-header">Topics</h3>
         <ul>
           <li>Fluid Simulation</li>
@@ -65,11 +65,9 @@ export default function InterestsPage() {
           <ul>
             <li>Mob Psycho 100💎</li>
             <li>Neon Genesis Evangelion</li>
-            <li>Attack on Titan</li>
+            <li>Attack on Titan💎</li>
             <li>Jujutsu Kaisen</li>
             <li>Gintama</li>
-            <li>Skip and Loafer</li>
-            <li>Food Wars</li>
           </ul>
           <li>Film</li>
           <ul>
@@ -101,6 +99,8 @@ export default function InterestsPage() {
           <li>Netherlands</li>
           <li>Spain</li>
           <li>United States of America</li>
+          <li>Hong Kong</li>
+          <li>South Korea</li>
         </ul>
 
         <h3 className="sub-header">Quotes</h3>
