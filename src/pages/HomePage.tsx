@@ -9,7 +9,8 @@ import B1Page from "./Blog/B1.tsx";
 function HomeContent() {
   return (
     <>
-      <h1 className="header"> Toru Yamaguchi</h1>
+      <h1 className="header">Toru Yamaguchi</h1>
+      <p className="header2">透 山口</p>
       <ul className="contents">
         <li>
           <Link to="/projects">
@@ -44,5 +45,3 @@ export default function HomePage() {
     </Routes>
   );
 }
-
-// <Route path="ex1" element={<Ex1Page />} />
