@@ -20,6 +20,14 @@ body {
     text-align: center;
     font-family: 'NotoSansJP-Thin';
     font-size:larger;
+    margin-bottom: 30px;
+}
+
+.animation_frame {
+    display: block;
+    max-width: 35%;
+    height: auto;
+    margin: auto
 }
 
 .link-button {
