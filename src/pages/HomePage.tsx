@@ -32,7 +32,6 @@ const frames = [
   "public/images/homepage/22.png",
   "public/images/homepage/23.png",
   "public/images/homepage/24.png",
-
 ];
 const FPS = 12;
 const FRAME_DURATION = 1000 / FPS;
