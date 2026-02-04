@@ -17,3 +17,9 @@
 .footnote {
     text-decoration: none;
 }
+
+.image {
+    width: 640px;
+    background-image: url("images/ai-blog/NN1.png");
+    background-position: center;
+}

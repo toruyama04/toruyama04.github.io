@@ -18,7 +18,7 @@ export default function AIPage() {
           begin!
         </p>
         <h2>Developing a Neural Network</h2>
-        <p>image of NN + https://bbycroft.net/llm</p>
+        <img src="images/ai-blog/NN1.png" />
         <p>
           A core concept with AI is the use of Neural Networks. Built to mimic
           the complex mechanisms within our brains that allow us to be
