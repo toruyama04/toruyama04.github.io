@@ -18,7 +18,11 @@ export default function AIPage() {
           begin!
         </p>
         <h2>Developing a Neural Network</h2>
-        <img src="images/ai-blog/NN1.png" />
+        <img
+          src="/images/ai-blog/neuralnetworkvisual.png"
+          className="img"
+          title="Image from GeeksForGeeks"
+        />
         <p>
           A core concept with AI is the use of Neural Networks. Built to mimic
           the complex mechanisms within our brains that allow us to be
@@ -46,36 +50,62 @@ export default function AIPage() {
           {". "}
         </p>
         <h3>Inputs and Outputs</h3>
-        <p>image of handwritig broken down into pixels</p>
+        <img
+          src="/images/ai-blog/pixeldataforimage.png"
+          className="imgS"
+          title="Image from 3Blue1Brown"
+        />
         <p>
           You always want to start off by determining your inputs and outputs.
           Our computer can only 'see' (read) the pixels of the image and their
-          rgb/a values which means they will be our inputs. I will import the
-          inputs from the scikit-learn library. By setting `as_frame` to false
-          and parser to `liac-arff`, the training_images/training_labels will be
-          arrays and the data will only contain numerical values. The
-          training_labels correspond to each image so that we can verify our
-          results.
+          rgb/a values which means they will be our inputs. The image above
+          shows exactly how the 28x28 pixels make up an example image. Where
+          values closer to 0 are darker and values closer to 1 are lighter.
         </p>
-        <p>image of normalising image data</p>
+        <img
+          src="/images/ai-blog/gettingtrainingdata.png"
+          className="imgC"
+          title="getting training data"
+        />
+        <p>
+          As I said, I will be using the MNIST database to source 70,000 of
+          these images of handwritten digits. I will obtain these through the
+          scikit-learn library. By setting `as_frame` to false and parser to
+          `liac-arff`, the training_images/training_labels will be numpy arrays
+          and the data will only contain numerical values. The training_labels
+          is another array which contains the corresponding digit for each image
+          in the database.
+        </p>
+        <img
+          src="/images/ai-blog/normalisetraining.png"
+          className="imgC"
+          title="normalising training data"
+        />
         <p>
           An important step with our image data is to normalise the values (put
-          into a [0,1] range). There are a number of reasons for this, it
-          ensures a consistent scale across all input features, helps gradient
-          descent algorithms, and works better with activation functions. We
-          will look at gradient descent and activation functions later on.
+          into a [0,1] range like the one in the image). There are a number of
+          reasons for this, it ensures a consistent scale across all input
+          features, helps gradient descent algorithms, and works better with
+          activation functions. We will look at gradient descent and activation
+          functions later on. To do this, I divide all the values by 255, which
+          is the maximum RGB value, [0,256).
         </p>
+        <img
+          src="/images/ai-blog/inputoutput.png"
+          className="imgS"
+          title="Image from 3Blue1Brown"
+        />
         <p>
           In terms of the output to our NN it will be a single vector with the
           number of possible digits as its length. When we begin training, we
           should think of the NN as a baby with very little idea as to what the
           digit is. However, eventually the NN should learn about the images and
           produce high confidence values (~1) for the digit it determines as
-          correct and low confidence values for all the other digits (~0). Below
-          I have depicted a simple NN with the inputs and outputs we have
-          described.
+          correct and low confidence values for all the other digits (~0). So
+          looking at the image above, imagine next to each digit in the output
+          vector a number in the range [0,1] that represents how confident the
+          NN is with the input being that value.
         </p>
-        <p>image of NN with normalised input and vector output</p>
         <h3>Neural Network Layers</h3>
         <p>
           Currently, our image of the network shows a number of layers each with
@@ -86,70 +116,93 @@ export default function AIPage() {
           each neuron of the current layer. Each neuron simply holds a 'weight'
           value for each of the previous neurons and also a single 'bias' value.
           So the input to a single neuron are all the outputs from all the
-          previous neurons (lets call this `x`). The output of a neuron though
-          is an affine transformation where we multiply the `x` with the weight
-          values and then add the bias value afterwards. 
+          previous neurons (lets call this `x`). The output of a neuron is an
+          affine transformation where we multiply the `x` with the weight values
+          values and then add the bias value afterwards.
         </p>
-        <p>image of a single layer where you can see the input and output</p>
+        <img
+          src="/images/ai-blog/layerclassinit.png"
+          className="imgC"
+          title="Initialising layer class"
+        />
         <p>
           I have already mentioned there are multiple types of layers so I will
           begin by creating an abstract class for a layer. It will define the
           function signatures and the main instance variables associated with a
-          layer.
+          layer. I have defined a function signature for `feed_forward`, which
+          takes a matrix and outputs a matrix. This will be defined for each
+          type of layer and represents the flow of data through a single layer.
         </p>
-        <p>image of layer class</p>
-        <p>
-          I have defined a function signature for `feed_forward`, which takes a
-          matrix and outputs a matrix. This will be defined for each type of
-          layer and represents the flow of data through a single layer.
-        </p>
-        <p>image of dense layer class</p>
+        <img
+          src="/images/ai-blog/fullyconnectedinit.png"
+          className="imgC"
+          title="Initialising FullyConnectedLayer"
+        />
         <p>
           Here I have defined the FullyConnected class as a child of Layer. We
           have two parameters: input_size - number of neurons in previous layer,
           output_size - number of neurons for the current layer. We call the
           parent's constructor and then initialise the weights and bias
-          matrices. Initialising weights is a nice topic to research after
-          completing the program and there are specific pros, cons and synergies
-          with activation functions that should be known. Here, I decided to use
-          the He initialisation which takes a normal distribution but shifts the
-          variance to be 2.0 / input_size. The bias values are initialised to 1
-          as the randomness is handled with the weights.
+          matrices. There is more research on how to initialise weights and how
+          they are context specific and often synergise with other parts of the
+          NN. Here, I decided to use the 'He initialisation' which will randomly
+          initialise the weights for each neuron in this fully connected layer
+          from a normal distribution shifted with a variance of 2.0 /
+          input_size. The bias values are initialised to 1 as the randomness is
+          handled with the weights.
         </p>
-        <p>image of feedforward for fully</p>
+        <img
+          src="/images/ai-blog/fullycfeedforward.png"
+          className="imgC"
+          title="feed forward function"
+        />
         <p>
           As I described earlier, the inputs are turned into the outputs via an
           affine transformation. Given the input values, we can simply perform a
           dot product between them and the weights and follow up with an
-          addition translation. Remember, for a single neuron, we want to
+          additional translation. Remember, for a single neuron, we want to
           multiply the input values with each of the weight values that neuron
           holds. So for all neurons of a layer, we can perform a dot product to
-          effectively apply that which is a supported operation for numpy
-          arrays. Below shows how this looks like in matrix form:
+          effectively apply transformation. The dot product is optimised by the
+          numpy library for its matrices. Below is the matrix multiplication
+          visual between the weights and the input values `a`.
         </p>
-        <p>image of matrix form of the computation here</p>
+        <img
+          src="/images/ai-blog/matrix.png"
+          className="imgS"
+          title="Image from 3Blue1Brown"
+        />
         <p>
           There is another type of layer, which I have mentioned before, called
           activation layers. These are quite simple in that they just apply a
-          transformation function on each input. This is needed because...
-          The actual function applied is not pre-determined, just like the
-          weight initialisation it must be chosen based on context and synergies.
+          transformation function on each input. This is needed because it adds
+          non-linearity to the model enabling it to learn and represent complex
+          data patterns, and without it a linear model would be fairly useless.
+          The actual function applied is not pre-decided, just like the weight
+          initialisation method. It must be chosen based on context and
+          potential synergies.
         </p>
-        <p>image of activation functions</p>
+        <img
+          src="/images/ai-blog/activationfunctions.png"
+          className="imgC"
+          title="activation functions"
+        />
         <p>
-          To handle any type of activation function, I will define an interface
-          that can contain many different activation functions for testing. The
-          one I will go for is the ReLU (Rectified Linear Unit), which simply
+          Here I have created an interface for 2 different activation functions.
+          I have chosen the ReLU (Rectified Linear Unit) function, which simply
           allows positive values to pass through unchanged while setting all
-          negative values to zero, this is done by returning the maximum between
-          0 and the value. I have also included the softmax activation layer
-          which will be used as the output layer. There are many others, each
-          with their own properties. You will also notice the use of the derived
-          version of these functions being defined. I didn't want to go back and
-          forth with the code, so I have included it here, but this will become
-          more relevant later on.
+          negative values to zero, as the main activation function within the NN
+          . I have also included the softmax activation layer which will only be
+          used as the output layer. There are many others, each with their own
+          properties. You will also notice the implementation of the derived
+          version of these functions being defined. Although not relevant here,
+          they will be necessary later on.
         </p>
-        <p>image of activation layer</p>
+        <img
+          src="/images/ai-blog/activationlayer.png"
+          className="imgC"
+          title="activation layer"
+        />
         <p>
           For the actual activation layer class, we will take the activation
           function reference and its derived function reference as instance
@@ -157,7 +210,11 @@ export default function AIPage() {
           activation function onto the input and return that result.
         </p>
         <h3>Putting it together</h3>
-        <p>image of Neural Network</p>
+        <img
+          src="/images/ai-blog/neuralnetworkbefore.png"
+          className="imgC"
+          title="creating neural network"
+        />
         <p>
           We have nearly reached the halfway point. I have defined the actual NN
           class which maintains a list of layers, a function to add a layer, and
@@ -165,34 +222,43 @@ export default function AIPage() {
           strange to have `output = input_data` but think of the function being
           performed in steps. First we have the input, then we pass it through
           the layers by looping through them, and finally we return that array.
-          So the `output` variable is named after its use as the returned output
-          from the NN.
+          So the `output` variable is named after its usecase being the returned
+          array of the function.
         </p>
         <h2>Creating the Neural Network</h2>
-        <p>image of creating NN and stuff</p>
+        <img
+          src="/images/ai-blog/createnn.png"
+          className="imgC"
+          title="instantiating neural network object"
+        />
         <p>
           I have instantiated a NN object and added a few fully connected layers
           with activation layers in between them. Notice how the output to one
           fully connected layer must match the size of the input for the next.
           This also applies to the final layer which must have a size of 10, as
-          there are 10 different digits. I have also passed the activation and
-          derived activation function references through the constructor which
-          can easily be changed to `*ActivationFunctions.use_tan()` if that was
-          the desired activation function. Now if I was to print the network's
-          predict function, it would likely give me some bs like [[ 0.27 -0.14
-          -0.55 -0.19 -0.06 0.09 -0.95 0.44 -1.02]]. This is the output of the
-          NN with the first image with random weights. Clearly, it has no idea
-          what the image is. Lets fix that.
+          there are 10 possible digits. For adding the activation layers, I use
+          the .use() functions to pass the function references to the
+          constructor. Now if I was to print the result of the network's predict
+          function (shown in the previous image), it would likely give me some
+          bs like [[ 0.27 -0.14 -0.55 -0.19 -0.06 0.09 -0.95 0.44 -1.02]]. This
+          is the output of the NN with the first image with random weights and
+          no training. Clearly, it has no idea what the image is. Lets fix that.
         </p>
-        <h3>Training</h3>
-        <p>image of cost function - have the random output next to desired output</p>
+        <h3>Training</h3>e
+        <p>
+          image of cost function - have the random output next to desired output
+        </p>
         <p>
           In order to improve a model, you need to first figure out how to
           measure the success of the model. We know the exact digit value for
           each image - inside training_labels. So the next step is to derive a
           cost function that compares the produced result with the desired one.
         </p>
-        <p>image of cost functions</p>
+        <img
+          src="/images/ai-blog/costfunctions.png"
+          className="imgC"
+          title="cost functions"
+        />
         <p>
           I have defined the cost function similarly to the Activation
           Functions, where we require both the standard and its derived form.
@@ -203,27 +269,40 @@ export default function AIPage() {
         </p>
 
         <p>image of new neural network with cost also gradient descent image</p>
-        <p>
-          TALK ABOUT why gradient descent
-        </p>
+        <p>TALK ABOUT why gradient descent</p>
 
         <p>image of back propagation visual</p>
         <p>TALK ABOUT for back p explain</p>
 
-        <p>image of bak p for full and activ</p>
+        <img
+          src="/images/ai-blog/backpforfull.png"
+          className="imgC"
+          title="back propagation for fully connected layer"
+        />
+        <img
+          src="/images/ai-blog/backpforactiv.png"
+          className="imgC"
+          title="back propagation for activation layer"
+        />
         <p>TALK ABOUT for back p</p>
 
-        <p>image of train function pt1</p>
+        <img
+          src="/images/ai-blog/trainpt1.png"
+          className="imgC"
+          title="training function"
+        />
         <p>
           TALK ABOUT each parameter. then why we segment them into different
           batches
         </p>
-        <p>image of train function pt2</p>
-        <p>
-          TALK ABOUT last little bit
-        </p>
+        <img
+          src="/images/ai-blog/trainpt2.png"
+          className="imgC"
+          title="complete training function"
+        />
+        <p>TALK ABOUT last little bit</p>
         <h3>Using the Neural Network to classify images</h3>
-        <h2>Adivce</h2>
+        <h2>What I learnt and further work</h2>
         <p>
           processes tokens sequentially with finite cost per token. therefore,
           letting the LLM 'think' through an answer can result in better
@@ -233,7 +312,11 @@ export default function AIPage() {
           of you and I. Problems can be difficult for the LLM that are trivial
           to us and vice versa.
         </p>
-        <p>References</p>
+        <p>
+          I can improve this model in many ways. obviously adjusting parameters
+          is essential in machine learning... talk about more complicated stuff
+        </p>
+        <h3>References</h3>
         <li id="fn-1">
           {" "}
           <a 

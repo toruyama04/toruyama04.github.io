@@ -18,8 +18,26 @@
     text-decoration: none;
 }
 
-.image {
-    width: 640px;
-    background-image: url("images/ai-blog/NN1.png");
-    background-position: center;
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    height: auto;
+}
+
+.imgS {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    height: auto;
+}
+
+.imgC {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    height: auto;
 }
