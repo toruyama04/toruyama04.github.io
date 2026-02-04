@@ -3,9 +3,9 @@ import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
 import "./HomePage.css";
-import Ex2Page from "./Blog/Ex2.tsx";
 import B1Page from "./Blog/B1.tsx";
 import { useEffect, useRef } from "react";
+import AIPage from "./Blog/AI.tsx";
 
 const frames = [
   "images/homepage/1.png",
@@ -49,14 +49,15 @@ function HomeContent() {
           </Link>
         </li>
         <li>
-          <Link to="/interests">
-            <button className="link-button">Interests</button>
+          {/* <button className="incomplete-button"> Blog </button> */}
+          <Link to="/blog">
+            <button className="link-button">Blog</button>
           </Link>
         </li>
         <li>
-          🚧
-          <button className="incomplete-button"> Blog </button>
-          🚧
+          <Link to="/interests">
+            <button className="link-button">Interests</button>
+          </Link>
         </li>
       </ul>
     </>
@@ -125,7 +126,7 @@ export default function HomePage() {
       <Route path="/interests" element={<InterestsPage />} />
       <Route path="/blog" element={<BlogHomePage />}>
         <Route path="b1" element={<B1Page />} />
-        <Route path="ex2" element={<Ex2Page />} />
+        <Route path="AI" element={<AIPage />} />
       </Route>
     </Routes>
   );
