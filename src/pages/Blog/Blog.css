@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'Dengb';
+    src: url('/public/fonts/dengxian-cdnfonts/Deng.otf')
+}
+
+
+.contents {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'Dengb'
+}
+
+.footnote {
+    text-decoration: none;
+}
+
+.img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
+    height: auto;
+}
+
+.imgS {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    height: auto;
+}
+
+.imgC {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+    height: auto;
+}

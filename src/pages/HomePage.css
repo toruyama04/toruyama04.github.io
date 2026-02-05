@@ -51,15 +51,6 @@ body {
     margin-bottom: 15px;
 }
 
-.contents {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .sub-header {
     text-decoration: underline;
     font-weight: normal;

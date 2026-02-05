@@ -46,11 +46,18 @@ const BlogInfo: BlogData[] = [
   //   description: "yeah",
   //   link: "/blog/ex1",
   // },
+  // {
+  //   id: "1",
+  //   title: "Lets break the ice in a different way",
+  //   date: "10/11/2025",
+  //   description: "A social activity",
+  //   link: "/blog/b1",
+  // },
   {
     id: "1",
-    title: "Lets break the ice in a different way",
-    date: "10/11/2025",
-    description: "A social activity",
-    link: "/blog/b1",
+    title: "Trying to understand AI",
+    date: "01/02/2026",
+    description: "A dive into the basics of building AI applications",
+    link: "/blog/AI",
   },
 ];
