@@ -466,7 +466,7 @@ export default function AIPage() {
         <h3>References</h3>
         <li id="fn-1">
           {" "}
-          <a 
+          <a
             href="https://en.wikipedia.org/wiki/MNIST_database"
             target="_blank"
             rel="noopener noreferrer"
@@ -480,7 +480,7 @@ export default function AIPage() {
         </li>
         <li id="fn-2">
           {" "}
-          <a 
+          <a
             href="https://numpy.org/"
             target="_blank"
             rel="noopener noreferrer"
@@ -494,7 +494,7 @@ export default function AIPage() {
         </li>
         <li id="fn-3">
           {" "}
-          <a 
+          <a
             href="https://youtu.be/Ilg3gGewQ5U?si=_2_ekiqFXFIc3L8-"
             target="_blank"
             rel="noopener noreferrer"
