@@ -39,25 +39,11 @@ type BlogData = {
 };
 
 const BlogInfo: BlogData[] = [
-  // {
-  //   id: "0",
-  //   title: "ex1",
-  //   date: "01/10/2025",
-  //   description: "yeah",
-  //   link: "/blog/ex1",
-  // },
-  // {
-  //   id: "1",
-  //   title: "Lets break the ice in a different way",
-  //   date: "10/11/2025",
-  //   description: "A social activity",
-  //   link: "/blog/b1",
-  // },
   {
     id: "1",
     title: "Trying to understand AI",
-    date: "01/02/2026",
-    description: "A dive into the basics of building AI applications",
+    date: "05/02/2026",
+    description: "A dive into the basics of building Neural Networks",
     link: "/blog/AI",
   },
 ];
