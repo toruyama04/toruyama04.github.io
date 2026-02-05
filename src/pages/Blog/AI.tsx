@@ -1,10 +1,13 @@
+import { Link } from "react-router-dom";
 import "../HomePage.css";
 import "./Blog.css";
 
 export default function AIPage() {
   return (
     <div>
-      <h1 className="header">Trying to understand AI</h1>
+      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+        <h1 className="header">Trying To understand AI</h1>
+      </Link>
       <div className="contents">
         <p>
           When I first encountered AI chatbots, it was genuinely very
