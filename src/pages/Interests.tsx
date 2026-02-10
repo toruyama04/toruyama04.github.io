@@ -19,6 +19,8 @@ export default function InterestsPage() {
         <h3 className="sub-header">Hobbies</h3>
         <ul>
           <li>Tennis</li>
+          <li>Philosophy</li>
+          <li>Cooking</li>
           <li>Games</li>
           <ul>
             <li>League of Legends</li>
@@ -46,19 +48,6 @@ export default function InterestsPage() {
           ))}
         </ul>
 
-        <h3 className="sub-header">Recent Books</h3>
-        <ul>
-          <li>(in-progress) The Brothers Karamazov</li>
-          <li>Ametora</li>
-          <li>City of Darkness</li>
-          <li>The Art and Soul of Dune</li>
-          <li>A little life</li>
-          <li>Lessons in Stoicism</li>
-          <li>Brave New World</li>
-          <li>The Sirens of Titan</li>
-          <li>The Picture of Dorian Gray</li>
-        </ul>
-
         <h3 className="sub-header">Media</h3>
         <ul>
           <li>Anime</li>
@@ -66,7 +55,6 @@ export default function InterestsPage() {
             <li>Mob Psycho 100💎</li>
             <li>Neon Genesis Evangelion</li>
             <li>Attack on Titan💎</li>
-            <li>Jujutsu Kaisen</li>
             <li>Gintama</li>
           </ul>
           <li>Film</li>
@@ -103,6 +91,19 @@ export default function InterestsPage() {
           <li>South Korea</li>
         </ul>
 
+        <h3 className="sub-header">Recent Books</h3>
+        <ul>
+          <li>(in-progress) The Brothers Karamazov</li>
+          <li>Ametora</li>
+          <li>City of Darkness</li>
+          <li>The Art and Soul of Dune</li>
+          <li>A little life</li>
+          <li>Lessons in Stoicism</li>
+          <li>Brave New World</li>
+          <li>The Sirens of Titan</li>
+          <li>The Picture of Dorian Gray</li>
+        </ul>
+
         <h3 className="sub-header">Quotes</h3>
         <ul>
           <li>
@@ -121,26 +122,19 @@ const links = [
     label: "Astronomy Picture of the Day Archive",
     url: "https://apod.nasa.gov/apod/archivepix.html",
   },
-  { label: "Film Scripts", url: "https://www.simplyscripts.com/" },
+  {
+    label: "Naoki Honjo",
+    url: "https://napgallery.jp/en/artists/naoki-honjo/",
+  },
   { label: "Easing Functions", url: "https://easings.net/" },
   { label: "Free Media", url: "https://fmhy.pages.dev/" },
   { label: "Pokedex", url: "https://rotomlabs.net/dex" },
-  { label: "PCards", url: "https://pokemoncard.io/card-database/" },
   { label: "Disassembler", url: "https://disasm.pro/" },
   {
     label: "Free Programming Books",
     url: "https://ebookfoundation.github.io/free-programming-books-search/",
   },
-  {
-    label: "Maxime Heckel - blog",
-    url: "https://blog.maximeheckel.com/#articles",
-  },
-  {
-    label: "Real-Time Rendering - blog",
-    url: "https://www.realtimerendering.com/blog/",
-  },
   { label: "Fabien Sanglard - blog", url: "https://fabiensanglard.net/" },
   { label: "Rama Karl Hoetzlein - blog", url: "https://ramakarl.com/" },
   { label: "Bartosz Ciechanowski - blog", url: "https://ciechanow.ski/" },
-  { label: "Sakuga Archive", url: "https://www.sakugabooru.com/" },
 ];

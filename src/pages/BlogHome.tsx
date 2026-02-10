@@ -46,4 +46,12 @@ const BlogInfo: BlogData[] = [
     description: "A dive into the basics of building Neural Networks",
     link: "/blog/AI",
   },
+  // {
+  //   id: "2",
+  //   title: "Creating a Fluid Engine",
+  //   date: "00/00/0000",
+  //   description:
+  //     "Showing the behind the scenes with computational fluid mechanics",
+  //   link: "/blog/Fluid",
+  // },
 ];

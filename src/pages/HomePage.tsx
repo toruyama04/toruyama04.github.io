@@ -3,9 +3,9 @@ import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
 import "./HomePage.css";
-import B1Page from "./Blog/B1.tsx";
 import { useEffect, useRef } from "react";
 import AIPage from "./Blog/AI.tsx";
+import FluidEnginePage from "./Blog/FluidEngine.tsx";
 
 const frames = [
   "images/homepage/1.png",
@@ -43,13 +43,24 @@ function HomeContent() {
       <p className="header2">透 山口</p> */}
       <CanvasAnimation />
       <ul className="contents">
+        <p>
+          Hi there, I'm a recent graduate of the University of Birmingham who
+          studied Computer Science BSc. I will be joining the post-graduate
+          course for{" "}
+          <a href="https://www.imperial.ac.uk/study/courses/postgraduate-taught/computational-methods/">
+            CFD at Imperial College London
+          </a>{" "}
+          for 2026-2027. I'm interested in CFD, graphics, HPC, and the
+          intersection between those topics. I am also interested in their
+          applications for aerospace, architecture, and TV/Film/Games.
+        </p>
+        <p> </p>
         <li>
           <Link to="/projects">
             <button className="link-button">Projects</button>
           </Link>
         </li>
         <li>
-          {/* <button className="incomplete-button"> Blog </button> */}
           <Link to="/blog">
             <button className="link-button">Blog</button>
           </Link>
@@ -125,7 +136,7 @@ export default function HomePage() {
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/interests" element={<InterestsPage />} />
       <Route path="/blog" element={<BlogHomePage />}>
-        <Route path="b1" element={<B1Page />} />
+        <Route path="Fluid" element={<FluidEnginePage />} />
         <Route path="AI" element={<AIPage />} />
       </Route>
     </Routes>

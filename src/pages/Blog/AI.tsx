@@ -5,18 +5,18 @@ import "./Blog.css";
 export default function AIPage() {
   return (
     <div>
-      <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+      <Link to="/blog" style={{ textDecoration: "none", color: "inherit" }}>
         <h1 className="header">Trying To understand AI</h1>
       </Link>
       <div className="contents">
         <p>
           When I first encountered AI chatbots, it was genuinely very
           impressive. Being able to engage in a conversation with a chef,
-          fitness coach, language expert... all at once felt unbelievable. At
-          uni I was able to learn about some of the underlying theory behind
-          AI/ML such as logistic regression, information theory, Bayes theory
-          etc. Whilst this was interesting, I prefer to implement and visualise
-          the mechanics to show exactly how it works. Lets begin!
+          fitness coach, language expert... all at once was incredible. At uni I
+          was able to learn about some of the underlying theory behind AI/ML
+          such as logistic regression, information theory, Bayes theory etc.
+          Whilst this was interesting, I prefer to implement and visualise the
+          mechanics to show exactly how it works. Lets begin!
         </p>
         <h2>Developing a Neural Network</h2>
         <img
@@ -49,7 +49,10 @@ export default function AIPage() {
           <a href="#fn-2" id="ref-2" className="footnote">
             <sup>2</sup>
           </a>
-          {". "}
+          {". "} Whilst this involves creating a NN to perform classification,
+          by understanding the fundamental mechanisms such as how we form the
+          inputs/outputs and how the training is achieved, you can apply this to
+          much of the other AI applications you see.
         </p>
         <h3>Inputs and Outputs</h3>
         <img
@@ -464,7 +467,7 @@ export default function AIPage() {
         <p>
           For the future, I have planned to produce a few other projects with
           relevance to AI/ML. Using the NN that I have created, I plan to create
-          a simple chatbot and an AI for tictactoe. Stay tuned!
+          more interesting and complex AI applications. Stay tuned!
         </p>
         <h3>References</h3>
         <li id="fn-1">
@@ -509,7 +512,7 @@ export default function AIPage() {
             ↩
           </a>
         </li>
-        <p>_</p>
+        <p> </p>
       </div>
     </div>
   );
