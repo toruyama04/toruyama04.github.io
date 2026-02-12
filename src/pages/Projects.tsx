@@ -451,7 +451,7 @@ const projectInfo: ProjectData[] = [
     keywords:
       "Keywords: React, Three.js, TypeScript\n\nA simple portfolio website built with a frontend focused on " +
       "displaying my projects in a 3D environment. This project integrated CI methods with git, linting, and code " +
-      "formatting. ",
+      "formatting. For more visit the github repository.",
     gapSize: 0.15,
     content: {
       type: "web",
