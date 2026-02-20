@@ -10,13 +10,11 @@ export default function AIPage() {
       </Link>
       <div className="contents">
         <p>
-          When I first encountered AI chatbots, it was genuinely very
-          impressive. Being able to engage in a conversation with a chef,
-          fitness coach, language expert... all at once was incredible. At uni I
-          was able to learn about some of the underlying theory behind AI/ML
-          such as logistic regression, information theory, Bayes theory etc.
-          Whilst this was interesting, I prefer to implement and visualise the
-          mechanics to show exactly how it works. Lets begin!
+          AI always seemed like a black box to me, during uni I was able to
+          learn about some of the underlying theory behind AI/ML such as
+          logistic regression, information theory, Bayes theory etc. Whilst this
+          was interesting, I prefer to implement and visualise the mechanics to
+          show exactly how it works. Lets begin!
         </p>
         <h2>Developing a Neural Network</h2>
         <img
@@ -69,7 +67,7 @@ export default function AIPage() {
           reality, images use more than just a single value so that we can
           visualise colours instead of just black and white. This database
           simplifies that and just gives us numbers from 0 to 255 for their
-          colour.
+          colour in whitespace.
         </p>
         <img
           src="/images/ai-blog/gettingtrainingdata.png"
@@ -150,6 +148,9 @@ export default function AIPage() {
           layer. I have defined a function signature for `feed_forward`, which
           takes a matrix and outputs a matrix. This will be defined for each
           type of layer and represents the flow of data through a single layer.
+          Object Oriented Programming (OOP) works really well here since the NN
+          is made up of lots of similar elements, where adding layers and
+          changing them around is only a case of instantiating more objects.
         </p>
         <img
           src="/images/ai-blog/fullyconnectedinit.png"
@@ -167,7 +168,9 @@ export default function AIPage() {
           initialise the weights for each neuron in this fully connected layer
           from a normal distribution shifted with a variance of 2.0 /
           input_size. The bias values are initialised to 1 as the randomness is
-          handled with the weights.
+          handled with the weights. We intialise the weights to random so that
+          the model can actually learn different patterns, if they were uniform
+          it would defeat the point of NNs as layers would be obsolete.
         </p>
         <img
           src="/images/ai-blog/fullycfeedforward.png"

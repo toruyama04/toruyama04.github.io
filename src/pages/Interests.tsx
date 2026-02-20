@@ -26,9 +26,6 @@ export default function InterestsPage() {
             <li>League of Legends</li>
             <li>Overwatch</li>
             <li>Pokemon</li>
-            <li>Cyberpunk 2077</li>
-            <li>Cities: Skylines</li>
-            <li>Town of Salem</li>
           </ul>
         </ul>
 
@@ -56,6 +53,7 @@ export default function InterestsPage() {
             <li>Neon Genesis Evangelion</li>
             <li>Attack on Titan💎</li>
             <li>Gintama</li>
+            <li>Vinland Saga</li>
           </ul>
           <li>Film</li>
           <ul>
