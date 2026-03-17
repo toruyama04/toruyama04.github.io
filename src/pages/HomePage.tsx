@@ -5,7 +5,7 @@ import BlogHomePage from "./BlogHome";
 import "./HomePage.css";
 import { useEffect, useRef } from "react";
 import AIPage from "./Blog/AI.tsx";
-import FluidEnginePage from "./Blog/FluidEngine.tsx";
+import FluidEquationsPage from "./Blog/FluidEngine.tsx";
 
 const frames = [
   "images/homepage/1.png",
@@ -50,9 +50,9 @@ function HomeContent() {
           <a href="https://www.imperial.ac.uk/study/courses/postgraduate-taught/computational-methods/">
             CFD at Imperial College London
           </a>{" "}
-          for 2026-2027. I'm interested in CFD, graphics, HPC, and the
+          for 2026-2027. I'm interested in CFD, HPC, hardware, graphics and the
           intersection between those topics. I am also interested in their
-          applications for aerospace, architecture, and TV/Film/Games.
+          applications for aerospace, infrastructure, and media.
         </p>
         <p> </p>
         <li>
@@ -136,7 +136,7 @@ export default function HomePage() {
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/interests" element={<InterestsPage />} />
       <Route path="/blog" element={<BlogHomePage />}>
-        <Route path="Fluid" element={<FluidEnginePage />} />
+        <Route path="Fluid" element={<FluidEquationsPage />} />
         <Route path="AI" element={<AIPage />} />
       </Route>
     </Routes>
