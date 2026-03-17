@@ -204,7 +204,7 @@ export default function FluidEquationsPage() {
           stresses.
         </p>
         <p>
-          ||image of diff element show it as part of the bigger vol of fluid, 
+          ||image of diff element show it as part of the bigger vol of fluid,
           dont include stresses but show axis etc||
         </p>
         <p>
