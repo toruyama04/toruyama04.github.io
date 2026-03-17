@@ -15,7 +15,7 @@
   "dependencies": {
     "@react-three/drei": "^10.7.4",
     "@react-three/fiber": "^9.3.0",
-    "katex": "^0.16.37",
+    "katex": "^0.16.38",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-katex": "^3.1.0",

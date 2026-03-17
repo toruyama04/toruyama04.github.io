@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import katex from "katex";
 import "katex/dist/katex.min.css";
-import { InlineMath, BlockMath } from "react-katex";
+import { Link } from "react-router-dom";
 import "../HomePage.css";
 import "./Blog.css";
 
@@ -259,5 +259,35 @@ export default function FluidEquationsPage() {
         <p> </p>
       </div>
     </div>
+  );
+}
+
+type MathProps = {
+  math: string;
+  errorColor?: string;
+};
+
+export function InlineMath({ math, errorColor = "#cc0000" }: MathProps) {
+  const html = katex.renderToString(math, {
+    throwOnError: false,
+    errorColor,
+    displayMode: false,
+  });
+
+  return <span dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
+export function BlockMath({ math, errorColor = "#cc0000" }: MathProps) {
+  const html = katex.renderToString(math, {
+    throwOnError: false,
+    errorColor,
+    displayMode: true,
+  });
+
+  return (
+    <div
+      style={{ margin: "1rem 0" }}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 }
