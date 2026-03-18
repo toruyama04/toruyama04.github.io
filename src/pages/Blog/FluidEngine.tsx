@@ -17,21 +17,31 @@ export default function FluidEquationsPage() {
           <InlineMath math="\to" /> graphics programming
           <InlineMath math="\to" /> particles <InlineMath math="\to" />{" "}
           computational fluid dynamics. Although I picked up some of the main
-          intuition through some minor projects, I still lacked the crucial
+          intuition through some projects, I still lacked the crucial
           understanding of the governing equations. I wanted to detail the
           intuition behind the essential equations used to model fluids.
         </p>
         <h2>Modelling the Fluid</h2>
-        <p>image of fluid/gas with particles</p>
+        <img
+          src="/images/fluids/fluidgas.png"
+          className="img"
+          title="Simplified version of fluid makeup"
+        />
         <p>
           If you think back to early physics lessons, you would remember that
-          fluids and gases are made up of molecules that zip around in all
-          directions. The number of molecules, their speed and the rate at which
-          they collide make up the properties of the fluid. We are unable to
-          model fluids like they exist in reality and we instead model fluids
-          more like an approximation of its general behaviour.
+          fluids (liquids or gases) are made up of molecules that zip around in
+          all directions. The number of molecules, their speed and the rate at
+          which they collide make up the properties of the fluid. Whilst a one
+          to one model of a fluid, meaning we track every single particle and
+          perfectly predict their behaviour, would produce absolute simulation
+          accuracy, it's far beyond our ability to model and solve fluids at
+          that level. We are unable to model fluids like they exist in reality
+          and we instead go for more of an approximation of its general
+          behaviour. You will find that in the following chapters, that for many
+          of the equations, they rely on this approximation and also various
+          assumptions about the fluid.
         </p>
-        <p>
+        {/*<p>
           For the following chapter on our first governing equation, I will
           model the fluid using an Eulerian viewpoint. This means to look at the
           fluid as being made up of discrete, fixed points in space where we
@@ -39,7 +49,7 @@ export default function FluidEquationsPage() {
           points, we find them to be an infinitesimal control volume - a very
           small volume of our fluid.
         </p>
-        {/* <p>image of eulerian/lagrangian viewpoints</p>
+         <p>image of eulerian/lagrangian viewpoints</p>
         <p>There are two main ways to model a fluid:</p>
         <strong>Eulerian:</strong> Our first viewpoint of a fluid is one where
         we focus on a specific point in the domain and measure the field values
@@ -50,82 +60,97 @@ export default function FluidEquationsPage() {
         <hr></hr> */}
         <h3>Continuity Equation</h3>
         <p>
-          This first equation describes how the mass of the fluid can be
-          expressed for any volume of the fluid. Lets start with an arbitrary
-          fixed volume of a fluid <InlineMath math="V" /> that has a surrounding
-          boundary <InlineMath math="S" />. I will simply start with defining
-          the mass at any point in time. You should be familiar with{" "}
-          <InlineMath math="mass = density \times volume" />, so to calculate
-          the mass of this volume, we need to define the density and the volume.
+          This first equation describes how the mass of a fluid can be expressed
+          for any volume of that fluid. Consider an arbitrary fixed volume of a
+          fluid <InlineMath math="V" /> that has a surrounding boundary surface{" "}
+          <InlineMath math="S" />. To simply define the mass at any point in
+          time, we will derive the fluid version of{" "}
+          <InlineMath math="mass = density \times volume" />. Here, if we define
+          the density and volume, it will enable us to find our first
+          expression.
         </p>
+        <img
+          src="/images/fluids/fluidvolumecontinuity.png"
+          className="img"
+          title="Arbitrary volume of fluid"
+        />
         <p>
-          image of fluid with highlighted volume V, then other image focuses in
-          on the volume
-        </p>
-        <p>
-          Remember that for an Eulerian viewpoint we focus in on differential
-          control volumes that are fixed in position. So we break down the
-          overall volume into these infinitesimal control volumes (
-          <InlineMath math="dV" />
-          ), each with a density (<InlineMath math="\rho" />
-          ). The accumulation of all the differential control volumes with their
-          density values will result in the total mass.
-          <BlockMath math="m = \iiint_V \rho\ dV" /> We actually want to find
-          the rate of change of the mass, this allows us to reason about how the
-          mass of a fluid changes over time. To do so, we need a way to express
-          the amount of mass leaving the volume at any point in time. Even
-          though each differential control volume <InlineMath math="dV" /> has
-          surfaces where mass flows in and out, we don't really care about the
-          surfaces within the volume since any mass flowing through them won't
-          affect the total mass of the volume. Therefore we define a new
-          variable <InlineMath math="d\bold{S}" /> which defines the oriented
-          area of an infinitesimal surface. This is a shorthand for{" "}
+          In the image, I have shown a possible example of a volume of fluid.
+          Although it is shown as a cube, this can really be any shape and while
+          it can be a small chunk of a fluid, it can also be the entire fluid
+          itself. To evaluate the mass of this volume, you can't just say that{" "}
+          <InlineMath math="m = \rho \times V" />, where{" "}
+          <InlineMath math="\rho" /> is a density value. This is because the
+          density isn't identical throughout the volume. We know that we can't
+          just sum the density of each particle, instead we first break up the
+          volume into infinitesimal non-overlapping elements. Thereafter,
+          summing the mass of each infinitesimal element{" "}
+          <InlineMath math="\rho d\bold{V}" />, over the region yields the total
+          mass.
+          <BlockMath math="m = \iiint_V \rho\ dV" /> Whilst finding an
+          expression for the total mass is useful, we are more interested in
+          defining how the mass changes over time. I introduced the variable for
+          the volume's outer surface <InlineMath math="S" /> and it's very
+          reasonable to say that the mass change over time depends on the amount
+          of mass leaving and entering this volume. For this expression, I first
+          define a variable for the infinitesimal surface that is perpendicular
+          to the outer boundary and pointing outwards{" "}
+          <InlineMath math="d\bold{S}" />. This is a shorthand for{" "}
           <InlineMath math="\bold{n} dS" />, where{" "}
           <InlineMath math="\bold{n}" /> is the outward pointing unit normal of
-          the surface <InlineMath math="dS" />. It is directed outward and
-          encodes the surface area as part of its make-up. If we take the dot
-          product of the vector at the fluid boundary with the oriented area and
-          multiply by the density, we get the mass flow through this specific
-          surface - <InlineMath math="\rho \bold{v} \cdot d\bold{S}" />
-          . A positive value denotes particles leaving the volume and negative
-          if they are entering. We then use it to evaluate the rate of change of
-          the mass:
+          the surface <InlineMath math="dS" />. The crucial evaluation to make
+          is that taking the dot product of the velocity vector{" ("}
+          <InlineMath math="\bold{v}" />) at the position{" "}
+          <InlineMath math="d\bold{S}" /> and multiplying that with the density,
+          we derive an expression for the mass leaving the volume at a specific
+          infinitesimal surface :{" "}
+          <InlineMath math="\rho \bold{v} \cdot d\bold{S}" />
+        </p>
+        <img
+          src="/images/fluids/diffvolumesurface.png"
+          className="img"
+          title="simplified visual of dV and dS"
+        />
+        <p>
           <BlockMath math="\frac{d}{dt} \iiint_V \rho \ dV = -\oiint_S \rho \bold{v} \cdot d\bold{S}" />
-          The circle inside the integral <InlineMath math="\oiint" /> means the
-          surface we integrate over must be closed. If we take the mass flow of
-          a specific surface and instead integrate over the entire outward
-          boundary surface, it results in the total mass flow out of the volume.
-          We take the negative as to only evaluate the mass changes inside the
-          volume.<hr></hr> If you are unfamiliar with Gauss's theorem or the
-          divergence theorem, I will explain it here but feel free to find a
-          more in-depth explanation elsewhere. It states that "the surface
-          integral of a vector field over a closed surface, otherwise known as
-          the 'flux' through the surface, is equal to the volume integral of the
-          divergence over the region enclosed by the surface". Given the volume{" "}
-          <InlineMath math="V" /> with a boundary <InlineMath math="S" />,
-          consider a continuously differentiable vector field{" "}
-          <InlineMath math="\bold{F}" /> then:
+          The next evaluation to make is to relate the time rate of change of
+          the total mass to be equal to the negative sum of the masses that
+          leave and enter every infinitesimal surface facing outward on the
+          boundary. The circle inside the integral <InlineMath math="\oiint" />{" "}
+          means the surface we integrate over must be closed. We take the
+          negative as to only evaluate the mass changes inside the volume.
+          <hr></hr> The next step involves the use of the Gauss Divergence
+          theorem. If you are unfamiliar with Gauss's theorem, I will explain it
+          here but feel free to find a more in-depth explanation elsewhere. It
+          states that "the surface integral of a vector field over a closed
+          surface, otherwise known as the 'flux' through the surface, is equal
+          to the volume integral of the divergence over the region enclosed by
+          the surface". Given the volume <InlineMath math="V" />, with a
+          boundary <InlineMath math="S" />, consider a continuously
+          differentiable vector field <InlineMath math="\bold{F}" /> then:
           <BlockMath math="\oiint_S (\bold{F} \cdot \hat{n}) \ dS = \iiint_V (\nabla \cdot \bold{F})\ dV" />
-          It should be a fairly simple step to take the current expression of
-          the mass changes at any current time and convert it to the volume
-          integral.
+          I hope you see the resemblence of the left-hand side of Gauss's
+          theorem to the right-hand side of the current expression we have,
+          shown before. I show it here explicitly:
           <BlockMath math="-\oiint_S \rho \bold{v} \cdot d\bold{S} \xrightarrow{\text{Gauss}} -\iiint_V (\nabla \cdot \rho \bold{v})\ dV" />
           <hr></hr> If we apply Gauss's Divergence theorem:
           <BlockMath math="\frac{d}{dt} \iiint_V \rho \ dV = - \iiint_V (\nabla \cdot \rho \bold{v}) \ dV" />
           As the volume is constant, meaning the limits of integration are
           fixed, we can bring the time derivative to inside the integral. Then
-          add both sides by the right side.
+          take the right side and bring over to the left and simplify.
           <BlockMath math="\iiint_V \frac{\partial \rho}{\partial t} dV + \iiint_V (\nabla \cdot \rho\bold{v}) \ dV = 0" />
           <BlockMath math="\iiint_V [\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho\bold{v})]\ dV = 0" />
-          The final step is to note that this is valid for any volume{" "}
-          <InlineMath math="V" /> and so we are simply left with:
+          The final step is to infer that whilst we have clearly stated the
+          volume here, this expression is valid for any volume{" "}
+          <InlineMath math="V" /> and therefore we can simplify the expression
+          to:
           <BlockMath math="\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \bold{v}) = 0" />
           This is known as the continuity or mass conservation equation. This
-          one applies to any fluid, however it is common for us to make
-          assumptions about a fluid we are simulating in order to simplify the
-          governing equations. The first is the assumption of a{" "}
+          one applies to any fluid however, like I mentioned before, it is
+          common to make certain assumptions about a fluid in order to simplify
+          the governing equations. The first is the assumption of a{" "}
           <strong>steady flow</strong> which says that there is no time
-          dependency of the flow. So for any property, here only density{" "}
+          dependency of the flow. It means for any property, here only density{" "}
           <InlineMath math="\rho" /> is time dependent, we say it won't have a
           local time rate of change or{" "}
           <InlineMath math="\frac{\partial \rho}{\partial t} = 0" />, leaving:
@@ -140,7 +165,11 @@ export default function FluidEquationsPage() {
           changes in a velocity component in its respective coordinate direction
           must be balanced by collective corresponding changes of each of the
           other coordinate velocity components, such that there is no local
-          expansion/contraction of the fluid volume.
+          expansion/contraction of the fluid volume. Whilst it may not seem
+          sensible to reduce the type of fluid this equation can only apply to,
+          it is very common in industry to work only with incompressible fluids
+          such that simplifying the governing equations, such as this one, is an
+          invaluable evaluation to make.
         </p>
         <h3>Momentum Equation (Navier-Stokes)</h3>
         <p>
@@ -219,8 +248,10 @@ export default function FluidEquationsPage() {
           of the stress.
         </p>
         <p>||of element with stress tensor with explanation of subscripts||</p>
-        <p>||explain stresses||</p>
-        <p>trauncated taylor series</p>
+        <p>truncated taylor series</p>
+        <p>
+          The
+        </p>
         <h4>Body Forces</h4>
         <p>Substitute into Newton's second law</p>
         <p>Expand stresses by relating to fluid rates of strain</p>
