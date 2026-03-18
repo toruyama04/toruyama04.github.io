@@ -38,8 +38,8 @@ export default function FluidEquationsPage() {
           that level. We are unable to model fluids like they exist in reality
           and we instead go for more of an approximation of its general
           behaviour. You will find that in the following chapters, that for many
-          of the equations, they rely on this approximation and also various
-          assumptions about the fluid.
+          of the equations, they rely on this approximation and similarly make
+          various assumptions about the fluid.
         </p>
         {/*<p>
           For the following chapter on our first governing equation, I will
@@ -249,9 +249,6 @@ export default function FluidEquationsPage() {
         </p>
         <p>||of element with stress tensor with explanation of subscripts||</p>
         <p>truncated taylor series</p>
-        <p>
-          The
-        </p>
         <h4>Body Forces</h4>
         <p>Substitute into Newton's second law</p>
         <p>Expand stresses by relating to fluid rates of strain</p>
