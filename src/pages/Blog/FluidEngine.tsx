@@ -59,6 +59,7 @@ export default function FluidEquationsPage() {
         like velocity for each of these fluid parcels through space and time.
         <hr></hr> */}
         <h3>Continuity Equation</h3>
+        <h5>* Rewrite several parts here</h5>
         <p>
           This first equation describes how the mass of a fluid can be expressed
           for any volume of that fluid. Consider an arbitrary fixed volume of a
@@ -171,6 +172,19 @@ export default function FluidEquationsPage() {
           such that simplifying the governing equations, such as this one, is an
           invaluable evaluation to make.
         </p>
+        <p>
+          If you are happy with this chapter and want to learn a little more or
+          in the opposite direction found it tough, I would recommend checking
+          out the appendix for a different derivation of the continuity
+          equation. The current method follows an Eulerian viewpoint of the
+          fluid whilst this other derivation follows a Lagrangian viewpoint. If
+          these new words seem interesting or you want to learn more, check out
+          the appendix{" "}
+          <a href="#ap-1" id="apref-1" className="footnote">
+            here
+          </a>{" "}
+          to find out more!
+        </p>
         <h3>Momentum Equation (Navier-Stokes)</h3>
         <p>
           The most well known equation for modelling fluids, the momentum
@@ -214,7 +228,11 @@ export default function FluidEquationsPage() {
         upper surface. Referring back to the definition of a fluid, the
         substance's reaction to a shearing stress allows it to be classified as
         a fluid.
-        <p>Image of Couette flow and spoon in cup</p>
+        <img
+          src="/images/fluids/couetteflow.png"
+          className="imgC"
+          title="simplified visual of dV and dS"
+        />
         <strong>
           Normal Stress <InlineMath math="\sigma" />
         </strong>{" "}
@@ -223,14 +241,16 @@ export default function FluidEquationsPage() {
         pressure acting on the surface of the cube. This applies similarly to
         compressed gas, where the fluid applies a normal stress on the gas
         container as it pushes perpendicular to the surface boundaries.
-        <p>Image of pressure for cube and gas container pressure</p>
+        <hr></hr>
         <p>
           <strong>Modelling Surface forces for a differential element</strong>
         </p>
         <p>
-          To analyse momentum changes across a fluid volume, we first define an
-          infinitesimally small differential element for us to model the
-          stresses.
+          To model all the surface forces (stresses) for our fluid, we must
+          first define the fluid to be analysed. Just like our continuity
+          equation derivation, we will continue to use the infinitesimal control
+          volume model. To begin, I will draw the relevant stresses for the{" "}
+          <InlineMath math="x" /> direction specifically.
         </p>
         <p>
           ||image of diff element show it as part of the bigger vol of fluid,
@@ -255,6 +275,14 @@ export default function FluidEquationsPage() {
         <p>Derive expressions for acceleration and mass</p>
         <p>Substitute into equation to get final Navier-Stokes</p>
         <p>Image of fluid as liquid and gas</p>
+        <h3>Appendix</h3>
+        <p id="ap-1">
+          The current view of the fluid is that of an Eulerian viewpoint. This
+          means
+        </p>
+        <a href="#apref-1" className="footnote">
+          ↩
+        </a>
         <h3>References</h3>
         <li id="fn-1">
           {" "}
