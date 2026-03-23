@@ -33,7 +33,7 @@ body {
 .link-button {
     background: none;
     border: none;
-    text-decoration: underline;
+    color:rgb(4, 80, 233);
     font-family: 'Garamond';
     cursor: pointer;
     padding: 0;

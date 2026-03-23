@@ -361,14 +361,178 @@ export default function FluidEquationsPage() {
           If you apply this simplification to the entire expression:
           <BlockMath math="dF_x = \rho\bar{\beta}_x dxdydz + \frac{\partial \sigma_{xx}}{\partial x} dxdydz + \frac{\tau_{yx}}{\partial y}dydxdz + \frac{\tau_{zx}}{\partial z}dzdydx" />
           <BlockMath math="dF_x = \lfloor\rho\bar{\beta}_x+ \frac{\partial \sigma_{xx}}{\partial x}+ \frac{\tau_{yx}}{\partial y} + \frac{\tau_{zx}}{\partial z}\rfloor dxdydz" />
+          And for the other directions:
+          <BlockMath math="dF_y = \lfloor\rho\bar{\beta}_y+ \frac{\partial \tau_{xy}}{\partial x}+ \frac{\sigma_{yy}}{\partial y} + \frac{\tau_{zy}}{\partial z}\rfloor dxdydz" />
+          <BlockMath math="dF_z = \lfloor\rho\bar{\beta}_z+ \frac{\partial \tau_{xz}}{\partial x}+ \frac{\tau_{yz}}{\partial y} + \frac{\sigma_{zz}}{\partial z}\rfloor dxdydz" />
         </p>
         <h4>Progress</h4>
-        We have defined the differential forces for the fluid, however this is
-        not the final version as eventually we want to relate the stresses to
-        <p>Substitute into Newton's second law</p>
-        <p>Expand stresses by relating to fluid rates of strain</p>
-        <p>Derive expressions for acceleration (material derivative)</p>
-        <p>Substitute into equation to get final Navier-Stokes</p>
+        <p>
+          <BlockMath math="\lfloor\rho\bar{\beta}_x+ \frac{\partial \sigma_{xx}}{\partial x}+ \frac{\tau_{yx}}{\partial y} + \frac{\tau_{zx}}{\partial z}\rfloor dxdydz = m\vec{a}_x" />
+          We have defined the differential forces for the fluid. When
+          substituted into Newton's second law, we can obtain the equation
+          above, again for the x direction only. Although this isn't actually
+          the final state for the left-side, I will expand the right{" "}
+          <InlineMath math="m\vec{a}" /> first because, when combined with the
+          current total force expression, it results in the general momentum
+          equation for all fluids.
+        </p>
+        <p>
+          The differential mass <InlineMath math="dm" /> is just the mass of a
+          differential volume so <InlineMath math="\rho dxdydz" />. The
+          acceleration is derived from something called the material derivative.
+          In order to grasp its derivation, I will start by discussing the two
+          ways to view fluids. The first is the Eulerian viewpoint.
+        </p>
+        <strong>Eulerian Viewpoint</strong>
+        This views the fluid with fixed locations in space, meaning if we wanted
+        to observe the behaviour of a fluid, you would view fixed points in the
+        fluid and measure its data at those points. This is actually how we have
+        viewed the fluid for all the previous work. Recall that I modelled a
+        fluid as being made up of differential control volumes and that I never
+        mentioned these control volumes moving within the fluid. This fits the
+        description of a fluid. Below I have shown two ways to visualise the
+        Eulerian viewpoint. Firstly are the fixed differential control volumes
+        (which are enlarged for visual purposes) that stay fixed in the cube.
+        The second is a flow where a little camera observes the fluid at a fixed
+        location.
+        <hr></hr>
+        <img
+          src="/images/fluids/Eulerian.png"
+          className="imgC"
+          title="stresses for x-direction with stress tensors"
+        />
+        <hr></hr>
+        <strong>Lagrangian Viewpoint</strong>
+        The other viewpoint views the fluid as being made up of moving 'fluid
+        parcels' that follow a similar trajectory to the fluid. It may be easier
+        to view fluids with the lagrangian viewpoint since I think its a more
+        natural interpretation of reality. I have again show the two ways of
+        visualising the lagrangian viewpoint below. Remember these 'fluid
+        parcels' are just approximations of fluid dynamics behaviour and by no
+        means are a reflection of reality.
+        <hr></hr>
+        <img
+          src="/images/fluids/Lagrangian.png"
+          className="imgC"
+          title="stresses for x-direction with stress tensors"
+        />
+        <p>
+          The reason I introduce this concept is to help with the derivation of
+          the material derivative, ultimately to help derive an expression for
+          the acceleration for the Navier-Stokes equation.
+        </p>
+        <strong>Material Derivative</strong>
+        <p>
+          Let's start by using the Lagrangian viewpoint and assume that at any
+          time we can query the particle's position as{" "}
+          <InlineMath math="\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}" />. This
+          particle is a part of an Eulerian velocity field that will move the
+          particle. We can then say after an infinitesimal amount of time, the
+          particle attains a new position given by:
+          <BlockMath math="\vec{r} + \Delta \vec{r} = (x + \Delta x)\hat{i} + (y + \Delta y)\hat{j} + (z + \Delta z)\hat{k}" />
+          Since the particle moved due to the velocity field, we can attribute
+          the velocity of the particle to be <InlineMath math="\vec{V}_p" />.
+          Therefore to calculate the change in velocity over the time change{" "}
+          <InlineMath math="\Delta t" />, we do:
+          <BlockMath math="\Delta \vec{V}_p = \vec{V}_p \biggm\vert_{t+\Delta} - \vec{V}_p \biggm\vert_{t}" />
+          <BlockMath math="\Delta \vec{V}_p = \vec{V}(x + \Delta x, y + \Delta y, z + \Delta z,t + \Delta t) - \vec{V}(x,y,z,t)" />
+          We apply the chain rule of differential calculus to get us:
+          <BlockMath math="\Delta \vec{V}_p =\frac{\partial \vec{V}}{\partial x} \Delta x_p + \frac{\partial \vec{V}}{\partial y}\Delta y_p + \frac{\partial \vec{V}}{\partial z}\Delta z_p + \frac{\partial \vec{V}}{\partial t} \Delta t" />
+          Each of the differential displacement components are composed of the
+          product of the local velocity component and{" "}
+          <InlineMath math="\Delta t" />. Lets expand each one:
+          <BlockMath math="\Delta \vec{V}_p =\frac{\partial \vec{V}}{\partial x} u\Delta t + \frac{\partial \vec{V}}{\partial y}v\Delta t + \frac{\partial \vec{V}}{\partial z}w\Delta t + \frac{\partial \vec{V}}{\partial t} \Delta t" />
+          <BlockMath math="\Delta \vec{V}_p =(\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t})\Delta t" />
+          <BlockMath math="\frac{\Delta \vec{V}_p}{\Delta t} =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
+          After dividing by the differential time change, take its limit as:{" "}
+          <InlineMath math="\Delta t \to 0" />
+          <BlockMath math="\lim\limits_{\Delta t \to 0}\frac{\Delta \vec{V}_p}{\Delta t} =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
+          This expression is the same as evaluating the{" "}
+          <strong>acceleration</strong> of the particle:
+          <BlockMath math="\vec{a}_p =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
+          Although we have finished deriving the acceleration which will be used
+          in the Navier-Stokes derivation, this equation can be generalised. If
+          you replace the velocity field with another property of the material,
+          we get the material derivative:
+          <BlockMath math="\frac{DF}{Dt}=\frac{\partial F}{\partial x} u + \frac{\partial F}{\partial y}v + \frac{\partial F}{\partial z}w + \frac{\partial F}{\partial t}" />
+          <BlockMath math="\frac{DF}{Dt} = (\vec{V} \cdot \nabla)F + \frac{\partial F}{\partial t}" />
+          Here <InlineMath math="F" /> is representative of a property of the
+          material and I have also included the vector form. It is now possible
+          to insert a property of the fluid into the material derivative in
+          order to establish its temporal changes.
+        </p>
+        <h5>* relating stresses to strain rates, newtonian fluids</h5>
+        <h5>* deriving rate-of-strain tensor in terms of spatial variations</h5>
+        <p>
+          Therefore, the stress equations for a Newtonian fluid are:
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\dot{\epsilon}_{xx} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
+          <BlockMath math="\sigma_{yy} = -p + 2\mu\dot{\epsilon}_{yy} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
+          <BlockMath math="\sigma_{zz} = -p + 2\mu\dot{\epsilon}_{zz} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
+          <BlockMath math="\tau_{xy} = 2\mu\dot{\epsilon}_{xy}" />
+          <BlockMath math="\tau_{yz} = 2\mu\dot{\epsilon}_{yz}" />
+          <BlockMath math="\tau_{zx} = 2\mu\dot{\epsilon}_{zx}" />
+          And After substituting the spatial variations for the rate-of-strain
+          tensors we get:
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
+          <BlockMath math="\tau_{xy} = \mu(\frac{\partial u}{\partial y} + \frac{\partial v}{\partial x}) = \tau_{yx}" />
+          <BlockMath math="\tau_{yz} = \mu(\frac{\partial v}{\partial z} + \frac{\partial w}{\partial y}) = \tau_{zx}" />
+          <BlockMath math="\tau_{zx} = \mu(\frac{\partial w}{\partial x} + \frac{\partial u}{\partial z}) = \tau_{zy}" />
+          To simplify, I use the divergence symbol where{" "}
+          <InlineMath math="\nabla \cdot \vec{V} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z}" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} + \lambda \nabla \cdot \vec{V}" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} + \lambda \nabla \cdot \vec{V}" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} + \lambda \nabla \cdot \vec{V}" />
+          <strong>Stokes Hypothesis</strong>
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
+          <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
+          Now we are able to substitute these Stokes simplified stress models.
+          Starting with the x direction:
+          <BlockMath math="\rho\beta_x + \frac{\partial}{\partial x} (-p + 2\mu \frac{\partial u}{\partial x} - \frac{2}{3} \mu \nabla \cdot \vec{V}) + \frac{\partial}{\partial y}[\mu(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y})] + \frac{\partial}{\partial z}[\mu(\frac{\partial u}{\partial z} + \frac{\partial w}{\partial x})]" />
+          Restric the fluid to one of constant viscosity,{" "}
+          <InlineMath math="\mu = " /> constant giving:
+          <BlockMath math="\rho\beta_x - \frac{\partial p}{\partial x} + \mu \frac{\partial}{\partial x}(2\frac{\partial u}{\partial x} - \frac{2}{3}\nabla \cdot \vec{V})+\mu\frac{\partial}{\partial y}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y}) + \mu\frac{\partial}{\partial z}(\frac{\partial u}{\partial z} + \frac{\partial w}{\partial x})" />
+          Expand the brackets and re-arrange
+          <BlockMath math="\rho\beta_x - \frac{\partial p}{\partial x} + 2\mu\frac{\partial^2u}{\partial x^2} - \frac{2\mu}{3}\frac{\partial}{\partial x} (\nabla \cdot \vec{V}) + \mu \frac{\partial^2 v}{\partial y \partial x} + \mu \frac{\partial^2 u}{\partial y^2} + \mu \frac{\partial^2 u}{\partial z^2} + \mu\frac{\partial^2 w}{\partial z \partial x}" />
+          Group and simplify terms
+          <BlockMath math="\rho\beta_x - \frac{\partial p}{\partial x} + \mu[\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2}] + \mu\frac{\partial}{\partial x}[\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z}] - \frac{2}{3}\mu \frac{\partial}{\partial x}(\nabla \cdot \vec{V})" />
+          We can simplify with the Laplacian and divergence operators:
+          <BlockMath math="\rho\beta_x -\frac{\partial p}{\partial x} + \mu \nabla^2 u + \frac{1}{3}\mu \frac{\partial}{\partial x} (\nabla \cdot \vec{V}) = \rho a_x" />
+          <BlockMath math="\rho\beta_y -\frac{\partial p}{\partial y} + \mu \nabla^2 v + \frac{1}{3}\mu \frac{\partial}{\partial y} (\nabla \cdot \vec{V}) = \rho a_y" />
+          <BlockMath math="\rho\beta_z -\frac{\partial p}{\partial z} + \mu \nabla^2 w + \frac{1}{3}\mu \frac{\partial}{\partial z} (\nabla \cdot \vec{V}) = \rho a_z" />
+          Combine the three directions
+          <BlockMath math="\rho \vec{\beta} - \nabla p + \mu\nabla^2 \vec{V} + \frac{1}{3}\mu \nabla (\nabla \cdot \vec{V}) = \rho \vec{a}" />
+          Expand the right side - the material derivative for the acceleration
+          <BlockMath math="\rho \vec{\beta} - \nabla p + \mu\nabla^2 \vec{V} + \frac{1}{3}\mu \nabla (\nabla \cdot \vec{V}) = \rho \frac{D\vec{V}}{Dt} " />
+          We can go further if we make more assumptions about the fluid. By
+          assuming an incompressible fluid, we know that from the continuity
+          equation reduced to <InlineMath math="\nabla \cdot \vec{V} = 0" />.
+          <BlockMath math="\rho \vec{\beta} - \nabla p + \mu \nabla^2 \vec{V} = \rho \frac{D\vec{V}}{Dt}" />
+          An incompressible flow means the density is constant. The equation
+          usually divides through by the density component:
+          <BlockMath math="\vec{\beta} - \frac{\nabla p}{\rho} + \nu \nabla^2 \vec{V} = \frac{D\vec{V}}{Dt}" />
+          We use <InlineMath math="\nu" /> as a shorthand for{" "}
+          <InlineMath math="\frac{\mu}{\rho}" />.
+        </p>
+        <p>
+          There are various other versions that you may see that are equivalent.
+          <BlockMath math="\frac{\partial v}{\partial t} + (v \cdot \nabla)v = -\frac{1}{\rho}\nabla p + \nu \nabla^2 v + g" />
+          This expands the material derivative, re-arranges the equation, and
+          sets the body force variable to gravity.
+        </p>
+        <p>
+          many fluids ar enot newtonian - no direct proportionality between
+          stresses and strain rates. this is the case for suspensions, or
+          mixtures containing solid particles (muddy water, dust in air, or
+          blood), the study of the relation between a stress applied on a
+          material and the resulting strains and strain rates is called rheology
+          3 reasons: 1. relation is non-linear: shampoo, wall paint, ketchup -
+          where the viscosity decreases when shear rate increases. 2. when shear
+          rate and stress depends on time. 3. mixture of viscous and elastic
+          responses.
+        </p>
         <h3>Appendix</h3>
         <p id="ap-math">
           To help with the mathematics used in fluid modelling, I would

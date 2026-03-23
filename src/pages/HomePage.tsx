@@ -48,7 +48,7 @@ function HomeContent() {
           studied Computer Science BSc. I will be joining the post-graduate
           course for{" "}
           <a href="https://www.imperial.ac.uk/study/courses/postgraduate-taught/computational-methods/">
-            CFD at Imperial College London
+            Advanced Computational Methods at Imperial College London
           </a>{" "}
           for 2026-2027. I'm interested in CFD, HPC, hardware, graphics and the
           intersection between those topics. I am also interested in their
