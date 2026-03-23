@@ -18,9 +18,19 @@ export default function FluidEquationsPage() {
           <InlineMath math="\to" /> particles <InlineMath math="\to" />{" "}
           computational fluid dynamics. Although I picked up some of the main
           intuition through some projects, I still lacked the crucial
-          understanding of the governing equations. I wanted to detail the
-          intuition behind the essential equations used to model fluids.
+          understanding of the governing equations. To me they simply just
+          existed, however I wanted/needed to know more. This blog seeks to
+          detail the intuition behind the essential equations used to model
+          fluids.
         </p>
+        <hr></hr>
+        <strong>Who this is for: </strong> If you are, like me, coming from a
+        background not from physics, I made this blog specifically with that in
+        mind. I place emphasis on visuals to help imprint certain concepts that
+        aren't exactly easy to process and avoid skipping over background
+        knowledge. I have tried to peel back as many layers as possible with
+        this derivation in order to detail the core understanding without making
+        the post too long.
         <h2>Modelling the Fluid</h2>
         <img
           src="/images/fluids/fluidgas.png"
@@ -39,7 +49,8 @@ export default function FluidEquationsPage() {
           reality as we know it to be and we instead go for more of an
           approximation of its general behaviour. You will find that in the
           following chapters, that for the equations, they rely on this
-          approximation and similarly make various assumptions about the fluid.
+          approximation and similarly make various assumptions about the fluid
+          for simplification.
         </p>
         {/*<p>
           For the following chapter on our first governing equation, I will
@@ -59,14 +70,13 @@ export default function FluidEquationsPage() {
         like velocity for each of these fluid parcels through space and time.
         <hr></hr> */}
         <h3>Continuity Equation</h3>
-        <h5>* Rewrite several parts here</h5>
-        <h5>* add labels to images</h5>
         <p>
           Our first governing equation describes how the mass of a fluid can be
           expressed for any volume of that fluid. Consider an arbitrary fixed
           volume of a fluid <InlineMath math="V" /> that has a surrounding
-          boundary surface <InlineMath math="S" />. To simply define the mass at
-          any point in time, we will derive the fluid version of{" "}
+          boundary surface <InlineMath math="\bold{S}" /> (here it's the six
+          faces of the cube). To simply define the mass at any point in time, we
+          will derive the fluid version of{" "}
           <InlineMath math="mass = density \times volume" />. Here, if we define
           the density and volume, it will enable us to find our first expression
           for the mass of a fluid.
@@ -80,32 +90,33 @@ export default function FluidEquationsPage() {
           In the image, I have shown a possible example of a volume of fluid.
           Although it is shown as a cube, this can really be any shape and while
           it can be a small chunk of a fluid, it can also be the entire fluid
-          itself - the equation is volume independent. To evaluate the mass of 
+          itself - the equation is volume independent. To evaluate the mass of
           this volume, you can't just say that{" "}
           <InlineMath math="m = \rho \times V" />, where{" "}
-          <InlineMath math="\rho" /> is a density value. This is because the
-          density isn't identical throughout the volume. We know it's impossible
-          to sum the density of every single particle, instead we break up the
-          volume into differential control volumes - region in space with its
-          size shrinked to zero. By summing the mass of each differential
-          control volume element <InlineMath math="\rho d\bold{V}" />, over the
-          region yields the total mass.
+          <InlineMath math="\rho" /> would be the density of the volume. This is
+          because the density isn't identical throughout the volume. A fluid
+          doesn't have the particle structure a solid would. One way to get the
+          density of the volume, would be to sum all the densities of every
+          single particle. However, we know this is not possible, instead we
+          break up the volume into differential control volumes - a region in
+          space with its size shrinked towards zero (very very small). The{" "}
+          <InlineMath math="dV" /> in the next image is a simplified visual of a
+          differential control volume inside the overall volume. By summing the
+          mass of each differential control volume element{" "}
+          <InlineMath math="\rho d\bold{V}" />, over the region, yields the
+          total mass:
           <BlockMath math="m = \iiint_V \rho\ dV" /> Whilst finding an
           expression for the total mass is useful, we are more interested in
-          defining how the mass changes over time. I introduced the variable for
-          the volume's outer surface <InlineMath math="S" /> and it's very
-          reasonable to say that the mass change over time depends on the amount
-          of mass leaving and entering this volume. For this expression, I first
-          define a variable for the control surface that is perpendicular to the
-          outer boundary and pointing outwards <InlineMath math="d\bold{S}" />.
-          This is a shorthand for <InlineMath math="\bold{n} dS" />, where{" "}
-          <InlineMath math="\bold{n}" /> is the outward pointing unit normal of
-          the surface <InlineMath math="dS" />. The crucial evaluation to make
-          is that taking the dot product of the velocity vector{" ("}
-          <InlineMath math="\bold{v}" />) at the position{" "}
-          <InlineMath math="d\bold{S}" /> and multiplying that with the density
-          at that point, we derive an expression for the mass leaving the volume
-          at a specific control surface :{" "}
+          defining how the mass changes over time. This is simply based on the
+          amount of mass leaving and entering the volume. This mass 'flux' can
+          only occur at the boundary surface of the volume. For this expression,
+          we apply similar logic to the total mass equation and we first look at
+          the change in mass at a differential control surface located at the
+          volume's boundary <InlineMath math="d\bold{S}" />. To do so, the
+          crucial step is to evaluate that by taking the dot product of the
+          velocity vector at the surface boundary and multiplying that by the
+          density at the surface boundary, gives you the change in mass at that
+          differential control surface:{" "}
           <InlineMath math="\rho \bold{v} \cdot d\bold{S}" />
         </p>
         <img
@@ -114,32 +125,36 @@ export default function FluidEquationsPage() {
           title="simplified visual of dV and dS"
         />
         <p>
+          Don't pay too much attention to the shape and size of these
+          differential control volumes/surfaces.
           <BlockMath math="\frac{d}{dt} \iiint_V \rho \ dV = -\oiint_S \rho \bold{v} \cdot d\bold{S}" />
           The next evaluation to make is to relate the time rate of change of
-          the total mass to be equal to the negative sum of the masses that
-          leave and enter every control surface facing outward on the boundary
-          The circle inside the integral <InlineMath math="\oiint" /> means the
-          surface we integrate over must be closed. We take the negative as to
-          only evaluate the mass changes inside the volume. <hr></hr> The next
-          step involves the use of the Gauss Divergence theorem. If you are
-          unfamiliar with Gauss's theorem, I will explain it here but feel free
-          to find a more in-depth explanation elsewhere. It states that "the
-          surface integral of a vector field over a closed surface, otherwise
-          known as the 'flux' through the surface, is equal to the volume
-          integral of the divergence over the region enclosed by the surface".
-          Given the volume <InlineMath math="V" />, with a boundary{" "}
-          <InlineMath math="S" />, consider a continuously differentiable vector
-          field <InlineMath math="\bold{F}" /> then the theorem states:
+          the total mass to be equal to the negative <strong>sum</strong> of the
+          mass that leaves and enters every control surface facing outward on
+          the boundary. The circle inside the integral{" "}
+          <InlineMath math="\oiint" /> means the surface we integrate over must
+          be closed. We take the negative as to only evaluate the mass changes
+          inside the volume. <hr></hr> The next step involves the use of the
+          Gauss Divergence theorem. If you are unfamiliar with Gauss's theorem,
+          I will explain it here but feel free to find a more in-depth
+          explanation elsewhere. It states that "the surface integral of a
+          vector field over a closed surface, otherwise known as the 'flux'
+          through the surface, is equal to the volume integral of the divergence
+          over the region enclosed by the surface". Given the volume{" "}
+          <InlineMath math="V" />, with a boundary <InlineMath math="S" />,
+          consider a continuously differentiable vector field{" "}
+          <InlineMath math="\bold{F}" />, then the theorem states:
           <BlockMath math="\oiint_S (\bold{F} \cdot \hat{n}) \ dS = \iiint_V (\nabla \cdot \bold{F})\ dV" />
           I hope you see the resemblence of the left-hand side of Gauss's
           theorem to the right-hand side of the current expression we have,
-          shown before. I show it here explicitly:
+          shown before. I show the relationship here:
           <BlockMath math="-\oiint_S \rho \bold{v} \cdot d\bold{S} \xrightarrow{\text{Gauss}} -\iiint_V (\nabla \cdot \rho \bold{v})\ dV" />
           If you are unsure about mathematical symbols such as the 'del'
           operator <InlineMath math="\nabla" />, divergence{" "}
           <InlineMath math="\nabla \cdot\bold{F}" /> and gradient{" "}
-          <InlineMath math="\nabla f" /> it would be beneficial. I will attach
-          some resources that may provide a good introduction to them{" "}
+          <InlineMath math="\nabla f" /> it would be beneficial to learn these
+          before diving into the rest of the blog. I will attach some resources
+          that may provide a good introduction to them{" "}
           <a href="#ap-math" id="mathref" className="footnote">
             here
           </a>
@@ -150,7 +165,7 @@ export default function FluidEquationsPage() {
           take the right side and bring over to the left and simplify.
           <BlockMath math="\iiint_V \frac{\partial \rho}{\partial t} dV + \iiint_V (\nabla \cdot \rho\bold{v}) \ dV = 0" />
           <BlockMath math="\iiint_V [\frac{\partial \rho}{\partial t} + \nabla \cdot (\rho\bold{v})]\ dV = 0" />
-          The final step is to infer that whilst we have clearly stated the
+          The final step involves knowing that whilst we have clearly stated the
           volume here, this expression is valid for any volume{" "}
           <InlineMath math="V" /> and therefore we can simplify the expression
           to:
@@ -186,18 +201,17 @@ export default function FluidEquationsPage() {
           in the opposite direction found it tough, I would recommend checking
           out the appendix for a different derivation of the continuity
           equation. The current method follows an Eulerian viewpoint of the
-          fluid whilst this other derivation follows a Lagrangian viewpoint. If
-          these new words seem interesting or you want to learn more, check out
-          the appendix{" "}
+          fluid whilst this other derivation follows a Lagrangian viewpoint.
+          These viewpoints will be explained later, however you can find a
+          premature introduction{" "}
           <a href="#ap-1" id="apref-1" className="footnote">
             here
           </a>{" "}
-          to find out more!
         </p>
         <h3>Momentum Equation (Navier-Stokes)</h3>
         <p>
           The most well known equation for modelling fluids, the momentum
-          equation describes Newton's second law of motion for a fluid. To be
+          equation, describes Newton's second law of motion for a fluid. To be
           complete, I will recall it to be{" "}
           <InlineMath math="\sum \bold{F} = m\bold{a}" />. To derive an
           expression for fluids, I will go through how we define each component
@@ -238,8 +252,9 @@ export default function FluidEquationsPage() {
         boundary at the top and a fluid in between. Any fluids moving along a
         solid boundary will incur a shear stress at that boundary. Below, you
         can visualise the shear stress forces inside the fluid, tangent to the
-        upper surface. Note that the tau operator next to the shear stress
-        lable, we use it to represent a shear stress.
+        upper surface. Note that the τ operator next to the shear stress label
+        is used to represent a shear stress and will be used later on so keep it
+        in mind!
         <img
           src="/images/fluids/couetteflow.png"
           className="imgC"
@@ -255,7 +270,7 @@ export default function FluidEquationsPage() {
         container as it pushes perpendicular to the surface boundaries.
         <hr></hr>
         <p>
-          <strong>Modelling Surface forces for a differential element</strong>
+          <strong>Modelling Surface forces for a Differential Element</strong>
         </p>
         <p>
           To model all the surface forces (stresses) for our fluid, we must
@@ -274,11 +289,12 @@ export default function FluidEquationsPage() {
         />
         <p>
           The volume <InlineMath math="dxdydz" /> contains stresses for each
-          direction and for each surface. The shear stresses are the forces that
-          are tangent to the surfaces (in red) and the normal stresses are
+          direction and for each surface/face. The shear stresses are the forces
+          that are tangent to the surface (in red) and the normal stresses are
           perpendicular (in green). For the following sections, I will only run
           through the derivation for the <InlineMath math="x" /> direction.
-          However, it will all apply to the other directions.
+          However, note the following will apply similarly to the other
+          directions.
         </p>
         <img
           src="/images/fluids/elementwithstresses.png"
@@ -291,27 +307,29 @@ export default function FluidEquationsPage() {
           represent normal stresses and <InlineMath math="\tau" /> to represent
           shear stresses. To explain the stress tensor, the first subscript{" "}
           <InlineMath math="i" /> represents the direction of the normal of the
-          stress's surface. For <InlineMath math="\sigma_{xx}" /> the first
-          subscript is <InlineMath math="x" /> because the normal to the left
-          and right faces is in the x direction. The second subscript is the
-          direction of the stress so every stress in this image would have{" "}
-          <InlineMath math="x" /> as the second subscript. You would have
-          noticed that the stresses in the positive direction of x have an extra
-          component (i.e.{" "}
+          stress's surface. For example with <InlineMath math="\sigma_{xx}" />,
+          the first subscript is <InlineMath math="x" /> because the normal to
+          the left and right faces is in the x direction. The second subscript
+          represents the direction of the stress and because all stresses are
+          facing in either the negative or positive x direction, every stress in
+          this image would have <InlineMath math="x" /> as the second subscript.
+          You may have noticed that the stresses in the positive direction of x
+          have an extra component (i.e.{" "}
           <InlineMath math="\frac{\partial \sigma_{xx}}{\partial x} dx" />
           ). This is because those stresses include their spatial variation
-          across the differential element. This is characterised with the
-          truncated Taylor series. In order to characterise the stresses with
-          their respective surfaces, we multiply them by their corresponding
-          surface area. So for the stress <InlineMath math="\sigma_{xx}" /> it
-          will be multiplied by <InlineMath math="dydz" /> since that is the
-          surface area of the left/right faces. <hr></hr> If you are unfamiliar
-          with the truncated Taylor series, I will give a brief explanation
-          here. Assume that we know the value of a function, say{" "}
+          across the differential element which is characterised with the
+          truncated Taylor series - explained a little further ahead if were
+          unsure. In order to characterise the stresses with their entire
+          respective surface, we multiply them by their corresponding surface
+          area. So for the stress <InlineMath math="\sigma_{xx}" />, it will be
+          multiplied by <InlineMath math="dydz" /> since that is the surface
+          area of the left/right faces. <hr></hr> If you are unfamiliar with the
+          truncated Taylor series, I will give a brief explanation here. Assume
+          that we know the value of a function, say{" "}
           <InlineMath math="F(x,y,z)" />, at a specific spatial location{" "}
           <InlineMath math="(x,y,z)" />, we should be able to determine the
           value of the function at a differential distance, say{" "}
-          <InlineMath math="\Delta x" />, to be:
+          <InlineMath math="\Delta x" />, to be (using the Taylor series):
           <BlockMath math="F(x + \Delta x, y,z) =F(x,y,z) + \frac{\partial F}{\partial x} \Delta x + \frac{1}{2!} \frac{\partial^2 F}{\partial x^2}(\Delta x)^2 + \frac{1}{3!} \frac{\partial^3 F}{\partial x^3}(\Delta x)^3 + ..." />
           We use the logic that if <InlineMath math="\Delta x" /> is very small,
           then higher powers <InlineMath math="\Delta x^2" />,{" "}
@@ -329,10 +347,10 @@ export default function FluidEquationsPage() {
           <InlineMath math="\sigma_{xx}" /> across the differential distance{" "}
           <InlineMath math="dx" />, it would result in{" "}
           <InlineMath math="\sigma_{xx} + \frac{\partial \sigma_{xx}}{\partial x}dx" />{" "}
-          where we substitute <InlineMath math="\sigma_{xx}" /> as the function{" "}
+          where we substituted <InlineMath math="\sigma_{xx}" /> as the function{" "}
           <InlineMath math="F" />. <hr></hr> Now that we have determined all the
           surface forces for a fluid (given we added the stress tensors for the
-          other directions as well), It is time to move onto defining the
+          other directions as well), It is time to move on to defining the
           fluid's body forces.
         </p>
         <h4>Body Forces</h4>
@@ -343,7 +361,8 @@ export default function FluidEquationsPage() {
           examples. To simplify the forces, we accumulate them into a single
           directional force field <InlineMath math="\bar{\beta}_x" /> that
           represents all the body forces in the x direction. We multiply this by
-          the density and volume of the differential control volume.
+          the density and volume of the differential control volume resulting in
+          the total body force vector.
         </p>
         <img
           src="/images/fluids/surface+bodyforces.png"
@@ -354,11 +373,11 @@ export default function FluidEquationsPage() {
           Here I have shown the calculation for the total forces for the x
           direction. I hope it clearly shows how the stresses are being summed
           and by multiplying by the surface area we cover the entire
-          differential control volume. Lets simplify this expression, for the
+          differential control volume. Lets simplify this expression: for the
           surface pairs, we can expand and cancel out terms, shown below for the
           x direction:
           <BlockMath math="\sout{\sigma_{xx}dydz} + \frac{\partial \sigma_{xx}}{\partial x}dxdydz \sout{- \sigma_{xx}dydz}" />
-          If you apply this simplification to the entire expression:
+          If you apply this simplification to the entire expression it leaves:
           <BlockMath math="dF_x = \rho\bar{\beta}_x dxdydz + \frac{\partial \sigma_{xx}}{\partial x} dxdydz + \frac{\tau_{yx}}{\partial y}dydxdz + \frac{\tau_{zx}}{\partial z}dzdydx" />
           <BlockMath math="dF_x = \lfloor\rho\bar{\beta}_x+ \frac{\partial \sigma_{xx}}{\partial x}+ \frac{\tau_{yx}}{\partial y} + \frac{\tau_{zx}}{\partial z}\rfloor dxdydz" />
           And for the other directions:
@@ -372,29 +391,29 @@ export default function FluidEquationsPage() {
           substituted into Newton's second law, we can obtain the equation
           above, again for the x direction only. Although this isn't actually
           the final state for the left-side, I will expand the right{" "}
-          <InlineMath math="m\vec{a}" /> first because, when combined with the
+          <InlineMath math="m\vec{a}" /> first, because when combined with the
           current total force expression, it results in the general momentum
           equation for all fluids.
         </p>
         <p>
           The differential mass <InlineMath math="dm" /> is just the mass of a
-          differential volume so <InlineMath math="\rho dxdydz" />. The
-          acceleration is derived from something called the material derivative.
-          In order to grasp its derivation, I will start by discussing the two
-          ways to view fluids. The first is the Eulerian viewpoint.
+          differential volume so we can quickly evaluate it to be{" "}
+          <InlineMath math="\rho dxdydz" />. The acceleration is derived from
+          something called the material derivative. In order to grasp its
+          derivation, I will start by discussing the two ways to view fluids.
+          The first is the Eulerian viewpoint.
         </p>
         <strong>Eulerian Viewpoint</strong>
         This views the fluid with fixed locations in space, meaning if we wanted
         to observe the behaviour of a fluid, you would view fixed points in the
-        fluid and measure its data at those points. This is actually how we have
-        viewed the fluid for all the previous work. Recall that I modelled a
-        fluid as being made up of differential control volumes and that I never
-        mentioned these control volumes moving within the fluid. This fits the
-        description of a fluid. Below I have shown two ways to visualise the
-        Eulerian viewpoint. Firstly are the fixed differential control volumes
-        (which are enlarged for visual purposes) that stay fixed in the cube.
-        The second is a flow where a little camera observes the fluid at a fixed
-        location.
+        fluid and measure its data at those points through time. This is
+        actually how we have been viewing the fluid for all the previous work as
+        the differential control volumes were all assumed to be fixed in space.
+        Below I have shown two ways to visualise the Eulerian viewpoint.
+        Firstly, the cube shows the fixed differential control volumes we have
+        looked at before which stay fixed in position through time. The second
+        is a flow where a little camera observes the fluid at a fixed location.
+        Just two ways to understand the Eulerian viewpoint.
         <hr></hr>
         <img
           src="/images/fluids/Eulerian.png"
@@ -405,8 +424,8 @@ export default function FluidEquationsPage() {
         <strong>Lagrangian Viewpoint</strong>
         The other viewpoint views the fluid as being made up of moving 'fluid
         parcels' that follow a similar trajectory to the fluid. It may be easier
-        to view fluids with the lagrangian viewpoint since I think its a more
-        natural interpretation of reality. I have again show the two ways of
+        to view fluids with the lagrangian viewpoint since it may seem like a
+        more natural interpretation of reality. I have again shown two ways of
         visualising the lagrangian viewpoint below. Remember these 'fluid
         parcels' are just approximations of fluid dynamics behaviour and by no
         means are a reflection of reality.
@@ -424,23 +443,24 @@ export default function FluidEquationsPage() {
         <strong>Material Derivative</strong>
         <p>
           Let's start by using the Lagrangian viewpoint and assume that at any
-          time we can query the particle's position as{" "}
+          time we can query the particle's position to be{" "}
           <InlineMath math="\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}" />. This
-          particle is a part of an Eulerian velocity field that will move the
+          particle is part of an Eulerian velocity field that will move the
           particle. We can then say after an infinitesimal amount of time, the
           particle attains a new position given by:
           <BlockMath math="\vec{r} + \Delta \vec{r} = (x + \Delta x)\hat{i} + (y + \Delta y)\hat{j} + (z + \Delta z)\hat{k}" />
           Since the particle moved due to the velocity field, we can attribute
-          the velocity of the particle to be <InlineMath math="\vec{V}_p" />.
-          Therefore to calculate the change in velocity over the time change{" "}
-          <InlineMath math="\Delta t" />, we do:
+          the velocity of the particle to be <InlineMath math="\vec{V}_p" /> and
+          use it to further calculate the velocity change over time{" "}
+          <InlineMath math="\Delta t" />:
           <BlockMath math="\Delta \vec{V}_p = \vec{V}_p \biggm\vert_{t+\Delta} - \vec{V}_p \biggm\vert_{t}" />
           <BlockMath math="\Delta \vec{V}_p = \vec{V}(x + \Delta x, y + \Delta y, z + \Delta z,t + \Delta t) - \vec{V}(x,y,z,t)" />
           We apply the chain rule of differential calculus to get us:
           <BlockMath math="\Delta \vec{V}_p =\frac{\partial \vec{V}}{\partial x} \Delta x_p + \frac{\partial \vec{V}}{\partial y}\Delta y_p + \frac{\partial \vec{V}}{\partial z}\Delta z_p + \frac{\partial \vec{V}}{\partial t} \Delta t" />
-          Each of the differential displacement components are composed of the
-          product of the local velocity component and{" "}
-          <InlineMath math="\Delta t" />. Lets expand each one:
+          Each of the differential displacement components (e.g.{" "}
+          <InlineMath math="\Delta x_p" />) are composed of the product of the
+          local velocity component and <InlineMath math="\Delta t" />. Lets
+          expand each one and simplify:
           <BlockMath math="\Delta \vec{V}_p =\frac{\partial \vec{V}}{\partial x} u\Delta t + \frac{\partial \vec{V}}{\partial y}v\Delta t + \frac{\partial \vec{V}}{\partial z}w\Delta t + \frac{\partial \vec{V}}{\partial t} \Delta t" />
           <BlockMath math="\Delta \vec{V}_p =(\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t})\Delta t" />
           <BlockMath math="\frac{\Delta \vec{V}_p}{\Delta t} =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
@@ -448,7 +468,9 @@ export default function FluidEquationsPage() {
           <InlineMath math="\Delta t \to 0" />
           <BlockMath math="\lim\limits_{\Delta t \to 0}\frac{\Delta \vec{V}_p}{\Delta t} =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
           This expression is the same as evaluating the{" "}
-          <strong>acceleration</strong> of the particle:
+          <strong>acceleration</strong> of the particle, if you didn't know
+          acceleration is the time rate of change of velocity which itself is
+          the the time rate of change of position:
           <BlockMath math="\vec{a}_p =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
           Although we have finished deriving the acceleration which will be used
           in the Navier-Stokes derivation, this equation can be generalised. If
@@ -457,12 +479,32 @@ export default function FluidEquationsPage() {
           <BlockMath math="\frac{DF}{Dt}=\frac{\partial F}{\partial x} u + \frac{\partial F}{\partial y}v + \frac{\partial F}{\partial z}w + \frac{\partial F}{\partial t}" />
           <BlockMath math="\frac{DF}{Dt} = (\vec{V} \cdot \nabla)F + \frac{\partial F}{\partial t}" />
           Here <InlineMath math="F" /> is representative of a property of the
-          material and I have also included the vector form. It is now possible
-          to insert a property of the fluid into the material derivative in
-          order to establish its temporal changes.
+          material. I have also included the vector form using the divergence
+          operator. It is now possible to insert a property of the fluid into
+          the material derivative in order to establish its temporal changes. We
+          will only be using the material derivative of the velocity
+          (acceleration).
         </p>
-        <h5>* relating stresses to strain rates, newtonian fluids</h5>
-        <h5>* deriving rate-of-strain tensor in terms of spatial variations</h5>
+        <h4>General form of the Momentum Equation</h4>
+        <p>
+          <BlockMath math="[\rho \beta_x + \frac{\partial \sigma_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z}]dxdydz = \rho dxdydz[\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + w\frac{\partial u}{\partial z}]" />
+          We can divide by the volume of the differential control volume:
+          <BlockMath math="\rho \beta_x + \frac{\partial \sigma_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} = \rho [\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + w\frac{\partial u}{\partial z}]" />
+          <BlockMath math="\rho \beta_y + \frac{\partial \tau_{xy}}{\partial x} + \frac{\partial \sigma_{yy}}{\partial y} + \frac{\partial \tau_{zy}}{\partial z} = \rho [\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + w\frac{\partial v}{\partial z}]" />
+          <BlockMath math="\rho \beta_z + \frac{\partial \tau_{xz}}{\partial x} + \frac{\partial \tau_{yz}}{\partial y} + \frac{\partial \sigma_{zz}}{\partial z} = \rho [\frac{\partial w}{\partial t} + u\frac{\partial w}{\partial x} + v\frac{\partial w}{\partial y} + w\frac{\partial w}{\partial z}]" />
+          And combined becomes the Cauchy momentum equation, where the stress
+          tensors get combined into the divergence of the Cauchy stress tensor:
+          <BlockMath math="\rho\beta + \nabla \cdot \bold{\sigma} = \rho \frac{D\vec{V}}{Dt}" />
+          Here we have the momentum equation at its most general form. The
+          material derivative has been condensed into its shorter form. As in
+          this form, its generality means it applies to any fluid, regardless of
+          its properties, but it also means it will be the hardest to solve. It
+          is common to make further assumptions about the fluid, especially if
+          it doesn't necessarily limit the types of fluids we can model but
+          allows us to solve the equations easier. This is how we will
+          eventually obtain the Navier-Stokes equation that we usually see.
+        </p>
+        <h5>LAST PART</h5>
         <p>
           Therefore, the stress equations for a Newtonian fluid are:
           <BlockMath math="\sigma_{xx} = -p + 2\mu\dot{\epsilon}_{xx} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
@@ -471,7 +513,10 @@ export default function FluidEquationsPage() {
           <BlockMath math="\tau_{xy} = 2\mu\dot{\epsilon}_{xy}" />
           <BlockMath math="\tau_{yz} = 2\mu\dot{\epsilon}_{yz}" />
           <BlockMath math="\tau_{zx} = 2\mu\dot{\epsilon}_{zx}" />
-          And After substituting the spatial variations for the rate-of-strain
+        </p>
+        <h5>Spatial variations for the rate-of-strain tensor</h5>
+        <p>
+          And after substituting the spatial variations for the rate-of-strain
           tensors we get:
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
@@ -488,11 +533,12 @@ export default function FluidEquationsPage() {
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
-          Now we are able to substitute these Stokes simplified stress models.
-          Starting with the x direction:
+          Now we are able to substitute these Stokes simplified stress models
+          into their positions within the momentum equation. Starting with the x
+          direction:
           <BlockMath math="\rho\beta_x + \frac{\partial}{\partial x} (-p + 2\mu \frac{\partial u}{\partial x} - \frac{2}{3} \mu \nabla \cdot \vec{V}) + \frac{\partial}{\partial y}[\mu(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y})] + \frac{\partial}{\partial z}[\mu(\frac{\partial u}{\partial z} + \frac{\partial w}{\partial x})]" />
-          Restric the fluid to one of constant viscosity,{" "}
-          <InlineMath math="\mu = " /> constant giving:
+          Restrict the fluid to one of constant viscosity{" "}
+          <InlineMath math="\mu" />, giving:
           <BlockMath math="\rho\beta_x - \frac{\partial p}{\partial x} + \mu \frac{\partial}{\partial x}(2\frac{\partial u}{\partial x} - \frac{2}{3}\nabla \cdot \vec{V})+\mu\frac{\partial}{\partial y}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y}) + \mu\frac{\partial}{\partial z}(\frac{\partial u}{\partial z} + \frac{\partial w}{\partial x})" />
           Expand the brackets and re-arrange
           <BlockMath math="\rho\beta_x - \frac{\partial p}{\partial x} + 2\mu\frac{\partial^2u}{\partial x^2} - \frac{2\mu}{3}\frac{\partial}{\partial x} (\nabla \cdot \vec{V}) + \mu \frac{\partial^2 v}{\partial y \partial x} + \mu \frac{\partial^2 u}{\partial y^2} + \mu \frac{\partial^2 u}{\partial z^2} + \mu\frac{\partial^2 w}{\partial z \partial x}" />
@@ -505,10 +551,13 @@ export default function FluidEquationsPage() {
           Combine the three directions
           <BlockMath math="\rho \vec{\beta} - \nabla p + \mu\nabla^2 \vec{V} + \frac{1}{3}\mu \nabla (\nabla \cdot \vec{V}) = \rho \vec{a}" />
           Expand the right side - the material derivative for the acceleration
-          <BlockMath math="\rho \vec{\beta} - \nabla p + \mu\nabla^2 \vec{V} + \frac{1}{3}\mu \nabla (\nabla \cdot \vec{V}) = \rho \frac{D\vec{V}}{Dt} " />
-          We can go further if we make more assumptions about the fluid. By
-          assuming an incompressible fluid, we know that from the continuity
-          equation reduced to <InlineMath math="\nabla \cdot \vec{V} = 0" />.
+          <BlockMath math="\rho \vec{\beta} - \nabla p + \mu\nabla^2 \vec{V} + \frac{1}{3}\mu \nabla (\nabla \cdot \vec{V}) = \rho \frac{D\vec{V}}{Dt}" />
+          Now this is the momentum equation for Newtonian fluids. We can
+          simplify the equation futher if we make more assumptions about the
+          fluid. By assuming an incompressible fluid, we know that from the
+          continuity equation reduced to{" "}
+          <InlineMath math="\nabla \cdot \vec{V} = 0" />. This means the
+          divergence of the velocity term can be removed.
           <BlockMath math="\rho \vec{\beta} - \nabla p + \mu \nabla^2 \vec{V} = \rho \frac{D\vec{V}}{Dt}" />
           An incompressible flow means the density is constant. The equation
           usually divides through by the density component:
@@ -520,7 +569,7 @@ export default function FluidEquationsPage() {
           There are various other versions that you may see that are equivalent.
           <BlockMath math="\frac{\partial v}{\partial t} + (v \cdot \nabla)v = -\frac{1}{\rho}\nabla p + \nu \nabla^2 v + g" />
           This expands the material derivative, re-arranges the equation, and
-          sets the body force variable to gravity.
+          assumes the body force to be just the gravity force.
         </p>
         <p>
           many fluids ar enot newtonian - no direct proportionality between
