@@ -30,7 +30,9 @@ export default function FluidEquationsPage() {
         aren't exactly easy to process and avoid skipping over background
         knowledge. I have tried to peel back as many layers as possible with
         this derivation in order to detail the core understanding without making
-        the post too long.
+        the post too long. This post may go through the content in a rather
+        unconventional manner however, I hope that it helps clarify the
+        derivation of the equations in the same way that it helped me.
         <h2>Modelling the Fluid</h2>
         <img
           src="/images/fluids/fluidgas.png"
@@ -504,7 +506,7 @@ export default function FluidEquationsPage() {
           allows us to solve the equations easier. This is how we will
           eventually obtain the Navier-Stokes equation that we usually see.
         </p>
-        <h5>LAST PART</h5>
+        <h4></h4>
         <p>
           Therefore, the stress equations for a Newtonian fluid are:
           <BlockMath math="\sigma_{xx} = -p + 2\mu\dot{\epsilon}_{xx} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />

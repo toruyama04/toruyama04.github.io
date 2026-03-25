@@ -6,6 +6,8 @@ import "./HomePage.css";
 import { useEffect, useRef } from "react";
 import AIPage from "./Blog/AI.tsx";
 import FluidEquationsPage from "./Blog/FluidEngine.tsx";
+import MediaPage from "./MediaPage.tsx";
+import Week1Media from "./Media/week1.tsx";
 
 const frames = [
   "images/homepage/1.png",
@@ -68,6 +70,11 @@ function HomeContent() {
         <li>
           <Link to="/interests">
             <button className="link-button">Interests</button>
+          </Link>
+        </li>
+        <li>
+          <Link to="/media">
+            <button className="link-button">Media</button>
           </Link>
         </li>
       </ul>
@@ -138,6 +145,9 @@ export default function HomePage() {
       <Route path="/blog" element={<BlogHomePage />}>
         <Route path="Fluid" element={<FluidEquationsPage />} />
         <Route path="AI" element={<AIPage />} />
+      </Route>
+      <Route path="/media" element={<MediaPage />}>
+        <Route path="w1" element={<Week1Media />} />
       </Route>
     </Routes>
   );
