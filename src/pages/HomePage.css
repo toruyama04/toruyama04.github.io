@@ -26,6 +26,7 @@ body {
 .animation_frame {
     display: block;
     max-width: 35%;
+    min-width: 400px;
     height: auto;
     margin: auto
 }
@@ -61,4 +62,25 @@ body {
 
 .page-bottom {
     margin-bottom: 30px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fps-label {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    margin-top: 4px;
+    transform: translateY(6px);
+}
+
+.slider-container:hover .fps-label {
+    opacity: 1;
+}
+
+.slider {
+    width: 100px;
 }

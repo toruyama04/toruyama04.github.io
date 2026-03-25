@@ -3,7 +3,7 @@ import ProjectsPage from "./Projects";
 import InterestsPage from "./Interests";
 import BlogHomePage from "./BlogHome";
 import "./HomePage.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import AIPage from "./Blog/AI.tsx";
 import FluidEquationsPage from "./Blog/FluidEngine.tsx";
 import MediaPage from "./MediaPage.tsx";
@@ -35,16 +35,24 @@ const frames = [
   "images/homepage/23.png",
   "images/homepage/24.png",
 ];
-const FPS = 12;
-const FRAME_DURATION = 1000 / FPS;
 
 function HomeContent() {
+  const [fps, setFps] = useState(12);
   return (
     <>
-      {/* <h1 className="header">Toru Yamaguchi</h1>
-      <p className="header2">透 山口</p> */}
-      <CanvasAnimation />
+      <CanvasAnimation fps={fps} />
       <ul className="contents">
+        <div className="slider-container">
+          <input
+            type="range"
+            min="1"
+            max="30"
+            value={fps}
+            onChange={(e) => setFps(Number(e.target.value))}
+            className="slider"
+          />
+          <p className="fps-label">{fps} FPS</p>
+        </div>
         <p>
           Hi there, I'm a recent graduate of the University of Birmingham who
           studied Computer Science BSc. I will be joining the post-graduate
@@ -68,13 +76,13 @@ function HomeContent() {
           </Link>
         </li>
         <li>
-          <Link to="/interests">
-            <button className="link-button">Interests</button>
+          <Link to="/media">
+            <button className="link-button">Media</button>
           </Link>
         </li>
         <li>
-          <Link to="/media">
-            <button className="link-button">Media</button>
+          <Link to="/interests">
+            <button className="link-button">Interests</button>
           </Link>
         </li>
       </ul>
@@ -82,7 +90,11 @@ function HomeContent() {
   );
 }
 
-export function CanvasAnimation() {
+type CanvasAnimationProps = {
+  fps: number;
+};
+
+export function CanvasAnimation({ fps }: CanvasAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -101,6 +113,8 @@ export function CanvasAnimation() {
       img.src = src;
       return img;
     });
+
+    const FRAME_DURATION = 1000 / fps;
 
     const loop = (time: number) => {
       if (!lastTime) lastTime = time;
@@ -124,15 +138,17 @@ export function CanvasAnimation() {
     };
     animationId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(animationId);
-  }, []);
+  }, [fps]);
 
   return (
-    <canvas
-      className="animation_frame"
-      ref={canvasRef}
-      width={2786}
-      height={1422}
-    />
+    <div>
+      <canvas
+        className="animation_frame"
+        ref={canvasRef}
+        width={2786}
+        height={1422}
+      />
+    </div>
   );
 }
 

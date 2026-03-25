@@ -9,24 +9,20 @@ export default function InterestsPage() {
       </Link>
 
       <div className="contents">
-        <p>updated 12/01/26</p>
+        <p>updated 25/03/26</p>
         <h3 className="sub-header">Topics</h3>
         <ul>
-          <li>Fluid Simulation</li>
-          <li>HPC with GPU</li>
+          <li>Computational Fluid Dynamics</li>
+          <li>High Performance Computing</li>
+          <li>Hardware - GPU</li>
+          <li>Graphics Programming</li>
         </ul>
 
         <h3 className="sub-header">Hobbies</h3>
         <ul>
           <li>Tennis</li>
           <li>Philosophy</li>
-          <li>Cooking</li>
-          <li>Games</li>
-          <ul>
-            <li>League of Legends</li>
-            <li>Overwatch</li>
-            <li>Pokemon</li>
-          </ul>
+          <li>Video Games</li>
         </ul>
 
         <h3 className="sub-header">Cool Sites</h3>
@@ -73,25 +69,27 @@ export default function InterestsPage() {
         <ul>
           <li>Japan💎</li>
           <li>United Kingdom📍</li>
-          <li>Denmark</li>
+          <li>Denmark (Copenhagen)</li>
           <li>Norway</li>
           <li>Sweden</li>
           <li>Belgium</li>
           <li>Croatia</li>
-          <li>France</li>
-          <li>Germany</li>
+          <li>France (Paris)</li>
+          <li>Germany (Berlin)</li>
           <li>Greece</li>
           <li>Italy</li>
-          <li>Netherlands</li>
+          <li>Netherlands (Amsterdam)</li>
           <li>Spain</li>
-          <li>United States of America</li>
+          <li>USA (New York, LA, Florida)</li>
           <li>Hong Kong</li>
-          <li>South Korea</li>
+          <li>South Korea (Seoul)</li>
         </ul>
 
         <h3 className="sub-header">Recent Books</h3>
         <ul>
-          <li>(in-progress) The Brothers Karamazov</li>
+          <li>(In progress) Before the coffee gets cold</li>
+          <li>(In progress) Crime and Punishment</li>
+          <li>The Brothers Karamazov</li>
           <li>Ametora</li>
           <li>City of Darkness</li>
           <li>The Art and Soul of Dune</li>

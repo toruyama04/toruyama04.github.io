@@ -9,7 +9,7 @@ export default function MediaPage() {
       {isIndex && (
         <>
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            <h1 className="header">Weekly Media</h1>
+            <h1 className="header">Monthly Media</h1>
           </Link>
           <div className="contents">
             <p>
@@ -41,5 +41,5 @@ type MediaData = {
 };
 
 const MediaList: MediaData[] = [
-  { id: "1", date: "24/03/26 - __/03/26", link: "/media/w1" },
+  { id: "1", date: "March 2026", link: "/media/w1" },
 ];
