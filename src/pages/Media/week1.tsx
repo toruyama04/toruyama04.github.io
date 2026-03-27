@@ -22,7 +22,7 @@ export default function Week1Media() {
               <h3>{music.title}</h3>
             </a>
 
-            <img src={music.img} className="imgS" />
+            <img src={music.img} className="imgSpotify" />
 
             <p>{music.description}</p>
           </div>
@@ -51,10 +51,22 @@ export default function Week1Media() {
             <p>{movie.description}</p>
           </div>
         ))}
+        <p>For all the movies I watched add me on Letterboxd!</p>
+        <div className="divider" />
+        <div className="row">
+          <h2>Show 📺</h2>
+        </div>
+        {showlist.map((show, i) => (
+          <div key={i} className="video-section">
+            <h3>{show.title}</h3>
+            <img src={show.img} className="imgO" />
+            <p>{show.description}</p>
+          </div>
+        ))}
         <div className="divider" />
         <div className="row">
           <h2>Youtube Videos</h2>
-          <img src="/images/media/media icons/yt.png" className="img" />
+          <img src="/images/media/media icons/yt.png" className="imgLogo" />
         </div>
         {ytvids.map((video, i) => (
           <div key={i} className="video-section">
@@ -124,7 +136,7 @@ const ytvids = [
     description: `I think these were pretty good overall. Although the video puts it well in
           saying that the Oscars are by no means the most accurate gauge for good movies. It's 
           made by a specific group of people all from Hollywood which obviously means theres is
-          a clear priority on rewarding certain themes and aspects.`,
+          a clear priority on rewarding certain themes and aspects. All in all not bad at all :)`,
   },
 ];
 
@@ -171,7 +183,7 @@ const movielist = [
     description: `Watched this on Mother's day. What started as a wholesome look into the daily
           lives of seafood wholesalers turned into highlighting the importance of teaching the
           younger generation about this craft, taking an unexpected emotional twist. I do think
-          this was a documentary that was way longer than necessary but it was a great one
+          this was a documentary that was slightly longer than necessary but it was a great one
           nonetheless`,
   },
   {
@@ -182,5 +194,24 @@ const movielist = [
           this film aside from how polarising and unempathetic society has become. The woman at the end
           tearing up at how Britain has changed was the most striking part. It was just the raw level
           of disappointment and loss of innocence that can cause such an upsetting response.`,
+  },
+];
+
+const showlist = [
+  {
+    title: "Jujutsu Kaisen S3",
+    img: "/images/media/show1.webp",
+    description: `Having just finished the last episode (12), I am on a high as that was a bloody
+          great episode. I always wondered how they would manage to animate some of the trickier
+          cursed techniques such as Uro's sky warping abilities. Instead it was one of the
+          highlights of the episode, showcasing unique combat skills and keeping the battlefield dynamics.
+          Yuta felt very strong in this episode, copying techniques and constantly healing himself made
+          it look like he didn't drop a sweat. I adore the fluidity and sharpness of the animation, the
+          cg was utilised fantastically as well. Overall the season was strong, the direction went so
+          incredibly hard. I felt this season had a stylistic edge that the other seasons didn't, whether
+          it was the composition of a scene, camera angles and movements, or use of different brush effects.
+          Story-wise its hard to point out if this arc has as much punch and impact as previous ones, I of
+          course have read ahead and already know the direction the story takes so it's all about enjoying
+          the ride till then.`,
   },
 ];

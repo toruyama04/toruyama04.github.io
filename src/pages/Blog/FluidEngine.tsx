@@ -12,18 +12,12 @@ export default function FluidEquationsPage() {
       </Link>
       <div className="contents">
         <p>
-          My interest in Fluids didn't develop like your average simulation
-          enthusiast, it looked kind of like: shaders
-          <InlineMath math="\to" /> graphics programming
-          <InlineMath math="\to" /> particles <InlineMath math="\to" />{" "}
-          computational fluid dynamics. Although I picked up some of the main
-          intuition through some projects, I still lacked the crucial
-          understanding of the governing equations. To me they simply just
-          existed, however I wanted/needed to know more. This blog seeks to
-          detail the intuition behind the essential equations used to model
-          fluids.
+          Although I picked up some of the intuition behind the governing
+          equations through some of my projects, I still lacked the crucial
+          understanding behind them and their derivation. To me they simply just
+          existed, however I needed to know more. This blog seeks to detail the
+          intuition behind the essential equations used to model fluids.
         </p>
-        <hr></hr>
         <strong>Who this is for: </strong> If you are, like me, coming from a
         background not from physics, I made this blog specifically with that in
         mind. I place emphasis on visuals to help imprint certain concepts that
@@ -31,7 +25,7 @@ export default function FluidEquationsPage() {
         knowledge. I have tried to peel back as many layers as possible with
         this derivation in order to detail the core understanding without making
         the post too long. This post may go through the content in a rather
-        unconventional manner however, I hope that it helps clarify the
+        unconventional manner, however I hope that it helps clarify the
         derivation of the equations in the same way that it helped me.
         <h2>Modelling the Fluid</h2>
         <img
@@ -106,20 +100,22 @@ export default function FluidEquationsPage() {
           differential control volume inside the overall volume. By summing the
           mass of each differential control volume element{" "}
           <InlineMath math="\rho d\bold{V}" />, over the region, yields the
-          total mass:
+          total mass (think of the volume being made up of a lot of these
+          differential control volumes):
           <BlockMath math="m = \iiint_V \rho\ dV" /> Whilst finding an
           expression for the total mass is useful, we are more interested in
           defining how the mass changes over time. This is simply based on the
           amount of mass leaving and entering the volume. This mass 'flux' can
-          only occur at the boundary surface of the volume. For this expression,
-          we apply similar logic to the total mass equation and we first look at
-          the change in mass at a differential control surface located at the
-          volume's boundary <InlineMath math="d\bold{S}" />. To do so, the
-          crucial step is to evaluate that by taking the dot product of the
-          velocity vector at the surface boundary and multiplying that by the
-          density at the surface boundary, gives you the change in mass at that
-          differential control surface:{" "}
-          <InlineMath math="\rho \bold{v} \cdot d\bold{S}" />
+          only occur at the boundary surface of the volume, since any mass
+          flowing through surfaces within the cube don't affect the total mass
+          of the volume. For this expression, we apply similar logic to the
+          total mass equation and we first look at the change in mass at a
+          differential control surface located at the volume's boundary{" "}
+          <InlineMath math="d\bold{S}" />. To do so, the crucial step is to
+          evaluate that by taking the dot product of the velocity vector at the
+          surface boundary and multiplying that by the density at the surface
+          boundary, it gives you the change in mass at that differential control
+          surface: <InlineMath math="\rho \bold{v} \cdot d\bold{S}" />
         </p>
         <img
           src="/images/fluids/diffvolumesurface.png"
@@ -128,7 +124,8 @@ export default function FluidEquationsPage() {
         />
         <p>
           Don't pay too much attention to the shape and size of these
-          differential control volumes/surfaces.
+          differential control volumes/surfaces, hopefully they are a visual aid
+          in understanding what we are calculating.
           <BlockMath math="\frac{d}{dt} \iiint_V \rho \ dV = -\oiint_S \rho \bold{v} \cdot d\bold{S}" />
           The next evaluation to make is to relate the time rate of change of
           the total mass to be equal to the negative <strong>sum</strong> of the
@@ -201,14 +198,12 @@ export default function FluidEquationsPage() {
         <p>
           If you are happy with this chapter and want to learn a little more or
           in the opposite direction found it tough, I would recommend checking
-          out the appendix for a different derivation of the continuity
-          equation. The current method follows an Eulerian viewpoint of the
-          fluid whilst this other derivation follows a Lagrangian viewpoint.
-          These viewpoints will be explained later, however you can find a
-          premature introduction{" "}
-          <a href="#ap-1" id="apref-1" className="footnote">
-            here
-          </a>{" "}
+          out an alternative derivation method for the continuity equation. The
+          current method follows an Eulerian viewpoint of the fluid whilst there
+          is an alternative that follows a Lagrangian viewpoint. These
+          viewpoints will be explained later, however it may be beneficial to
+          have a look at this other derivation if you want a slightly different
+          perspective of the fluid and how it changes the derivation.
         </p>
         <h3>Momentum Equation (Navier-Stokes)</h3>
         <p>
@@ -320,7 +315,7 @@ export default function FluidEquationsPage() {
           <InlineMath math="\frac{\partial \sigma_{xx}}{\partial x} dx" />
           ). This is because those stresses include their spatial variation
           across the differential element which is characterised with the
-          truncated Taylor series - explained a little further ahead if were
+          truncated Taylor series - explained a little further ahead if you were
           unsure. In order to characterise the stresses with their entire
           respective surface, we multiply them by their corresponding surface
           area. So for the stress <InlineMath math="\sigma_{xx}" />, it will be
@@ -430,7 +425,8 @@ export default function FluidEquationsPage() {
         more natural interpretation of reality. I have again shown two ways of
         visualising the lagrangian viewpoint below. Remember these 'fluid
         parcels' are just approximations of fluid dynamics behaviour and by no
-        means are a reflection of reality.
+        means are a reflection of reality. I may refer to these 'fluid parcels'
+        with other names such as differential elements or particles.
         <hr></hr>
         <img
           src="/images/fluids/Lagrangian.png"
@@ -472,7 +468,7 @@ export default function FluidEquationsPage() {
           This expression is the same as evaluating the{" "}
           <strong>acceleration</strong> of the particle, if you didn't know
           acceleration is the time rate of change of velocity which itself is
-          the the time rate of change of position:
+          the the time rate of change of position.
           <BlockMath math="\vec{a}_p =\frac{\partial \vec{V}}{\partial x} u + \frac{\partial \vec{V}}{\partial y}v + \frac{\partial \vec{V}}{\partial z}w + \frac{\partial \vec{V}}{\partial t}" />
           Although we have finished deriving the acceleration which will be used
           in the Navier-Stokes derivation, this equation can be generalised. If
@@ -489,37 +485,268 @@ export default function FluidEquationsPage() {
         </p>
         <h4>General form of the Momentum Equation</h4>
         <p>
+          I will insert the material derivative of the velocity into the
+          acceleration term in the momentum equation as well as the mass,
+          giving:
           <BlockMath math="[\rho \beta_x + \frac{\partial \sigma_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z}]dxdydz = \rho dxdydz[\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + w\frac{\partial u}{\partial z}]" />
-          We can divide by the volume of the differential control volume:
+          We can divide by the volume of the differential control volume and
+          show the momentum equation for the other directions as well:
           <BlockMath math="\rho \beta_x + \frac{\partial \sigma_{xx}}{\partial x} + \frac{\partial \tau_{yx}}{\partial y} + \frac{\partial \tau_{zx}}{\partial z} = \rho [\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + w\frac{\partial u}{\partial z}]" />
           <BlockMath math="\rho \beta_y + \frac{\partial \tau_{xy}}{\partial x} + \frac{\partial \sigma_{yy}}{\partial y} + \frac{\partial \tau_{zy}}{\partial z} = \rho [\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + w\frac{\partial v}{\partial z}]" />
           <BlockMath math="\rho \beta_z + \frac{\partial \tau_{xz}}{\partial x} + \frac{\partial \tau_{yz}}{\partial y} + \frac{\partial \sigma_{zz}}{\partial z} = \rho [\frac{\partial w}{\partial t} + u\frac{\partial w}{\partial x} + v\frac{\partial w}{\partial y} + w\frac{\partial w}{\partial z}]" />
           And combined becomes the Cauchy momentum equation, where the stress
-          tensors get combined into the divergence of the Cauchy stress tensor:
+          tensors get combined into the divergence of the Cauchy stress tensor
+          and we use the shorthand for the material derivative:
           <BlockMath math="\rho\beta + \nabla \cdot \bold{\sigma} = \rho \frac{D\vec{V}}{Dt}" />
           Here we have the momentum equation at its most general form. The
           material derivative has been condensed into its shorter form. As in
           this form, its generality means it applies to any fluid, regardless of
           its properties, but it also means it will be the hardest to solve. It
           is common to make further assumptions about the fluid, especially if
-          it doesn't necessarily limit the types of fluids we can model but
-          allows us to solve the equations easier. This is how we will
+          it doesn't necessarily limit the types of fluids we actually want to
+          model but allows us to solve the equations easier. This is how we will
           eventually obtain the Navier-Stokes equation that we usually see.
         </p>
-        <h4></h4>
+        <h4>Deriving the Constitutive equation for a Newtonian fluid</h4>
         <p>
-          Therefore, the stress equations for a Newtonian fluid are:
-          <BlockMath math="\sigma_{xx} = -p + 2\mu\dot{\epsilon}_{xx} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
-          <BlockMath math="\sigma_{yy} = -p + 2\mu\dot{\epsilon}_{yy} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
-          <BlockMath math="\sigma_{zz} = -p + 2\mu\dot{\epsilon}_{zz} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon_{zz}})" />
+          Whilst the current form of the momentum equation is valid, it is often
+          beneficial to introduce assumptions in order to simplify the
+          equations. Since we are deriving the momentum equation specifically on
+          a differential element, it allows us to evaluate that for specific
+          pairs of stress tensors, that they are symmetric. Consider the
+          differential element with just the{" "}
+          <InlineMath math="\tau_{xy}, \tau_{yx}" /> stress tensors, shown
+          below.
+        </p>
+        <img
+          src="/images/fluids/torquesimpl.png"
+          className="img"
+          title="symmetric stress tensors"
+        />
+        <p>
+          These forces produce torque, which is the 'twist' a force tries to
+          produce about an axis. Given that this is a differential element, the
+          torque produced about the z axis by these stress tensors must be
+          symmetric, otherwise the result would be non-physical. There are two
+          other symmetric pairs of stress tensors where we can use the same
+          logic, effectively simplifying the momentum equation to only use 6
+          stress tensor components instead of 9.
+        </p>
+        <p>
+          Our goal in this section is to derive the constitutive equation for a
+          Newtonian fluid. A constitutive equation is the relationship between
+          the stress and the deformation in a continuum. We know our stresses
+          are defined and so we now have to relate them to the deformation,
+          which is measured by the 'strain-rate'. One simple way to begin
+          defining the constitutive equation is to define the fluid to be
+          Newtonian. Newtonian fluids have a linear relationship between the
+          stress and the strain-rate. While there are non-newtonian fluids, from
+          this point onwards, we will be deriving the momentum equation for a
+          Newtonian fluid.<hr></hr> Many fluids are not Newtonian - where there
+          is no direct proportionality between stresses and strain rates. This
+          is the case for suspensions, or mixtures containing solid particles
+          (muddy water, dust in air, or blood). There are a few reasons for a
+          fluid to be Non-Newtonian:
+          <ol>
+            <li>
+              Relation between stress and strain-rate is non-linear: such as
+              shampoo, wall paint, ketchup. This is when the viscosity decreases
+              when shear rate increases. Ketchup for example becomes runnier
+              when the bottle is shaken (more shear stress).
+            </li>
+            <li>When shear rate and stress depends on time</li>
+            <li>
+              When the fluid is a mixture of viscous and elastic responses;
+              silicone silly putty spreads out like a liquid under constant
+              stress (e.g. left on table), whereas it bounces elastically off
+              the ground under high stress.
+            </li>
+          </ol>
+          The study of the relation between a stress applied on a material and
+          the resulting strains and strain rates is called rheology.<hr></hr>
+        </p>
+        <p>
+          Stoke will help us develop our equation further. He hypothesised that
+          a set of stress-strain rate equations for a Newtonian fluid must
+          follow a set of postulates:
+          <ul>
+            <li>
+              The fluid is continuous, and the components of the stress tensor
+              vary linearly with the strain rate
+            </li>
+            <li>
+              The fluid is isotropic, such that its properties are independent
+              of direction.
+              <ul>
+                <li>
+                  Isotropic is our next assumption for our fluid. It reduces the
+                  number of stress components needed in the constitutive
+                  equation as we consider that the stress and strain rate
+                  properties are independent of direction.
+                </li>
+              </ul>
+            </li>
+            <li>
+              When the fluid is at rest, with zero strain rates, the deformation
+              must reduce to the hydrostatic pressure condition
+              <ul>
+                <li>
+                  This postulate ensures that the pressure term exists in the
+                  constitutive equation even if the strain-rate components are
+                  zero.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          The resulting equations are shown below:
+          <BlockMath math="\sigma_{xx} = -p + 2\mu \dot{\epsilon}_{xx} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon}_{zz})" />
+          <BlockMath math="\sigma_{yy} = -p + 2\mu \dot{\epsilon}_{yy} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon}_{zz})" />
+          <BlockMath math="\sigma_{zz} = -p + 2\mu \dot{\epsilon}_{zz} + \lambda(\dot{\epsilon}_{xx} + \dot{\epsilon}_{yy} + \dot{\epsilon}_{zz})" />
           <BlockMath math="\tau_{xy} = 2\mu\dot{\epsilon}_{xy}" />
           <BlockMath math="\tau_{yz} = 2\mu\dot{\epsilon}_{yz}" />
           <BlockMath math="\tau_{zx} = 2\mu\dot{\epsilon}_{zx}" />
+          We introduce various variables here:
+          <ul>
+            <li>
+              <InlineMath math="\mu" /> - the coefficient of viscosity, used to
+              model the ratio of the applied stress to the local strain rate
+            </li>
+            <li>
+              <InlineMath math="\lambda" /> - the coefficient of bulk viscosity,
+              relates the proportionality of the applied stress to the
+              volumetric expansion/contraction of the fluid.
+            </li>
+            <li>
+              <InlineMath math="\dot{\epsilon}" /> - rate of strain components
+            </li>
+            <li>
+              <InlineMath math="p" /> - at rest when the shear stress components
+              are zero, the normal stresses will be equal to the pressure.
+            </li>
+          </ul>
+          <hr></hr> Just a small segment here to explain the sign convention for
+          the pressure. In mechanics, the Cauchy stress sign convention states
+          that a normal stress is positive if it pulls the face outward
+          (tension) and negative if it pushes inward (compression). In fluid
+          mechanics it is standard to say that pressure is a positive number
+          when it pushes inward (compression) and negative for when it pulls
+          outward (tension). In order to satisfy both, we say that the normal
+          stress is equal to the negative pressure. By inverting the pressure
+          component we satisfy both. <hr></hr>
+
         </p>
-        <h5>Spatial variations for the rate-of-strain tensor</h5>
+        {/* <p>
+          Let's start by defining the stress for a Newtonian fluid at rest. If
+          you recall when I introduced normal stresses, I mentioned that a fluid
+          at rest would only have a normal stress (pressure) acting on the
+          surface. Here, the normal stresses do not depend on the orientation of
+          the surface and therefore we say the fluid is also isotropic.
+          Therefore, the stresses will be defined as:
+          <BlockMath math="\sigma_{xx} = -p\delta_{xx}" />
+          <BlockMath math="\sigma_{xx} = -p\delta_{yy}" />
+          <BlockMath math="\sigma_{xx} = -p\delta_{zz}" />
+          <BlockMath math="\tau_{xy} = 0" />
+          <BlockMath math="\tau_{yz} = 0" />
+          <BlockMath math="\tau_{zx} = 0" />
+          At rest, only the normal stresses will be active. They are composed of
+          the thermodynamics pressure and the Kronecker delta. The delta is
+          there because it is essentially the identity so that equation becomes
+          a linear map to send every vector to a scalar multiple of itself. We
+          take the pressure to be negative out of convention. <hr></hr> Just a
+          small segment here to explain the sign convention. In continuum
+          mechanics, the Cauchy stress sign convention states that a normal
+          stress is positive if it pulls the face outward (tension) and negative
+          if it pushes inward (compression). In fluid mechanics it is standard
+          to say that pressure is a positive number when it pushes inward
+          (compression) and negative for when it pulls outward (tension). In
+          order to satisfy both, we say that the normal stress is equal to the
+          negative pressure. By inverting the pressure component we satisfy
+          both. <hr></hr>
+        </p> */}
+        <h4>Cauchy-Stokes Decomposition</h4>
         <p>
-          And after substituting the spatial variations for the rate-of-strain
-          tensors we get:
+          This will be the final derivation section before we are on the home
+          stretch to get to the final version of the Navier-Stokes equation. I
+          will start by introducing Cauchy-Stokes Decomposition. We start at a
+          similar point to how we derived the Material Derivative. We have a
+          fluid element at position{" "}
+          <InlineMath math="\vec{r} = x\hat{i} + y\hat{j} + z\hat{k}" />, and it
+          flows within a cartesian velocity field{" "}
+          <InlineMath math="\vec{V} = u\hat{i} + v\hat{j} + w\hat{k}" />. After
+          an infinitesimal timestep, we say the fluid element travelled across a
+          differential vector distance{" "}
+          <InlineMath math="d\vec{r} = dx\hat{i} + dy\hat{j} + dz\hat{k}" />. We
+          know that the velocity of the fluid element also changes as it travels
+          across the differential distance. This new velocity can be represented
+          as <InlineMath math="\vec{V} = \vec{V}_p + d\vec{V}" />, being new
+          velocity plus the change in velocity. If we focus in on the change in
+          velocity, we can express it by using the chain rule:
+          <BlockMath math="d\vec{V} = \frac{\partial \vec{V}}{\partial x} dx + \frac{\partial \vec{V}}{\partial y}dy + \frac{\partial \vec{V}}{\partial z} dz" />
+          Remember, this is exactly how we derived the material derivative. From
+          here it will diverge since we are now interested in decomposing the
+          velocity changes to different fluid motions. Lets start by grouping
+          the directional components.
+          <BlockMath math="d\vec{V} = (\frac{\partial u}{\partial x}dx + \frac{\partial u}{\partial y} dy + \frac{\partial u}{\partial z}dz)\hat{i} + (\frac{\partial v}{\partial x}dx + \frac{\partial v}{\partial y}dy + \frac{\partial v}{\partial z}dz)\hat{j} + ..." />
+          With the third component following the same pattern. Now if we
+          substitute this into the equation for the new velocity.
+          <BlockMath math="\vec{V} = \hat{i}[u + \frac{\partial u}{\partial x}dx + \frac{\partial u}{\partial y}dy + \frac{\partial u}{\partial z}dz] + \hat{j}[v + \frac{\partial v}{\partial x}dx + \frac{\partial v}{\partial y}dy + \frac{\partial v}{\partial z}dz] ..." />
+        </p>
+        <img
+          src="/images/fluids/decomposingvelocity.png"
+          className="imgC"
+          title="symmetric stress tensors"
+        />
+        <p>
+          A linear deformation describes the stretch or compression a
+          differential element can have. Our focus will eventually be on
+          incompressible fluids that must conserve mass and therefore any linear
+          deformations must be balanced out. While I should include the z
+          direction for these explanations, I will save space by omitting it
+          from the visuals and maths if necessary.
+        </p>
+        <img
+          src="/images/fluids/lineardeformation.png"
+          className="img"
+          title="symmetric stress tensors"
+        />
+        <p>
+          We then decompose the <InlineMath math="\color{red} ?" /> terms into
+          their respective fluid motions. We have to manipulate the current
+          terms as they currently don't represent a single motion but a
+          combination. I want to extract the rate-of-strain term as we won't be
+          concerned with the vorticity motion made by the rotation motion. To
+          separate the component into two we half the term and add/subtract
+          another term to it. Keep in mind I will change to 2D with just the x
+          and y components however, the z component is easily integrated.
+          <BlockMath math="\frac{\partial u}{\partial y}dy = \frac{1}{2} \frac{\partial u}{\partial y} dy + \frac{1}{2} \frac{\partial u}{\partial y}dy + \frac{1}{2}\frac{\partial v}{\partial x} dy - \frac{1}{2}\frac{\partial v}{\partial x} dy" />
+          Leaving these expressions:
+          <BlockMath math="\frac{\partial u}{\partial y}dy = \frac{1}{2}(\frac{\partial u}{\partial y} + \frac{\partial v}{\partial x}) dy  + \frac{1}{2} (\frac{\partial u}{\partial y} - \frac{\partial v}{\partial x})dy" />
+          <BlockMath math="\frac{\partial v}{\partial x}dx = \frac{1}{2}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y}) dx  + \frac{1}{2} (\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y})dx" />
+          We say that the left term (with the addition) is the angular
+          deformation and the left term (subtraction) is the rotation of the
+          fluid element. I will substitute the new expression back into the
+          expression for the velocity. I will omit the rotation term
+          (subtraction) as we won't need to deal with the vorticity for the
+          momentum equation I will derive.
+          <BlockMath math="\vec{V} = \hat{i}[u_p + \frac{\partial u}{\partial x}dx + \frac{1}{2}(\frac{\partial u}{\partial y} + \frac{\partial v}{\partial x})dy] + \hat{j}[v_p + \frac{\partial v}{\partial y}dy + \frac{1}{2}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y} dx]" />
+        </p>
+        <img
+          src="/images/fluids/angulardeformation.png"
+          className="img"
+          title="symmetric stress tensors"
+        />
+        <p>
+          Now the final step is to convert these components in the decomposition
+          and rewrite them into tensor notation.
+          <BlockMath math="\vec{V} = \vec{V}_p + d\vec{r} \cdot \begin{bmatrix} \frac{\partial u}{\partial x} & \frac{1}{2}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y}) \\ \frac{1}{2}(\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x}) & \frac{\partial v}{\partial y} \end{bmatrix} + d\vec{r} \cdot \vec{\Omega}_{ab}" />
+          The term at the end is for vorticity. The next step is showing the
+          relation between the strain-rate tensors and these velocity components
+          <BlockMath math="\begin{bmatrix} \dot{\epsilon}_{xx} & \dot{\epsilon}_{xy} \\ \dot{\epsilon}_{yx} & \dot{\epsilon}_{yy} \end{bmatrix} = \begin{bmatrix} \frac{\partial u}{\partial x} & \frac{1}{2}(\frac{\partial v}{\partial x} + \frac{\partial u}{\partial y}) \\ \frac{1}{2}(\frac{\partial u}{\partial y}+\frac{\partial v}{\partial x}) & \frac{\partial v}{\partial y} \end{bmatrix}" />
+        </p>
+        <h4>The final stretch</h4>
+        <p>
+          We substitute the strain-rate tensors from before (now including the z
+          axis) back into the stress tensor equations:
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} + \lambda (\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z})" />
@@ -531,7 +758,14 @@ export default function FluidEquationsPage() {
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} + \lambda \nabla \cdot \vec{V}" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} + \lambda \nabla \cdot \vec{V}" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} + \lambda \nabla \cdot \vec{V}" />
-          <strong>Stokes Hypothesis</strong>
+          Stokes encountered a dilemma in which the mean pressure in a deforming
+          viscous fluid may not be equivalent to the thermodynamic pressure.
+          Meaning the normal stress tensors added and divided by 3 may not be
+          equal to the thermodynamic pressure term. Stokes then hypothesised
+          that <InlineMath math="\lambda \cong -\frac{2}{3}\mu" />. There is a
+          conversation behind Stokes hypothesis here about whether it is
+          acceptable. For us, we will utilise it and substitute it into the
+          equations.
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial u}{\partial x} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial v}{\partial y} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
           <BlockMath math="\sigma_{xx} = -p + 2\mu\frac{\partial w}{\partial z} - \frac{2}{3} \mu \nabla \cdot \vec{V}" />
@@ -557,7 +791,7 @@ export default function FluidEquationsPage() {
           Now this is the momentum equation for Newtonian fluids. We can
           simplify the equation futher if we make more assumptions about the
           fluid. By assuming an incompressible fluid, we know that from the
-          continuity equation reduced to{" "}
+          continuity equation, that it reduced to{" "}
           <InlineMath math="\nabla \cdot \vec{V} = 0" />. This means the
           divergence of the velocity term can be removed.
           <BlockMath math="\rho \vec{\beta} - \nabla p + \mu \nabla^2 \vec{V} = \rho \frac{D\vec{V}}{Dt}" />
@@ -572,17 +806,6 @@ export default function FluidEquationsPage() {
           <BlockMath math="\frac{\partial v}{\partial t} + (v \cdot \nabla)v = -\frac{1}{\rho}\nabla p + \nu \nabla^2 v + g" />
           This expands the material derivative, re-arranges the equation, and
           assumes the body force to be just the gravity force.
-        </p>
-        <p>
-          many fluids ar enot newtonian - no direct proportionality between
-          stresses and strain rates. this is the case for suspensions, or
-          mixtures containing solid particles (muddy water, dust in air, or
-          blood), the study of the relation between a stress applied on a
-          material and the resulting strains and strain rates is called rheology
-          3 reasons: 1. relation is non-linear: shampoo, wall paint, ketchup -
-          where the viscosity decreases when shear rate increases. 2. when shear
-          rate and stress depends on time. 3. mixture of viscous and elastic
-          responses.
         </p>
         <h3>Appendix</h3>
         <p id="ap-math">
@@ -619,18 +842,9 @@ export default function FluidEquationsPage() {
           </a>
           {". "}
           To me these resources have been great, but there are many other fluid
-          and mathematics textbooks out there. It is imperative that these
-          concepts are understood as they are fundamental to understanding fluid
-          mechanics and for computational fluid dynamics.
+          and mathematics textbooks out there.
         </p>
         <a href="#mathref" className="footnote">
-          ↩
-        </a>
-        <p id="ap-1">
-          The current view of the fluid is that of an Eulerian viewpoint. This
-          means
-        </p>
-        <a href="#apref-1" className="footnote">
           ↩
         </a>
         <h3>References</h3>

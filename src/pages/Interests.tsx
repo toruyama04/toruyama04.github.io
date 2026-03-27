@@ -22,7 +22,7 @@ export default function InterestsPage() {
         <ul>
           <li>Tennis</li>
           <li>Philosophy</li>
-          <li>Video Games</li>
+          <li>Games</li>
         </ul>
 
         <h3 className="sub-header">Cool Sites</h3>
@@ -69,20 +69,20 @@ export default function InterestsPage() {
         <ul>
           <li>Japan💎</li>
           <li>United Kingdom📍</li>
-          <li>Denmark (Copenhagen)</li>
+          <li>Denmark</li>
           <li>Norway</li>
           <li>Sweden</li>
           <li>Belgium</li>
           <li>Croatia</li>
-          <li>France (Paris)</li>
-          <li>Germany (Berlin)</li>
+          <li>France</li>
+          <li>Germany</li>
           <li>Greece</li>
           <li>Italy</li>
-          <li>Netherlands (Amsterdam)</li>
+          <li>Netherlands</li>
           <li>Spain</li>
-          <li>USA (New York, LA, Florida)</li>
+          <li>USA</li>
           <li>Hong Kong</li>
-          <li>South Korea (Seoul)</li>
+          <li>South Korea</li>
         </ul>
 
         <h3 className="sub-header">Recent Books</h3>
@@ -90,14 +90,9 @@ export default function InterestsPage() {
           <li>(In progress) Before the coffee gets cold</li>
           <li>(In progress) Crime and Punishment</li>
           <li>The Brothers Karamazov</li>
-          <li>Ametora</li>
-          <li>City of Darkness</li>
-          <li>The Art and Soul of Dune</li>
-          <li>A little life</li>
           <li>Lessons in Stoicism</li>
           <li>Brave New World</li>
           <li>The Sirens of Titan</li>
-          <li>The Picture of Dorian Gray</li>
         </ul>
 
         <h3 className="sub-header">Quotes</h3>
@@ -131,6 +126,5 @@ const links = [
     url: "https://ebookfoundation.github.io/free-programming-books-search/",
   },
   { label: "Fabien Sanglard - blog", url: "https://fabiensanglard.net/" },
-  { label: "Rama Karl Hoetzlein - blog", url: "https://ramakarl.com/" },
   { label: "Bartosz Ciechanowski - blog", url: "https://ciechanow.ski/" },
 ];
