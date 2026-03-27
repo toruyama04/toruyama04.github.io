@@ -633,7 +633,6 @@ export default function FluidEquationsPage() {
           outward (tension). In order to satisfy both, we say that the normal
           stress is equal to the negative pressure. By inverting the pressure
           component we satisfy both. <hr></hr>
-
         </p>
         {/* <p>
           Let's start by defining the stress for a Newtonian fluid at rest. If
