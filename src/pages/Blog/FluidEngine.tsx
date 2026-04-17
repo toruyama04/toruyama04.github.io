@@ -16,7 +16,9 @@ export default function FluidEquationsPage() {
           equations through some of my projects, I still lacked the crucial
           understanding behind them and their derivation. To me they simply just
           existed, however I needed to know more. This blog seeks to detail the
-          intuition behind the essential equations used to model fluids.
+          intuition behind the essential equations used to model fluids. Do note
+          that this blog will not include the derivation of the energy equation.
+          That will be for a later time.
         </p>
         <strong>Who this is for: </strong> If you are, like me, coming from a
         background not from physics, I made this blog specifically with that in

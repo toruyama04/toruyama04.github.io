@@ -8,6 +8,7 @@ import AIPage from "./Blog/AI.tsx";
 import FluidEquationsPage from "./Blog/FluidEngine.tsx";
 import MediaPage from "./MediaPage.tsx";
 import Week1Media from "./Media/week1.tsx";
+import Week2Media from "./Media/week2.tsx";
 
 const frames = [
   "images/homepage/1.png",
@@ -42,17 +43,19 @@ function HomeContent() {
     <>
       <CanvasAnimation fps={fps} />
       <ul className="contents">
-        <div className="slider-container">
-          <input
-            type="range"
-            min="1"
-            max="30"
-            value={fps}
-            onChange={(e) => setFps(Number(e.target.value))}
-            className="slider"
-          />
-          <p className="fps-label">{fps} FPS</p>
-        </div>
+        <li>
+          <div className="slider-container">
+            <input
+              type="range"
+              min="1"
+              max="30"
+              value={fps}
+              onChange={(e) => setFps(Number(e.target.value))}
+              className="slider"
+            />
+            <p className="fps-label">{fps} FPS</p>
+          </div>
+        </li>
         <p>
           Hi there, I'm a recent graduate of the University of Birmingham who
           studied Computer Science BSc. I will be joining the post-graduate
@@ -96,59 +99,61 @@ type CanvasAnimationProps = {
 
 export function CanvasAnimation({ fps }: CanvasAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const animationIdRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let frameidx = 0;
-    let accum = 0;
-    let lastTime = 0;
-    let animationId: number;
-
-    const images: HTMLImageElement[] = frames.map((src) => {
+    imagesRef.current = frames.map((src) => {
       const img = new Image();
       img.src = src;
       return img;
     });
+  }, []);
 
-    const FRAME_DURATION = 1000 / fps;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    const loop = (time: number) => {
-      if (!lastTime) lastTime = time;
-      const dt = time - lastTime;
-      lastTime = time;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-      accum += dt;
+    let frameIdx = 0;
+    let lastFrameTime = 0;
+    const frameDuration = 1000 / fps;
 
-      while (accum >= FRAME_DURATION) {
-        frameidx = (frameidx + 1) % images.length;
-        accum -= FRAME_DURATION;
+    const render = (time: number) => {
+      if (!lastFrameTime) lastFrameTime = time;
+
+      if (time - lastFrameTime >= frameDuration) {
+        lastFrameTime = time;
+        frameIdx = (frameIdx + 1) % imagesRef.current.length;
+
+        const img = imagesRef.current[frameIdx];
+        if (img.complete) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
       }
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const currentImage = images[frameidx];
-      if (currentImage.complete) {
-        ctx.drawImage(currentImage, 0, 0);
-      }
-
-      animationId = requestAnimationFrame(loop);
+      animationIdRef.current = requestAnimationFrame(render);
     };
-    animationId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animationId);
+
+    animationIdRef.current = requestAnimationFrame(render);
+
+    return () => {
+      if (animationIdRef.current !== null) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+    };
   }, [fps]);
 
   return (
-    <div>
-      <canvas
-        className="animation_frame"
-        ref={canvasRef}
-        width={2786}
-        height={1422}
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="animation_frame"
+      width={1200}
+      height={612}
+    />
   );
 }
 
@@ -164,6 +169,7 @@ export default function HomePage() {
       </Route>
       <Route path="/media" element={<MediaPage />}>
         <Route path="w1" element={<Week1Media />} />
+        <Route path="w2" element={<Week2Media />} />
       </Route>
     </Routes>
   );
