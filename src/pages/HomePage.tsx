@@ -10,32 +10,9 @@ import MediaPage from "./MediaPage.tsx";
 import Week1Media from "./Media/week1.tsx";
 import Week2Media from "./Media/week2.tsx";
 
-const frames = [
-  "images/homepage/1.png",
-  "images/homepage/2.png",
-  "images/homepage/3.png",
-  "images/homepage/4.png",
-  "images/homepage/5.png",
-  "images/homepage/6.png",
-  "images/homepage/7.png",
-  "images/homepage/8.png",
-  "images/homepage/9.png",
-  "images/homepage/10.png",
-  "images/homepage/11.png",
-  "images/homepage/12.png",
-  "images/homepage/13.png",
-  "images/homepage/14.png",
-  "images/homepage/15.png",
-  "images/homepage/16.png",
-  "images/homepage/17.png",
-  "images/homepage/18.png",
-  "images/homepage/19.png",
-  "images/homepage/20.png",
-  "images/homepage/21.png",
-  "images/homepage/22.png",
-  "images/homepage/23.png",
-  "images/homepage/24.png",
-];
+const frames = Array.from({ length: 24 }, (_, i) => {
+  return `/images/homepage/${i + 1}.webp`;
+});
 
 function HomeContent() {
   const [fps, setFps] = useState(12);
@@ -43,19 +20,17 @@ function HomeContent() {
     <>
       <CanvasAnimation fps={fps} />
       <ul className="contents">
-        <li>
-          <div className="slider-container">
-            <input
-              type="range"
-              min="1"
-              max="30"
-              value={fps}
-              onChange={(e) => setFps(Number(e.target.value))}
-              className="slider"
-            />
-            <p className="fps-label">{fps} FPS</p>
-          </div>
-        </li>
+        <div className="slider-container">
+          <input
+            type="range"
+            min="1"
+            max="24"
+            value={fps}
+            onChange={(e) => setFps(Number(e.target.value))}
+            className="slider"
+          />
+          <p className="fps-label">{fps} FPS</p>
+        </div>
         <p>
           Hi there, I'm a recent graduate of the University of Birmingham who
           studied Computer Science BSc. I will be joining the post-graduate
@@ -99,17 +74,58 @@ type CanvasAnimationProps = {
 
 export function CanvasAnimation({ fps }: CanvasAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const imagesRef = useRef<HTMLImageElement[]>([]);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
+  const fpsRef = useRef(fps);
   const animationIdRef = useRef<number | null>(null);
+  const frameIdxRef = useRef(0);
+  const lastFrameTimeRef = useRef(0);
+
+  const isPageVisibleRef = useRef(true);
+  const isInViewRef = useRef(true);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
-    imagesRef.current = frames.map((src) => {
+    fpsRef.current = fps;
+  }, [fps]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    imagesRef.current = frames.map(() => null);
+
+    frames.forEach((src, index) => {
       const img = new Image();
       img.src = src;
-      return img;
+
+      img.onload = async () => {
+        if (cancelled) return;
+
+        try {
+          await img.decode();
+        } catch {
+          // ignore decode failures
+        }
+
+        if (cancelled) return;
+
+        imagesRef.current[index] = img;
+
+        if (index === 0) {
+          const canvas = canvasRef.current;
+          const ctx = canvas?.getContext("2d");
+          if (canvas && ctx) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          }
+        }
+      };
     });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
+  // animation loop
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -117,42 +133,61 @@ export function CanvasAnimation({ fps }: CanvasAnimationProps) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let frameIdx = 0;
-    let lastFrameTime = 0;
-    const frameDuration = 1000 / fps;
-
-    const render = (time: number) => {
-      if (!lastFrameTime) lastFrameTime = time;
-
-      if (time - lastFrameTime >= frameDuration) {
-        lastFrameTime = time;
-        frameIdx = (frameIdx + 1) % imagesRef.current.length;
-
-        const img = imagesRef.current[frameIdx];
-        if (img.complete) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
-      }
-
-      animationIdRef.current = requestAnimationFrame(render);
+    const handleVisibilityChange = () => {
+      isPageVisibleRef.current = !document.hidden;
     };
 
-    animationIdRef.current = requestAnimationFrame(render);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        isInViewRef.current = !!entries[0]?.isIntersecting;
+      },
+      { threshold: 0.05 },
+    );
+    observerRef.current.observe(canvas);
+
+    const render = (time: number) => {
+      if (!lastFrameTimeRef.current) {
+        lastFrameTimeRef.current = time;
+      }
+      const shouldAnimate = isPageVisibleRef.current && isInViewRef.current;
+
+      if (shouldAnimate) {
+        const frameDuration = 1000 / fpsRef.current;
+
+        if (time - lastFrameTimeRef.current >= frameDuration) {
+          lastFrameTimeRef.current = time;
+          const nextIndex = (frameIdxRef.current + 1) % frames.length;
+          const nextImage = imagesRef.current[nextIndex];
+
+          if (nextImage) {
+            frameIdxRef.current = nextIndex;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(nextImage, 0, 0, canvas.width, canvas.height);
+          }
+        }
+      }
+      animationIdRef.current = requestAnimationFrame(render);
+    };
+    animationIdRef.current = requestAnimationFrame(render);
     return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
       if (animationIdRef.current !== null) {
         cancelAnimationFrame(animationIdRef.current);
       }
     };
-  }, [fps]);
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
       className="animation_frame"
-      width={1200}
-      height={612}
+      width={2786}
+      height={1422}
     />
   );
 }
