@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import AIPage from "./Blog/AI.tsx";
 import FluidEquationsPage from "./Blog/FluidEngine.tsx";
 import MediaPage from "./MediaPage.tsx";
-import Week1Media from "./Media/week1.tsx";
-import Week2Media from "./Media/week2.tsx";
+import March26Media from "./Media/March26.tsx";
+import April26Media from "./Media/April26.tsx";
 
 const frames = Array.from({ length: 24 }, (_, i) => {
   return `/images/homepage/${i + 1}.webp`;
@@ -203,8 +203,8 @@ export default function HomePage() {
         <Route path="AI" element={<AIPage />} />
       </Route>
       <Route path="/media" element={<MediaPage />}>
-        <Route path="w1" element={<Week1Media />} />
-        <Route path="w2" element={<Week2Media />} />
+        <Route path="w1" element={<March26Media />} />
+        <Route path="w2" element={<April26Media />} />
       </Route>
     </Routes>
   );

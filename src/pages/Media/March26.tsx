@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../Media/media.css";
 
-export default function Week1Media() {
+export default function March26Media() {
   return (
     <div>
       <Link to="/media" style={{ textDecoration: "none", color: "inherit" }}>
