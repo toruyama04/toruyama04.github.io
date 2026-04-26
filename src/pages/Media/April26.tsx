@@ -171,4 +171,3 @@ const movielist = [
           interesting departure from the regular Tokyo style film.`,
   },
 ];
-
