@@ -100,7 +100,7 @@ const ytvids = [
           where Ludwig and Michael travel from one side of a country to the other without using their
           phone, maps, or highways. As you can imagine, they would require a lot of help and they indeed
           found a lot of it during their experience. I found it to be super fun and funny whilst
-          getting to learn more about Chinese culture and the exploration of more rural areas.`,
+          getting to learn more about Chinese culture and the exploration of its more rural areas.`,
   },
   {
     title: "Radiohead - In Rainbows From the Basement (April 2008)",
@@ -147,6 +147,12 @@ const musiclist = [
     img: "/images/media/April26/spotify1.jpg",
     description: `By Bladee and MechaTok, this album has some really awesome songs with great production
           like Rainbow, Into One, and Sun. Go check it out!`,
+  },
+  {
+    title: "Ebony Eye",
+    url: "https://open.spotify.com/track/2BpnrXMYUyXIuBBmEKX52U?si=11db19f7074e4232",
+    img: "/images/media/April26/spotify4.jpg",
+    description: "by Yves Tumor. I really enjoy this song a lot :)",
   },
 ];
 

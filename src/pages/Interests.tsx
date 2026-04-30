@@ -9,7 +9,7 @@ export default function InterestsPage() {
       </Link>
 
       <div className="contents">
-        <p>updated 25/03/26</p>
+        <p>updated 30/04/26</p>
         <h3 className="sub-header">Topics</h3>
         <ul>
           <li>Computational Fluid Dynamics</li>
@@ -87,8 +87,8 @@ export default function InterestsPage() {
 
         <h3 className="sub-header">Recent Books</h3>
         <ul>
-          <li>(In progress) Before the coffee gets cold</li>
           <li>(In progress) Crime and Punishment</li>
+          <li>Before the coffee gets cold</li>
           <li>The Brothers Karamazov</li>
           <li>Lessons in Stoicism</li>
           <li>Brave New World</li>
