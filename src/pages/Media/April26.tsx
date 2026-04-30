@@ -111,6 +111,16 @@ const ytvids = [
           talent that you rarely get to see, each artist putting their highest effort for an hour straight.
           It was really quite beautiful.`,
   },
+  {
+    title: "Overwatch Broke the English Language",
+    url: "https://youtu.be/yCsuHZt702U?si=ZygOmI6oyb3IgHzx",
+    img: "/images/media/April26/yt4.webp",
+    description: `A wildcard hitting my fyp on the last day of april (last hour as well). Where do I
+          even begin... learning about language on an actual deep complex level is so sick. Then you
+          incorporate the fact that this is about overwatch and how its streamers shape the way we 
+          speak in game. Rising intonation, semantic bleaching, vocal fry, nasal assimilation, Jespersen's 
+          cycle, educate urself here. Also watching all my clips being put in the video feels great.`,
+  },
 ];
 
 const Sites = [
