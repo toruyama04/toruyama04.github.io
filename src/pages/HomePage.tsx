@@ -9,6 +9,7 @@ import FluidEquationsPage from "./Blog/FluidEngine.tsx";
 import MediaPage from "./MediaPage.tsx";
 import March26Media from "./Media/March26.tsx";
 import April26Media from "./Media/April26.tsx";
+import GPUFault from "./Blog/gpufault.tsx";
 
 const frames = Array.from({ length: 24 }, (_, i) => {
   return `/images/homepage/${i + 1}.webp`;
@@ -201,6 +202,7 @@ export default function HomePage() {
       <Route path="/blog" element={<BlogHomePage />}>
         <Route path="Fluid" element={<FluidEquationsPage />} />
         <Route path="AI" element={<AIPage />} />
+        <Route path="GPUFault" element={<GPUFault />} />
       </Route>
       <Route path="/media" element={<MediaPage />}>
         <Route path="w1" element={<March26Media />} />

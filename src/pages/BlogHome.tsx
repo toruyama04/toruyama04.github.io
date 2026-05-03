@@ -40,6 +40,13 @@ type BlogData = {
 
 const BlogInfo: BlogData[] = [
   {
+    id: "3",
+    title: "Analysing GPU Fault Tolerance",
+    date: "02/05/2026",
+    description: "A short literature review on GPU fault tolerance",
+    link: "/blog/GPUFault",
+  },
+  {
     id: "2",
     title: "Behind the Governing Equations",
     date: "08/03/2026",

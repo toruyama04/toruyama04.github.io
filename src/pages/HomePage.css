@@ -3,11 +3,35 @@
     src: url('/public/fonts/garamond/GaramondRegular.ttf')
 }
 
+@font-face {
+    font-family: 'computer modern';
+    src: url('/public/fonts/cmunrm.ttf')
+}
+
 body {
     font-family: 'Garamond';
     margin: 0;
     padding: 0;
     background-color: #e8e8e8;
+}
+
+.citation {
+  text-decoration: none;
+  font-size: 0.9em;
+  color: black;
+}
+
+.citation:hover {
+  text-decoration: underline;
+}
+
+.references {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.references li {
+  margin-bottom: 8px;
 }
 
 .header {
@@ -83,4 +107,8 @@ body {
 
 .slider {
     width: 100px;
+}
+
+.paperFont {
+    font-family: 'computer modern'
 }
