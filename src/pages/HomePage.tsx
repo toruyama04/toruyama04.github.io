@@ -10,7 +10,7 @@ import MediaPage from "./MediaPage.tsx";
 import March26Media from "./Media/March26.tsx";
 import April26Media from "./Media/April26.tsx";
 import GPUFault from "./Blog/gpufault.tsx";
-import FluidSolverPage from "./Blog/FluidSolver.tsx";
+// import FluidSolverPage from "./Blog/FluidSolver.tsx";
 import May26Media from "./Media/May26.tsx";
 
 const frames = Array.from({ length: 24 }, (_, i) => {
