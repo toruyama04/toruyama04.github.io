@@ -39,13 +39,13 @@ type BlogData = {
 };
 
 const BlogInfo: BlogData[] = [
-  // {
-  //   id: "4",
-  //   title: "Writing My First Solver",
-  //   date: "__/05/2026",
-  //   description: "A breakdown on writing my first fluid engine solver",
-  //   link: "/blog/FluidSolver",
-  // },
+  {
+    id: "4",
+    title: "Writing My First Solver",
+    date: "__/05/2026",
+    description: "A breakdown on writing my first fluid engine solver",
+    link: "/blog/FluidSolver",
+  },
   {
     id: "3",
     title: "Analysing GPU Fault Tolerance",
