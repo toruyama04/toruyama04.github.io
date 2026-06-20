@@ -16,17 +16,22 @@ export default function May26Media() {
             className="imgSlogo"
           />
         </div>
-        {musiclist.map((music, i) => (
-          <div key={i} className="video-section">
-            <a href={music.url} target="_blank" rel="noopener noreferrer">
-              <h3>{music.title}</h3>
-            </a>
+        <p>
+          The following songs are newer ones to change it up a bit. Yet some of
+          these songs do reminds me of older ones but with slightly more modern
+          production. I'm sure you will enjoy any of these!
+        </p>
+        <div className="music-grid">
+          {musiclist.map((music, i) => (
+            <div key={i}>
+              <a href={music.url} target="_blank" rel="noopener noreferrer">
+                <h3>{music.title}</h3>
+              </a>
+              <img src={music.img} className="imgSpotify" />
+            </div>
+          ))}
+        </div>
 
-            <img src={music.img} className="imgSpotify" />
-
-            <p>{music.description}</p>
-          </div>
-        ))}
         <div className="divider" />
         <div className="row">
           <h2>Sites ⛏️</h2>
@@ -114,26 +119,31 @@ const musiclist = [
     title: "lighters",
     url: "https://open.spotify.com/track/4RalUNj0mtp9K3imqmzO4h?si=6a2e4ac931e14bdc",
     img: "/images/media/May26/spotify1.png",
-    description: `A song that came out this year (2026) which is quite different to what I usually listen
-      to. Yet this song still reminds me of older songs but with modern production`,
   },
   {
     title: "Liar",
     url: "https://open.spotify.com/track/4RalUNj0mtp9K3imqmzO4h?si=6a2e4ac931e14bdc",
     img: "/images/media/May26/spotify2.png",
-    description: `Another recent-ish song, liar has some great production`,
   },
   {
     title: "Passerine",
     url: "https://open.spotify.com/track/4RalUNj0mtp9K3imqmzO4h?si=6a2e4ac931e14bdc",
     img: "/images/media/May26/spotify3.jpg",
-    description: `Yet another recent song, Passerine is beautiful to listen to`,
   },
   {
     title: "Child's Play",
     url: "https://open.spotify.com/track/4RalUNj0mtp9K3imqmzO4h?si=6a2e4ac931e14bdc",
     img: "/images/media/May26/spotify4.jpg",
-    description: `Child's play is a summer song that gets you going, love!`,
+  },
+  {
+    title: "brave2",
+    url: "https://open.spotify.com/track/65Lfg7gOR3BZQzVD4d7JJY?si=9aa49bb62bd84b39",
+    img: "/images/media/May26/spotify5.png",
+  },
+  {
+    title: "Musicflirte",
+    url: "https://open.spotify.com/track/0MQIUD4TmPkF96xPqaNr7O?si=d6878d3bba234c35",
+    img: "/images/media/May26/spotify6.png",
   },
 ];
 

@@ -6,6 +6,14 @@
     height: auto;
 }
 
+.music-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+  row-gap: 10px;
+}
+
+
 .imgSpotify{
     display: block;
     margin-left: 0;
