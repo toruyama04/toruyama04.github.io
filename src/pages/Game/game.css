@@ -1,0 +1,64 @@
+
+* {
+    /* outline: 2px red solid; */
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    margin: 0 auto;
+    gap: 50px;
+}
+
+.game-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 160px;
+  background: #fafafa;
+  padding: 8px;
+
+  /* mobile friendly stuff */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.game-item .content {
+  display: none;
+}
+
+.game-item .placeholder {
+  display: block;
+}
+
+.game-item.revealed .content {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.content .media {
+  flex: 0 0 40%;
+  max-width: 40%;
+}
+
+.content .body {
+  flex: 1;
+  min-width: 0;
+  white-space: pre-line;
+  color: black;
+}
+
+.game-item.revealed .placeholder {
+  display: none;
+}
+
+.content .image {
+  display: block;
+  width: 100%;
+  height: auto;
+}

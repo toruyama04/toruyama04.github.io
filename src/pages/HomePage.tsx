@@ -12,6 +12,7 @@ import April26Media from "./Media/April26.tsx";
 import GPUFault from "./Blog/gpufault.tsx";
 import FluidSolverPage from "./Blog/FluidSolver.tsx";
 import May26Media from "./Media/May26.tsx";
+import GamePage from "./Game/GamesPage.tsx";
 
 const frames = Array.from({ length: 24 }, (_, i) => {
   return `/images/homepage/${i + 1}.webp`;
@@ -22,7 +23,8 @@ function HomeContent() {
   return (
     <>
       <CanvasAnimation fps={fps} />
-      <ul className="contents">
+      <br />
+      <div className="contents">
         <div className="slider-container">
           <input
             type="range"
@@ -45,28 +47,29 @@ function HomeContent() {
           intersection between those topics. I am also interested in their
           applications for aerospace, infrastructure, and media.
         </p>
-        <p> </p>
-        <li>
-          <Link to="/projects">
-            <button className="link-button">Projects</button>
-          </Link>
-        </li>
-        <li>
-          <Link to="/blog">
-            <button className="link-button">Blog</button>
-          </Link>
-        </li>
-        <li>
-          <Link to="/media">
-            <button className="link-button">Media</button>
-          </Link>
-        </li>
-        <li>
-          <Link to="/interests">
-            <button className="link-button">Interests</button>
-          </Link>
-        </li>
-      </ul>
+        <ul>
+          <li>
+            <Link to="/projects">
+              <button className="link-button">Projects</button>
+            </Link>
+          </li>
+          <li>
+            <Link to="/blog">
+              <button className="link-button">Blog</button>
+            </Link>
+          </li>
+          <li>
+            <Link to="/media">
+              <button className="link-button">Media</button>
+            </Link>
+          </li>
+          <li>
+            <Link to="/interests">
+              <button className="link-button">Interests</button>
+            </Link>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }
@@ -212,6 +215,7 @@ export default function HomePage() {
         <Route path="w2" element={<April26Media />} />
         <Route path="w3" element={<May26Media />} />
       </Route>
+      <Route path="/gamenight" element={<GamePage />} />
     </Routes>
   );
 }
